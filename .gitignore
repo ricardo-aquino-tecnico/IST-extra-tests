@@ -1,0 +1,17 @@
+# Outputs dos testes do aluno
+*.myout
+*.diff
+
+# Ficheiros compilados (C)
+*.o
+*.out
+
+# Executáveis do projeto (gerados pelo make)
+proj
+proj_asan
+project
+projecto.*
+
+# Ficheiros de sistema do macOS
+*.dSYM/
+.DS_Store
