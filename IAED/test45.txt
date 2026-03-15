@@ -1,0 +1,6 @@
+Objetivo:
+Validar parser de `f` com aspas sem fecho no nome.
+
+O que testa:
+- Nome de cliente comecando em `\"` e sem aspa final.
+- Comportamento atual de ler ate newline e emitir fatura.

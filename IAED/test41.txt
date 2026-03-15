@@ -1,0 +1,7 @@
+Objetivo:
+Validar transicao do cesto para quantidade zero e posterior re-adicao.
+
+O que testa:
+- `a -1 <ean>` levando a quantidade total do cesto para zero.
+- `a` sem argumentos nao deve listar produtos com quantidade zero.
+- Re-adicao posterior do mesmo EAN deve voltar a listar corretamente.

@@ -1,0 +1,6 @@
+Objetivo:
+Validar `c` sem argumentos quando nao ha faturas.
+
+O que testa:
+- `c` inicial nao deve imprimir nada.
+- Apos emitir uma fatura, `c` sem argumentos deve listar normalmente.

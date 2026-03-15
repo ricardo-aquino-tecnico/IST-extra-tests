@@ -1,0 +1,7 @@
+Objetivo:
+Validar robustez a linhas vazias e comando desconhecido.
+
+O que testa:
+- Linhas vazias nao devem produzir output nem alterar estado.
+- Comando desconhecido (`x`) deve ser ignorado silenciosamente.
+- Fluxo normal deve continuar para comandos validos seguintes.

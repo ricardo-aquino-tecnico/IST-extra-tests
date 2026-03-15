@@ -1,0 +1,6 @@
+Objetivo:
+Validar separadores por tabulacao nos comandos.
+
+O que testa:
+- `p`, `a`, `f` e `c` com argumentos separados por `\\t`.
+- Compatibilidade com whitespaces alem de espaco simples.

@@ -1,0 +1,6 @@
+Objetivo:
+Validar `a` com argumento incompleto.
+
+O que testa:
+- `a 2` (sem EAN) deve falhar com `invalid ean`.
+- Estado do cesto deve permanecer vazio apos erro.

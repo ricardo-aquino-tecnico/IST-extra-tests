@@ -1,0 +1,6 @@
+Objetivo:
+Validar `r <ean>` apos remocao total do produto.
+
+O que testa:
+- `d <ean> <qtd-exata>` remove o produto do sistema.
+- `r <ean>` depois disso deve dar `no such product`.

@@ -1,0 +1,6 @@
+Objetivo:
+Validar limite de 50 bytes com UTF-8 na descricao.
+
+O que testa:
+- Descricao com 50 bytes (incluindo 1 carater UTF-8 de 2 bytes) deve ser aceite.
+- Descricao com 51 bytes (incluindo UTF-8) deve dar `invalid description`.

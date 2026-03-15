@@ -1,0 +1,7 @@
+Objetivo:
+Validar ordenacao da listagem do cesto (`a` sem argumentos).
+
+O que testa:
+- Produtos no cesto devem sair por EAN crescente.
+- Ordem de adicao ao cesto nao deve influenciar a listagem final.
+- Sem duplicados para o mesmo EAN.

@@ -1,0 +1,6 @@
+Objetivo:
+Validar `l` sem argumentos em catalogo vazio.
+
+O que testa:
+- `l` com catalogo vazio imprime `*: no such product`.
+- Depois de inserir e remover totalmente um produto, volta a imprimir o mesmo erro.

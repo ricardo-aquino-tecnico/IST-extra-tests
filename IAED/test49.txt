@@ -1,0 +1,6 @@
+Objetivo:
+Validar `f` com apenas NIF.
+
+O que testa:
+- Quando ha NIF sem nome, o nome default deve ser `Cliente final`.
+- Fatura criada deve aparecer com esse nome no comando `c`.

@@ -1,0 +1,6 @@
+Objetivo:
+Validar IDs de fatura invalidos no comando `d`.
+
+O que testa:
+- `d 0` e `d -1` sem faturas no sistema.
+- Mensagem de erro com o numero pedido no formato correto.

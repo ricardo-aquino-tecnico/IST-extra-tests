@@ -1,0 +1,7 @@
+Objetivo:
+Validar atualizacao de IVA/descricao em produto ja no cesto com preco igual.
+
+O que testa:
+- Atualizacao de produto existente mantendo o preco.
+- Stock total apos atualizacao (`stock disponivel + quantidade adicionada`).
+- Impacto imediato de novo IVA/descricao na listagem do cesto.

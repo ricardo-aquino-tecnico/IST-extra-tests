@@ -1,0 +1,6 @@
+Objetivo:
+Validar parser de `c` com aspas sem fecho.
+
+O que testa:
+- Filtro de cliente em `c` quando o argumento comeca por `\"` e termina no fim da linha.
+- Comportamento atual de aceitar o nome ate newline.

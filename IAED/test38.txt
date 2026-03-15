@@ -1,0 +1,6 @@
+Objetivo:
+Validar sensibilidade a maiusculas/minusculas no nome do cliente.
+
+O que testa:
+- `Rui` e `rui` devem ser tratados como clientes distintos.
+- `c Rui` e `c rui` devem devolver faturas diferentes.

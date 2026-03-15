@@ -1,0 +1,6 @@
+Objetivo:
+Validar arredondamento do IVA em meio centimo.
+
+O que testa:
+- Preco 0.05 com IVA C (13%) gera imposto 0.0065.
+- Valor final deve arredondar para 0.06 na saida de `a` e `f`.

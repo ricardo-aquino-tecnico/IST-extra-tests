@@ -1,0 +1,7 @@
+Objetivo:
+Validar leitura de ficheiro IVA com codigos nao consecutivos.
+
+O que testa:
+- Apenas codigos presentes no ficheiro sao validos.
+- `A` deve dar `invalid iva` quando nao definido no ficheiro.
+- `r` deve listar apenas os codigos carregados, por ordem alfabetica.
