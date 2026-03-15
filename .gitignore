@@ -1,4 +1,4 @@
-# Outputs dos testes do aluno
+# Outputs dos testes
 *.myout
 *.diff
 *.log
@@ -6,6 +6,7 @@
 # Ficheiros compilados (C)
 *.o
 *.out
+*.exe
 
 # Executáveis do projeto (gerados pelo make)
 proj
@@ -13,6 +14,18 @@ proj_asan
 project
 projecto.*
 
-# Ficheiros de sistema do macOS
+# Ficheiros de Crash e Valgrind (Erros de memória)
+core
+core.*
+vgcore.*
+
+# Ficheiros do Python (Scripts de stress)
+__pycache__/
+*.pyc
+
+# Ficheiros de sistema (macOS)
 *.dSYM/
 .DS_Store
+
+# Editores de texto e submissões
+.vscode/
