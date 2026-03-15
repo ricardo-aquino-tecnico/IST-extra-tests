@@ -2,6 +2,9 @@
 *.myout
 *.diff
 *.log
+*.actual
+*.expected
+*.stderr
 
 # Ficheiros compilados (C/C++)
 *.o
