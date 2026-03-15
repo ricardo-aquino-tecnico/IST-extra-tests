@@ -4,9 +4,7 @@ Se encontrarem algum teste incorreto, sintam-se à vontade para o modificar ou a
 
 Caso existam cenários em que o vosso código não passe, analisem o que está a ser testado para perceber se a falha faz sentido.
 
-
 ### Para correr apenas os testes manuais:
-
 ```bash
 make
 
@@ -45,6 +43,26 @@ python3 scale_collisions.py --exe ../proj_asan --count 120 --start 1000000 --fai
 ```
 
 *(podem modificar os valores)*
+
+---
+
+### Testar comandos individualmente:
+
+É possível testar os comandos de forma individual. O `make` seleciona os testes que incidem predominantemente sobre cada comando *(Nota: o comando não é testado de forma totalmente independente dos restantes)*.
+
+Se quiserem adicionar os vossos próprios testes, basta modificarem o ficheiro correspondente (ex: `comando x.txt`) com o nome dos testes.
+
+Exemplo:
+
+```bash
+make p
+
+```
+
+```bash
+make a p r f
+
+```
 
 ---
 
