@@ -1,0 +1,6 @@
+Objetivo:
+Detetar overflow/UB com a quantidade mínima de `int` no comando `a`.
+
+O que testa:
+- `a -2147483648 <ean>` deve ser rejeitado com `invalid quantity`.
+- O cesto deve continuar correto depois da tentativa inválida.

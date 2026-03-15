@@ -1,0 +1,6 @@
+Objetivo:
+Detetar overflow numérico negativo fora de gama no comando `a`.
+
+O que testa:
+- `a -9999999999999999999999 <ean>` deve ser rejeitado com `invalid quantity`.
+- O cesto não deve ser alterado por quantidades inválidas.
