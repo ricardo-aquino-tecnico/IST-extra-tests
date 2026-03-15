@@ -2,12 +2,14 @@
 MAKEFLAGS += --no-print-directory
 SHELL := /bin/bash
 .DEFAULT_GOAL := manual-tests
-.PHONY: all manual manual-tests python stress scale fuzz-parse scale-collisions asan clean
+.PHONY: all manual manual-tests python stress scale fuzz-parse scale-collisions asan clean p l a r f c d
 OK="\e[1;32mtest $< PASSED\e[0m"
 KO="\e[1;31mtest $< FAILED\e[0m"
 FAIL=0
-EXE=../proj
+EXE ?= ../../proj
 LOG=tests.log
+TESTS ?= $(sort $(wildcard test*.in))
+CMD_LIST_PREFIX ?= comando_
 STRESS_RUNS ?= 1000
 STRESS_STEPS ?= 1250
 STRESS_SEED ?= $(shell date +%s)
@@ -30,8 +32,8 @@ all:
 manual: clean
 	@rm -f $(LOG)
 	@touch $(LOG)
-	@for i in `ls test*.in | sed -e "s/in/diff/"`; do $(MAKE) $(MFLAGS) $$i || exit; done
-	@total=`ls test*.in | wc -l`; \
+	@for i in $(TESTS); do $(MAKE) $(MFLAGS) $${i%.in}.diff || exit; done
+	@total=`echo "$(TESTS)" | wc -w`; \
 	passed=`wc -l < $(LOG)`; \
 	failed=`expr $$total - $$passed`; \
 	echo "$$passed tests passed, $$failed tests failed"; \
@@ -43,6 +45,25 @@ manual: clean
 	fi
 
 manual-tests: manual
+
+p l a r f c d:
+	@cmd_file="$(CMD_LIST_PREFIX)$@.txt"; \
+	if [ ! -f "$$cmd_file" ]; then \
+		alt_file="comando $@.txt"; \
+		if [ -f "$$alt_file" ]; then \
+			cmd_file="$$alt_file"; \
+		else \
+			echo "No command list file found for '$@' (tried '$$cmd_file' and '$$alt_file')"; \
+			exit 1; \
+		fi; \
+	fi; \
+	tests=$$(sed -e 's/#.*//' -e '/^[[:space:]]*$$/d' "$$cmd_file" | tr '\n' ' '); \
+	if [ -z "$$tests" ]; then \
+		echo "No tests listed for command '$@' in '$$cmd_file'"; \
+		exit 1; \
+	fi; \
+	echo "Running tests for command '$@' using '$$cmd_file'"; \
+	$(MAKE) $(MFLAGS) manual TESTS="$$tests"
 
 python:
 	@total=4; passed=0; failed=0; \

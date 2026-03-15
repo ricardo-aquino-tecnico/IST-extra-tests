@@ -1,0 +1,16 @@
+# Subconjunto focado no comando 'p' (setup minimo)
+test02.in
+test07.in
+test08.in
+test15.in
+test19.in
+test22.in
+test37.in
+test53.in
+test59.in
+test62.in
+test63.in
+test69.in
+test70.in
+test71.in
+test82.in

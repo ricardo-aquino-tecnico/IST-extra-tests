@@ -1,0 +1,13 @@
+# Subconjunto focado no comando 'f' (nif/nome/fecho de fatura)
+test04.in
+test05.in
+test23.in
+test25.in
+test27.in
+test31.in
+test38.in
+test50.in
+test57.in
+test58.in
+test77.in
+test78.in

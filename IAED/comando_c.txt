@@ -1,0 +1,14 @@
+# Subconjunto focado no comando 'c' (cliente/nif/nome)
+test01.in
+test03.in
+test14.in
+test18.in
+test20.in
+test24.in
+test35.in
+test44.in
+test45.in
+test46.in
+test49.in
+test61.in
+test83.in

@@ -1,0 +1,15 @@
+# Subconjunto focado no comando 'a' (usa 'p' como setup)
+test09.in
+test21.in
+test28.in
+test32.in
+test33.in
+test39.in
+test41.in
+test42.in
+test51.in
+test73.in
+test74.in
+test75.in
+test76.in
+test79.in

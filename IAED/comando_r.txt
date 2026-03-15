@@ -1,0 +1,8 @@
+# Subconjunto focado no comando 'r' (usa setup de fatura/carrinho)
+test06.in
+test12.in
+test16.in
+test47.in
+test56.in
+test80.in
+test85.in

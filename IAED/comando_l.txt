@@ -1,0 +1,13 @@
+# Subconjunto focado no comando 'l' (usa 'p' como setup)
+test11.in
+test26.in
+test34.in
+test40.in
+test48.in
+test54.in
+test64.in
+test65.in
+test66.in
+test67.in
+test68.in
+test72.in
