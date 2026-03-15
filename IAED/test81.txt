@@ -1,0 +1,2 @@
+Execução com ficheiro de IVA personalizado contendo apenas o código E.
+Confirma tabela de IVA em r e rejeição de IVA A quando não está definido nesse ficheiro.

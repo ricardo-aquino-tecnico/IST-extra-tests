@@ -1,0 +1,2 @@
+Comando f com um token numérico inválido (8 dígitos) e um token numérico válido (9 dígitos).
+Verifica distinção entre "invalid name" e NIF único válido com nome por defeito.

@@ -1,0 +1,2 @@
+Comando f com nome "error" e NIF explícito válido.
+Garante devolução integral do cesto, ausência de factura e consistência dos resumos/listagem de cliente.

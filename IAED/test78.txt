@@ -1,0 +1,2 @@
+Comando f com dois argumentos e primeiro token "tipo NIF" inválido (alfanumérico).
+Valida prioridade do erro "no such nif" e preservação do cesto após falha.

@@ -1,0 +1,2 @@
+Comando d sobre produto presente no cesto.
+Verifica prioridade do erro "product in use" mesmo com quantidade de remoção inválida para o stock.

@@ -1,0 +1,2 @@
+Apagar factura após duas emissões.
+Verifica atualização de totais em r, manutenção de contador total de facturas emitidas e filtragem em c.

@@ -1,0 +1,2 @@
+Validação de nomes inválidos no comando c (string vazia e token iniciado por dígito).
+Inclui um fluxo intermédio com f para garantir que as validações não dependem de não existir facturas.
