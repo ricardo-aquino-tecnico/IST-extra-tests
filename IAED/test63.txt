@@ -1,0 +1,6 @@
+Objetivo:
+Testar limite inferior de arredondamento para preco.
+
+O que testa:
+- 0.0049999 arredonda para 0 centimos.
+- Deve produzir invalid price.

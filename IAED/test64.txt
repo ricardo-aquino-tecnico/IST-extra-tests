@@ -1,0 +1,6 @@
+Objetivo:
+Testar limite de arredondamento para 1 centimo.
+
+O que testa:
+- 0.0050000 arredonda para 0.01.
+- Produto e listagem devem refletir 1 centimo.

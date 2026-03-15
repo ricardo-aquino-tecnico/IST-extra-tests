@@ -1,0 +1,5 @@
+Objetivo:
+Testar arredondamento para baixo perto da fronteira.
+
+O que testa:
+- 1.0049 deve ficar 1.00.

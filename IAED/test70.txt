@@ -1,0 +1,6 @@
+Objetivo:
+Testar duas atualizacoes seguidas com fronteiras de arredondamento.
+
+O que testa:
+- 2.675 arredonda para 2.68.
+- 2.6749 arredonda para 2.67 e substitui preco anterior.

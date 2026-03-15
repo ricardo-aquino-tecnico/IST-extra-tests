@@ -1,0 +1,5 @@
+Objetivo:
+Testar arredondamento simetrico para cima na fronteira.
+
+O que testa:
+- 1.005 deve ficar 1.01.

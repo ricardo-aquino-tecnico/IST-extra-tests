@@ -1,0 +1,5 @@
+Objetivo:
+Testar arredondamento em centimos para valores pequenos.
+
+O que testa:
+- 0.015 deve ficar 0.02.

@@ -1,0 +1,6 @@
+Objetivo:
+Testar transicao de preco invalido para preco valido no mesmo EAN.
+
+O que testa:
+- Valor muito pequeno deve dar invalid price.
+- Valor 0.009 deve arredondar para 0.01 e ser aceite.

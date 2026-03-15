@@ -1,0 +1,7 @@
+Objetivo:
+Testar update de produto com nova conversao de preco.
+
+O que testa:
+- Primeiro preco arredonda para 0.01.
+- Segundo preco 1.9999 arredonda para 2.00.
+- Quantidade final deve ser acumulada.

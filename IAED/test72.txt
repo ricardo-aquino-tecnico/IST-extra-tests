@@ -1,0 +1,5 @@
+Objetivo:
+Testar arredondamento para cima com carry no inteiro.
+
+O que testa:
+- 9.999999 deve arredondar para 10.00.

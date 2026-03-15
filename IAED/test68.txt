@@ -1,0 +1,5 @@
+Objetivo:
+Testar arredondamento com muitas casas decimais.
+
+O que testa:
+- 12.3456 deve ficar 12.35.
