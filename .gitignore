@@ -3,7 +3,7 @@
 *.diff
 *.log
 
-# Ficheiros compilados (C)
+# Ficheiros compilados (C/C++)
 *.o
 *.out
 *.exe
@@ -23,9 +23,16 @@ vgcore.*
 __pycache__/
 *.pyc
 
+# Ficheiros temporários de editores de terminal (Vim/Nano/Linux)
+*.swp
+*.swo
+*~
+
 # Ficheiros de sistema (macOS)
 *.dSYM/
 .DS_Store
 
-# Editores de texto e submissões
+# IDEs, Editores de texto e ficheiros comprimidos (Submissão)
 .vscode/
+.idea/
+cmake-build-*/
