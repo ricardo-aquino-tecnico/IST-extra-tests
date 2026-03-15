@@ -1,0 +1,7 @@
+Objetivo:
+Validar nome de cliente iniciado por `ß`.
+
+O que testa:
+- `f ßruno` deve ser rejeitado com `invalid name`.
+- `c ßruno` tambem deve ser rejeitado com `invalid name`.
+- Confirmar que o comportamento e consistente em ambos os comandos.

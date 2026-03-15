@@ -1,0 +1,7 @@
+Objetivo:
+Validar descricao de produto iniciada por `ß`.
+
+O que testa:
+- `p ... ßucar` deve falhar com `invalid description`.
+- Caso de controlo com inicial valida (`Açucar`) deve ser aceite.
+- `l` confirma a insercao apenas do produto valido.
