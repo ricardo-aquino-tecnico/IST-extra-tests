@@ -1,0 +1,7 @@
+Objetivo:
+Validar remocao completa de produto e reinsercao.
+
+O que testa:
+- `d <ean> <qtd>` com quantidade exata remove o produto do catalogo.
+- `l <ean>` apos remocao deve dar `no such product`.
+- Reintroduzir o mesmo EAN deve voltar a funcionar.

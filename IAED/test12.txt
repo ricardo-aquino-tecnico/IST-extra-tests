@@ -1,0 +1,8 @@
+Objetivo:
+Validar o comportamento especial de `f error`.
+
+O que testa:
+- `f error` deve cancelar o cesto sem emitir fatura.
+- Quantidade em stock deve ser reposta.
+- Totais globais (`r`) devem permanecer inalterados.
+- `a` sem argumentos depois do cancelamento deve nao listar produtos.

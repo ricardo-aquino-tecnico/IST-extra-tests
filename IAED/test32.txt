@@ -1,0 +1,7 @@
+Objetivo:
+Validar consistencia do cesto apos remocao total de outro produto.
+
+O que testa:
+- Produto no cesto continua acessivel apos `d <ean> <qtd>` remover outro produto.
+- Indices internos do catalogo/cesto mantem coerencia.
+- Repetir `a <ean>` no produto remanescente continua a acumular corretamente.

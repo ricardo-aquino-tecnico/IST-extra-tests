@@ -1,0 +1,7 @@
+Objetivo:
+Validar regras de quantidade no comando `a`.
+
+O que testa:
+- Adicao positiva ao cesto.
+- Remocao negativa acima do que existe no cesto deve dar `invalid quantity`.
+- Pedido acima do stock deve dar `no stock`.

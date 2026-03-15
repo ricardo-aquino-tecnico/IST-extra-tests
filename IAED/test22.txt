@@ -1,0 +1,7 @@
+Objetivo:
+Validar arredondamento de preco para centimos.
+
+O que testa:
+- `0.0049999` arredonda para 0 e deve dar `invalid price`.
+- `0.0050000` arredonda para 1 centimo e deve ser aceite.
+- Atualizacao subsequente com `1.005` para verificar arredondamento e saida em `l`.

@@ -1,0 +1,7 @@
+Objetivo:
+Validar descricao UTF-8 no comando `p`.
+
+O que testa:
+- Descricao iniciada por maiuscula acentuada (UTF-8) deve ser aceite.
+- Descricao iniciada por minuscula acentuada (UTF-8) deve dar `invalid description`.
+- `l <ean>` deve refletir o produto valido inserido.

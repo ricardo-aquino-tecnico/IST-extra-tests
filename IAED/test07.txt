@@ -1,0 +1,7 @@
+Objetivo:
+Validar descricao de produto (regra de bytes e letra inicial).
+
+O que testa:
+- Descricao com 50 bytes deve ser aceite.
+- Descricao com 51 bytes (com UTF-8) deve falhar com `invalid description`.
+- Descricao iniciada por minuscula deve falhar.

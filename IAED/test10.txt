@@ -1,0 +1,8 @@
+Objetivo:
+Validar carregamento de IVA por ficheiro externo.
+
+O que testa:
+- Uso de `test10.arg` para passar o ficheiro de IVA ao programa.
+- Aceitacao de codigo IVA definido no ficheiro (`X`).
+- Rejeicao de codigo nao definido (`D`) nesse contexto.
+- Tabela de IVA no `r` coerente com o ficheiro.

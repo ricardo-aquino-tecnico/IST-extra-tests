@@ -1,0 +1,6 @@
+Objetivo:
+Validar a regra `product in use` no comando `p`.
+
+O que testa:
+- Atualizar produto com o mesmo preco enquanto esta no cesto deve ser permitido.
+- Tentar alterar o preco de produto que esta no cesto deve dar `product in use`.

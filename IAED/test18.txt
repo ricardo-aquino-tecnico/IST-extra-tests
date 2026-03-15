@@ -1,0 +1,7 @@
+Objetivo:
+Validar defaults do comando `f` sem argumentos.
+
+O que testa:
+- NIF default `999999999`.
+- Nome default `Cliente final`.
+- Possibilidade de listar essa fatura com `c "Cliente final"`.

@@ -1,0 +1,7 @@
+Objetivo:
+Validar nomes com espaco inicial entre aspas.
+
+O que testa:
+- `f " Rui"` deve ser invalido (nao comeca por letra).
+- `c " Rui"` deve ser invalido.
+- `f Rui` e `c Rui` continuam a funcionar normalmente.

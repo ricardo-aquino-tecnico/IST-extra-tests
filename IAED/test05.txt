@@ -1,0 +1,7 @@
+Objetivo:
+Validar ordenacao do comando `c <nome>`.
+
+O que testa:
+- Filtro por cliente especifico.
+- Ordenacao cronologica (id crescente) das faturas desse cliente.
+- Ausencia de faturas de outros clientes no resultado.

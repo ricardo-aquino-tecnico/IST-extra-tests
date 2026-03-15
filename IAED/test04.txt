@@ -1,0 +1,7 @@
+Objetivo:
+Validar ordenacao do comando `c` sem argumento.
+
+O que testa:
+- Ordenacao alfabetica por nome de cliente.
+- Para o mesmo cliente, ordenacao cronologica por numero de fatura.
+- Nomes com espacos e aspas no input.

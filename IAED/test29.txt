@@ -1,0 +1,7 @@
+Objetivo:
+Validar prioridades de erro em `d <ean> <qtd>`.
+
+O que testa:
+- Quantidade zero deve dar `invalid quantity`.
+- Produto no cesto deve dar `product in use` antes de reduzir stock.
+- Depois de faturar, `d` com quantidade acima do stock deve dar `invalid quantity`.

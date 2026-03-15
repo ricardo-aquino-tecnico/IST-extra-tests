@@ -1,0 +1,7 @@
+Objetivo:
+Validar que erro no comando `f` nao perde o cesto.
+
+O que testa:
+- `f 8ball` deve dar `invalid name`.
+- O cesto deve manter os produtos apos esse erro.
+- Faturacao valida a seguir deve processar os mesmos itens.

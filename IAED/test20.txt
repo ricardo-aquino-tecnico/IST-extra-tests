@@ -1,0 +1,6 @@
+Objetivo:
+Validar nome de cliente com inicial minuscula UTF-8.
+
+O que testa:
+- `f` aceita nome iniciado por letra minuscula acentuada.
+- `c <nome>` encontra corretamente o cliente UTF-8.

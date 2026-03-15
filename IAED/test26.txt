@@ -1,0 +1,7 @@
+Objetivo:
+Validar wildcards extremos no comando `l`.
+
+O que testa:
+- `***` deve comportar-se como match global.
+- `?*?*?` deve fazer match em EANs com tamanho suficiente.
+- Padrao sem match (`*999`) deve dar erro `no such product`.

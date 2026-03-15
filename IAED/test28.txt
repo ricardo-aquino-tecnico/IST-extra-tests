@@ -1,0 +1,7 @@
+Objetivo:
+Validar quantidade zero no comando `a`.
+
+O que testa:
+- `a 0 <ean>` imprime produto com quantidade total 0 no cesto.
+- Repetir `a 0` nao deve criar fatura em `f`.
+- `c Rui` apos tentativa de faturar cesto vazio deve indicar cliente inexistente.

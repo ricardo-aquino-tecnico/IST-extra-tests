@@ -1,0 +1,7 @@
+Objetivo:
+Validar monotonia do numero de fatura apos remocao.
+
+O que testa:
+- IDs de fatura devem ser sequenciais sem reutilizacao.
+- Depois de `d 1`, a proxima fatura deve ser `3` (e nao `1`).
+- `c Rui` deve listar apenas as faturas existentes.

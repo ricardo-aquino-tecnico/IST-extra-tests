@@ -1,0 +1,7 @@
+Objetivo:
+Validar coerencia entre `a`, `f` e `r <ean>`.
+
+O que testa:
+- Antes de faturar, `r <ean>` deve refletir vendidos + em-cesto.
+- Depois de faturar, `r <ean>` deve manter quantidade-vendida correta.
+- Quantidade disponivel deve permanecer consistente.

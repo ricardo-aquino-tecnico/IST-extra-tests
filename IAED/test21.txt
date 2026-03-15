@@ -1,0 +1,7 @@
+Objetivo:
+Validar quantidades extremas no comando `a`.
+
+O que testa:
+- Quantidade muito grande positiva deve dar `no stock`.
+- Quantidade muito grande negativa deve dar `invalid quantity`.
+- Robustez de parsing de inteiros grandes dentro de limites do tipo `int`.

@@ -1,0 +1,6 @@
+Objetivo:
+Validar check digit de EAN-8.
+
+O que testa:
+- Insercao de um EAN-8 valido.
+- Rejeicao de EAN-8 invalido com `invalid ean`.

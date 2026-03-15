@@ -1,0 +1,6 @@
+Objetivo:
+Validar erro de remocao de fatura inexistente.
+
+O que testa:
+- `d <numero>` para uma fatura nao existente em sistema com faturas.
+- Mensagem obrigatoria `<numero>: no such invoice`.

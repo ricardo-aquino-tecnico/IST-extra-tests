@@ -1,0 +1,7 @@
+Objetivo:
+Validar parsing limite de NIF no comando `f`.
+
+O que testa:
+- Tokens numericos que nao respeitam o formato esperado de NIF acabam por ser tratados como nome invalido.
+- NIF valido com 9 digitos deve ser aceite e emitir fatura.
+- Comportamento repetido sem perder estado do cesto.

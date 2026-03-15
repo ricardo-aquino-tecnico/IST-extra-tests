@@ -1,0 +1,7 @@
+Objetivo:
+Validar parsing de nome entre aspas no comando `c`.
+
+O que testa:
+- Filtro com nome entre aspas e espaco interno (`"Ana Maria"`).
+- Ordem cronologica para o mesmo cliente.
+- Comparacao exata do nome (trailing space dentro de aspas e cliente diferente).

@@ -1,0 +1,7 @@
+Objetivo:
+Validar impacto de `d <numero-fatura>` nos totais globais.
+
+O que testa:
+- `r` antes e depois de apagar fatura.
+- Atualizacao correta de `totalItemsSold` e `totalBilled`.
+- Formato de saida da remocao de fatura.

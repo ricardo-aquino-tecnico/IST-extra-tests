@@ -1,0 +1,7 @@
+Objetivo:
+Validar coluna de quantidade vendida no comando `l`.
+
+O que testa:
+- `l` antes da fatura deve mostrar vendido = (sold + inBasket).
+- `l` depois da fatura deve manter o total vendido correto.
+- Coerencia entre movimentos do cesto e resumo de vendas.

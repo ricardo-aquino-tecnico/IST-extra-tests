@@ -1,0 +1,7 @@
+Objetivo:
+Validar caracteres UTF-8 nao alfabeticos no inicio.
+
+O que testa:
+- Descricao iniciada por `×` deve ser rejeitada (`invalid description`).
+- Nome de cliente iniciado por `×` deve ser rejeitado (`invalid name`).
+- Confirmar que o resto do fluxo continua consistente.

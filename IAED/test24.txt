@@ -1,0 +1,7 @@
+Objetivo:
+Validar nomes vazios entre aspas.
+
+O que testa:
+- `f ""` deve devolver `invalid name`.
+- `c ""` deve devolver `invalid name`.
+- Confirma validacao de nome com string vazia.

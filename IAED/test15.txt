@@ -1,0 +1,7 @@
+Objetivo:
+Validar o comando `l` com multiplos wildcards, incluindo repetidos.
+
+O que testa:
+- Ordem por argumento fornecido.
+- Para cada argumento, ordem de criacao no catalogo.
+- Repeticao do mesmo wildcard deve repetir a listagem correspondente.
