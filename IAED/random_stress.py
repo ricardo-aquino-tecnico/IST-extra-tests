@@ -436,8 +436,10 @@ def run_one(seed: int, run_id: int, steps: int, exe: Path, fail_dir: Path) -> bo
                 )
                 name = rand_name(rng) if rng.random() < 0.8 else rng.choice(["8ball", "_rui"])
                 cmd_lines.append(f"f {nif} {name}")
-                # Program parsing: invalid nif token that is not exactly 9 digits is treated as part of name.
-                if len(nif) == 9 and nif.isdigit():
+                # Program parsing for "f <tok1> <tok2>":
+                # if tok1 starts with a digit, it is always treated as NIF (even invalid);
+                # otherwise tok1 is part of the name.
+                if nif and nif[0].isdigit():
                     expected.extend(model.cmd_f(nif, name))
                 else:
                     expected.extend(model.cmd_f("999999999", f"{nif} {name}"))
