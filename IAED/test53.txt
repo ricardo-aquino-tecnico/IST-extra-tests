@@ -1,0 +1,7 @@
+Objetivo:
+Validar comando `l` com mistura de argumentos com e sem match.
+
+O que testa:
+- Erro por argumento sem correspondencia.
+- Repeticao de argumento sem match deve repetir erro.
+- Ordem do output segue a ordem dos argumentos fornecidos.

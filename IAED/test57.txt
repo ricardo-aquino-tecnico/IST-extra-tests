@@ -1,0 +1,7 @@
+Objetivo:
+Validar ordenacao global de `c` apos apagar fatura de outro cliente.
+
+O que testa:
+- Remocao de uma fatura intermédia.
+- Ordenacao por nome + cronologia para o mesmo nome.
+- Confirmar ausencia da fatura removida na listagem final.

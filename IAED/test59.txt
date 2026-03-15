@@ -1,0 +1,7 @@
+Objetivo:
+Validar repeticao de produtos quando `l` recebe multiplos argumentos com overlap.
+
+O que testa:
+- `*` lista todos os produtos.
+- Argumento seguinte (`963*`) deve voltar a listar o subconjunto correspondente.
+- Confirma que nao ha deduplicacao entre argumentos.

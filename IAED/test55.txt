@@ -1,0 +1,7 @@
+Objetivo:
+Validar cancelamento de fatura com nome `error` e NIF explicito.
+
+O que testa:
+- `f <nif> error` deve cancelar cesto (sem fatura).
+- Totais globais em `r` devem permanecer a zero.
+- `c error` deve indicar cliente inexistente.

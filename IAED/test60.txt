@@ -1,0 +1,6 @@
+Objetivo:
+Validar prioridade de erro em `d <ean> <qtd>` com quantidade negativa.
+
+O que testa:
+- Produto no cesto deve dar `product in use` antes de validar quantidade.
+- Fora do cesto, quantidade negativa deve dar `invalid quantity`.

@@ -1,0 +1,6 @@
+Objetivo:
+Validar totais globais apos mistura de `f error` e fatura valida.
+
+O que testa:
+- Cancelamento (`error`) nao deve contaminar contadores globais.
+- Fatura valida seguinte deve atualizar `r` corretamente.

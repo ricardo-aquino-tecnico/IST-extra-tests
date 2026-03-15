@@ -1,0 +1,7 @@
+Objetivo:
+Validar cesto com nos de quantidade zero e limpeza por `f` sem itens.
+
+O que testa:
+- Remover do cesto ate quantidade total 0.
+- `f` com cesto efetivamente vazio nao deve emitir fatura.
+- Estado posterior deve permitir nova adicao normal do mesmo produto.

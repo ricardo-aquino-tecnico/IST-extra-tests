@@ -1,0 +1,6 @@
+Objetivo:
+Validar `p` com input malformado (descricao em falta).
+
+O que testa:
+- Comando incompleto em `p` nao deve inserir produto nem imprimir erro extra.
+- `l` subsequente confirma que o catalogo ficou vazio.

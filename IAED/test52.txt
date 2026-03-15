@@ -1,0 +1,7 @@
+Objetivo:
+Validar desbloqueio de `d <ean> <qtd>` apos retirar produto do cesto.
+
+O que testa:
+- Enquanto no cesto: `product in use`.
+- Apos remover do cesto: reducao de stock e remocao total permitidas.
+- `l <ean>` depois da remocao total deve dar `no such product`.

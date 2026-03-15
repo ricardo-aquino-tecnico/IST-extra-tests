@@ -1,0 +1,7 @@
+Objetivo:
+Validar comportamento com linhas duplicadas de IVA no ficheiro.
+
+O que testa:
+- Quando o mesmo codigo aparece varias vezes, a ultima linha prevalece.
+- Impacto direto no calculo de IVA no comando `a` (A=5% neste caso).
+- `r` deve refletir apenas os codigos efetivamente carregados.
