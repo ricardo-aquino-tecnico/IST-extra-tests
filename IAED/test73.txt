@@ -1,0 +1,6 @@
+Objetivo:
+Testar parsing inválido da quantidade no comando `a`.
+
+O que testa:
+- `a x <ean>` deve dar `invalid quantity`.
+- Não deve criar/alterar nó no cesto quando a quantidade não é numérica.
