@@ -145,9 +145,18 @@ class Model:
         return out
 
     def _basket_line(self, p: Product, qty: int) -> str:
-        base = p.price_cents * qty
-        iva = (base * TAX[p.iva] + 50) // 100
-        return f"{p.iva} {money(p.price_cents)} {qty} {money(base + iva)} {p.desc}"
+        total = self._total_with_iva(p.price_cents, qty, p.iva)
+        return f"{p.iva} {money(p.price_cents)} {qty} {money(total)} {p.desc}"
+
+    @staticmethod
+    def _total_with_iva(price_cents: int, qty: int, iva_code: str) -> int:
+        # Mirror project.c floating-point path and symmetric cent rounding.
+        base = (price_cents / 100.0) * qty
+        taxed = base * (100.0 + TAX[iva_code]) / 100.0
+        cents = taxed * 100.0
+        if cents >= 0:
+            return int(cents + 0.5 + 1e-12)
+        return int(cents - 0.5 - 1e-12)
 
     def cmd_a_list(self):
         lines = []
@@ -195,15 +204,11 @@ class Model:
         total = 0
         for ean, qty in list(self.basket.items()):
             p = self.products[ean]
-            base = p.price_cents * qty
-            iva = (base * TAX[p.iva] + 50) // 100
-            total += base + iva
+            total += self._total_with_iva(p.price_cents, qty, p.iva)
             items += qty
             p.sold += qty
             p.in_basket = 0
         self.basket.clear()
-        if items == 0:
-            return []
         self.invoice_count += 1
         self.total_items_sold += items
         self.total_billed += total
@@ -436,13 +441,8 @@ def run_one(seed: int, run_id: int, steps: int, exe: Path, fail_dir: Path) -> bo
                 )
                 name = rand_name(rng) if rng.random() < 0.8 else rng.choice(["8ball", "_rui"])
                 cmd_lines.append(f"f {nif} {name}")
-                # Program parsing for "f <tok1> <tok2>":
-                # if tok1 starts with a digit, it is always treated as NIF (even invalid);
-                # otherwise tok1 is part of the name.
-                if nif and nif[0].isdigit():
-                    expected.extend(model.cmd_f(nif, name))
-                else:
-                    expected.extend(model.cmd_f("999999999", f"{nif} {name}"))
+                # For two unquoted args, parser always treats the first token as NIF.
+                expected.extend(model.cmd_f(nif, name))
 
         elif op == "d":
             if rng.random() < 0.45:
@@ -503,7 +503,10 @@ def run_one(seed: int, run_id: int, steps: int, exe: Path, fail_dir: Path) -> bo
                     name = rng.choice(model.invoices).name
                 else:
                     name = rng.choice(["Rui", "Ana", "Bruno", "error", "8ball"])
-                cmd_lines.append(f"c {name}")
+                if any(ch in name for ch in (" ", "\t")):
+                    cmd_lines.append(f'c "{name}"')
+                else:
+                    cmd_lines.append(f"c {name}")
                 expected.extend(model.cmd_c(name))
 
     cmd_lines.append("q")

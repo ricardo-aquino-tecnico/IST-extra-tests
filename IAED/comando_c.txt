@@ -12,3 +12,4 @@ test46.in
 test49.in
 test61.in
 test83.in
+test92.in

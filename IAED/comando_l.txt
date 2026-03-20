@@ -11,3 +11,4 @@ test66.in
 test67.in
 test68.in
 test72.in
+test88.in

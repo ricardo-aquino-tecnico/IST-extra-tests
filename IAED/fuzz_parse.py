@@ -7,47 +7,131 @@ from pathlib import Path
 
 
 def rand_word(rng: random.Random, min_len: int, max_len: int) -> str:
-    letters = string.ascii_letters + string.digits + "_-*/?\"' \t"
+    letters = string.ascii_letters + string.digits + "_-*/?"
     n = rng.randint(min_len, max_len)
     return "".join(rng.choice(letters) for _ in range(n))
 
 
-def maybe_quote(rng: random.Random, s: str) -> str:
-    mode = rng.randrange(4)
-    if mode == 0:
-        return s
-    if mode == 1:
-        return f"\"{s}\""
-    if mode == 2:
-        return f"\"{s}"
-    return f"{s}\""
+def make_valid_ean(rng: random.Random, length: int) -> str:
+    body = "".join(rng.choice(string.digits) for _ in range(length - 1))
+    s = 0
+    for i, ch in enumerate(body):
+        d = ord(ch) - ord("0")
+        s += d if i % 2 == 0 else d * 3
+    check = (10 - (s % 10)) % 10
+    return body + str(check)
+
+
+def make_ean_token(rng: random.Random) -> str:
+    kind = rng.randrange(4)
+    if kind == 0:
+        return make_valid_ean(rng, rng.choice([8, 13]))
+    if kind == 1:
+        e = make_valid_ean(rng, rng.choice([8, 13]))
+        bad = (int(e[-1]) + rng.randint(1, 9)) % 10
+        return e[:-1] + str(bad)
+    if kind == 2:
+        return "".join(rng.choice(string.digits) for _ in range(rng.choice([1, 2, 7, 9, 12])))
+    return "".join(rng.choice(string.digits) for _ in range(rng.choice([8, 13])))
+
+
+def make_name(rng: random.Random) -> str:
+    return rng.choice(
+        [
+            "Ana",
+            "Rui",
+            "Bruno",
+            "joao",
+            "maria",
+            "Cliente",
+            "Cliente final",
+            "Ana Maria",
+            "8ball",
+            "_rui",
+        ]
+    )
+
+
+def format_name_arg(rng: random.Random, name: str) -> str:
+    if " " in name or "\t" in name:
+        mode = rng.randrange(3)
+        if mode == 0:
+            return f"\"{name}\""
+        if mode == 1:
+            return f"\"{name}"
+        return name
+    return name
 
 
 def make_line(rng: random.Random) -> str:
-    kind = rng.randrange(12)
+    kind = rng.randrange(10)
     if kind == 0:
-        return "p " + rand_word(rng, 0, 40)
+        ean = make_ean_token(rng)
+        iva = rng.choice(["A", "B", "C", "D", "E", "x"])
+        price = rng.choice(
+            [
+                f"{rng.randint(1, 20000) / 100:.2f}",
+                "0.00",
+                "-1.00",
+                f"{rng.randint(1, 20000)}",
+            ]
+        )
+        qty = str(rng.choice([-20, -1, 0, 1, 2, 5, 10, 30, 2147483648]))
+        desc_head = rng.choice(string.ascii_letters + string.digits)
+        desc_tail = rand_word(rng, 0, 20)
+        desc = (desc_head + desc_tail).strip() or "A"
+        return f"p {ean} {iva} {price} {qty} {desc}"
     if kind == 1:
-        return "a " + rand_word(rng, 0, 20)
+        sub = rng.randrange(3)
+        if sub == 0:
+            return "a"
+        ean = make_ean_token(rng)
+        if sub == 1:
+            return f"a {ean}"
+        qty = rng.choice([-15, -5, -1, 0, 1, 2, 3, 10, 20, 21474836480])
+        return f"a {qty} {ean}"
     if kind == 2:
-        return "f " + maybe_quote(rng, rand_word(rng, 0, 40))
+        sub = rng.randrange(5)
+        if sub == 0:
+            return "f"
+        if sub == 1:
+            return f"f {format_name_arg(rng, make_name(rng))}"
+        if sub == 2:
+            nif = "".join(rng.choice(string.digits) for _ in range(rng.choice([8, 9, 10])))
+            return f"f {nif} {format_name_arg(rng, make_name(rng))}"
+        if sub == 3:
+            return f'f "{make_name(rng)}'
+        return f"f {rand_word(rng, 1, 12)}"
     if kind == 3:
-        return "c " + maybe_quote(rng, rand_word(rng, 0, 40))
+        sub = rng.randrange(4)
+        if sub == 0:
+            return "c"
+        if sub == 1:
+            return f"c {format_name_arg(rng, make_name(rng))}"
+        if sub == 2:
+            return f'c "{make_name(rng)}'
+        return f"c {rand_word(rng, 1, 16)}"
     if kind == 4:
-        return "d " + rand_word(rng, 0, 20)
+        if rng.random() < 0.5:
+            inv = rng.choice([-2, -1, 0, 1, 2, 10, 9999999999])
+            return f"d {inv}"
+        return f"d {make_ean_token(rng)} {rng.choice([-10, -1, 0, 1, 2, 5, 30, 21474836480])}"
     if kind == 5:
-        return "r " + rand_word(rng, 0, 20)
+        if rng.random() < 0.5:
+            return "r"
+        return f"r {make_ean_token(rng)}"
     if kind == 6:
-        return "l " + rand_word(rng, 0, 20)
+        if rng.random() < 0.4:
+            return "l"
+        pats = []
+        for _ in range(rng.randint(1, 3)):
+            pats.append(rng.choice(["*", "999*", "?" * 8, "?" * 13, make_ean_token(rng)]))
+        return "l " + " ".join(pats)
     if kind == 7:
-        return rand_word(rng, 0, 80)
+        return " " * rng.randint(0, 30)
     if kind == 8:
-        return "x " + rand_word(rng, 0, 30)
-    if kind == 9:
-        return " " * rng.randint(0, 40)
-    if kind == 10:
-        return "\t" * rng.randint(0, 20) + "f " + rand_word(rng, 0, 30)
-    return "p " + rand_word(rng, 10, 120)
+        return "\t" * rng.randint(0, 10) + "a"
+    return rng.choice(["q", "p", "l", "a", "r", "f", "c", "d"])
 
 
 def run_case(exe: Path, seed: int, case_id: int, max_lines: int, timeout_s: int, fail_dir: Path) -> bool:

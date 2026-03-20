@@ -6,3 +6,8 @@ test47.in
 test56.in
 test80.in
 test85.in
+test87.in
+test89.in
+test90.in
+test91.in
+test93.in

@@ -11,3 +11,6 @@ test57.in
 test58.in
 test77.in
 test78.in
+test91.in
+test92.in
+test93.in

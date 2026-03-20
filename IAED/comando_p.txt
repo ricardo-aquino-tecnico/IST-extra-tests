@@ -14,3 +14,10 @@ test69.in
 test70.in
 test71.in
 test82.in
+test86.in
+test87.in
+test88.in
+test89.in
+test91.in
+test92.in
+test93.in
