@@ -1,0 +1,6 @@
+Objetivo:
+Validar integridade de estado e numeracao de faturas apos falhas em `f`.
+
+O que testa:
+Falhas por NIF/nome invalidos nao limpam cesto nem consomem numero de fatura; faturacoes validas seguintes mantem sequencia cronologica correta.
+

@@ -1,0 +1,6 @@
+Objetivo:
+Validar que falhas no comando `f` nao alteram o cesto.
+
+O que testa:
+`<nif>: no such nif` e `invalid name` devem preservar o conteudo do cesto, que so e limpo apos faturacao valida.
+

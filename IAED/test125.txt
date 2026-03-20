@@ -1,0 +1,6 @@
+Objetivo:
+Cobrir matriz de precedencia de erros do comando `a`.
+
+O que testa:
+Prioridade entre `invalid ean`, `invalid quantity`, `<ean>: no such product` e `no stock`, incluindo transicao para adicao valida.
+

@@ -1,0 +1,6 @@
+Objetivo:
+Cobrir matriz de precedencia de erros do comando `d`.
+
+O que testa:
+Precedencia entre `no such invoice`, `invalid ean`, `no such product`, `product in use` e `invalid quantity`, com validacao final do estado via `r`.
+

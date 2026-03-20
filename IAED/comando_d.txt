@@ -15,3 +15,5 @@ test113.in
 test115.in
 test117.in
 test120.in
+test123.in
+test126.in

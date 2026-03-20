@@ -1,0 +1,6 @@
+Objetivo:
+Cobrir precedencia de erros em `f` e `c`.
+
+O que testa:
+Em `f`, NIF invalido deve anteceder validacao do nome; em `c`, `invalid name` deve anteceder `no such client`.
+

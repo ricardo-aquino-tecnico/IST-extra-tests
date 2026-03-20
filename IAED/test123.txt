@@ -1,0 +1,6 @@
+Objetivo:
+Verificar integridade de estado no comando `d` para quantidades invalidas.
+
+O que testa:
+Sem produto em uso, `invalid quantity` nao altera stock; com produto no cesto, `product in use` tem precedencia e tambem nao altera estado.
+

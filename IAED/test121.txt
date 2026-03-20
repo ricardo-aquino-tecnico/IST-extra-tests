@@ -1,0 +1,6 @@
+Objetivo:
+Validar integridade de estado quando um `p` falha por IVA invalido numa tentativa de atualizacao.
+
+O que testa:
+Depois de `invalid iva`, o produto previamente criado mantem stock e atributos inalterados em `r` e `l`.
+

@@ -1,0 +1,6 @@
+Objetivo:
+Cobrir matriz de precedencia de erros do comando `p`.
+
+O que testa:
+Quando multiplos campos estao invalidos, deve surgir apenas o primeiro erro pela ordem do enunciado: EAN, IVA, preco, quantidade, descricao.
+
