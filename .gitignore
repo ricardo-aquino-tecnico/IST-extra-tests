@@ -8,7 +8,6 @@
 
 # Ficheiros compilados (C/C++)
 *.o
-*.out
 *.exe
 !IAED/test102.out
 !IAED/test103.out
