@@ -318,7 +318,23 @@ def make_invalid_ean(rng: random.Random) -> str:
     return "".join(rng.choice("0123456789") for _ in range(bad_len))
 
 
-def run_one(seed: int, run_id: int, steps: int, exe: Path, fail_dir: Path) -> bool:
+def dump_failure_artifacts(
+    base: Path,
+    input_text: str,
+    expected_text: str,
+    out_text: str,
+    stderr_text: str,
+    reason: str,
+) -> None:
+    base.parent.mkdir(parents=True, exist_ok=True)
+    base.with_suffix(".in").write_text(input_text, encoding="utf-8")
+    base.with_suffix(".expected").write_text(expected_text, encoding="utf-8")
+    base.with_suffix(".out").write_text(out_text, encoding="utf-8")
+    base.with_suffix(".stderr").write_text(stderr_text, encoding="utf-8")
+    base.with_suffix(".reason").write_text(reason + "\n", encoding="utf-8")
+
+
+def run_one(seed: int, run_id: int, steps: int, exe: Path, fail_dir: Path, timeout_s: int) -> bool:
     rng = random.Random(seed + run_id * 9973)
     model = Model()
     cmd_lines: list[str] = []
@@ -495,24 +511,50 @@ def run_one(seed: int, run_id: int, steps: int, exe: Path, fail_dir: Path) -> bo
     input_text = "\n".join(cmd_lines) + "\n"
     expected_text = ("\n".join(expected) + "\n") if expected else ""
 
-    proc = subprocess.run(
-        [str(exe)],
-        input=input_text.encode("utf-8"),
-        stdout=subprocess.PIPE,
-        stderr=subprocess.PIPE,
-        timeout=8,
-    )
+    base = fail_dir / f"seed_{seed}_run_{run_id}"
+    try:
+        proc = subprocess.run(
+            [str(exe)],
+            input=input_text.encode("utf-8"),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE,
+            timeout=timeout_s,
+        )
+    except subprocess.TimeoutExpired as exc:
+        dump_failure_artifacts(
+            base=base,
+            input_text=input_text,
+            expected_text=expected_text,
+            out_text=(exc.stdout or b"").decode("utf-8", errors="replace"),
+            stderr_text=(exc.stderr or b"").decode("utf-8", errors="replace"),
+            reason=f"timeout after {timeout_s}s",
+        )
+        return False
+
     actual_text = proc.stdout.decode("utf-8", errors="replace")
+    stderr_text = proc.stderr.decode("utf-8", errors="replace")
+    if proc.returncode != 0:
+        dump_failure_artifacts(
+            base=base,
+            input_text=input_text,
+            expected_text=expected_text,
+            out_text=actual_text,
+            stderr_text=stderr_text,
+            reason=f"exit_code={proc.returncode}",
+        )
+        return False
 
     if actual_text == expected_text:
         return True
 
-    fail_dir.mkdir(parents=True, exist_ok=True)
-    base = fail_dir / f"seed_{seed}_run_{run_id}"
-    base.with_suffix(".in").write_text(input_text, encoding="utf-8")
-    base.with_suffix(".expected").write_text(expected_text, encoding="utf-8")
-    base.with_suffix(".actual").write_text(actual_text, encoding="utf-8")
-    base.with_suffix(".stderr").write_text(proc.stderr.decode("utf-8", errors="replace"), encoding="utf-8")
+    dump_failure_artifacts(
+        base=base,
+        input_text=input_text,
+        expected_text=expected_text,
+        out_text=actual_text,
+        stderr_text=stderr_text,
+        reason="output mismatch",
+    )
     return False
 
 
@@ -522,6 +564,7 @@ def main() -> int:
     parser.add_argument("--runs", type=int, default=200, help="Number of random runs.")
     parser.add_argument("--steps", type=int, default=250, help="Commands per run (excluding q).")
     parser.add_argument("--seed", type=int, default=260315, help="Base RNG seed.")
+    parser.add_argument("--timeout", type=int, default=8, help="Timeout in seconds per run.")
     parser.add_argument(
         "--fail-dir",
         default="stress-failures",
@@ -547,7 +590,7 @@ def main() -> int:
 
     fail_dir = Path(args.fail_dir)
     for run_id in range(args.runs):
-        ok = run_one(args.seed, run_id, args.steps, exe, fail_dir)
+        ok = run_one(args.seed, run_id, args.steps, exe, fail_dir, args.timeout)
         if not ok:
             print(
                 f"Mismatch found at run {run_id} (seed={args.seed}). "

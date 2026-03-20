@@ -149,11 +149,19 @@ def run_case(exe: Path, seed: int, case_id: int, max_lines: int, timeout_s: int,
             stderr=subprocess.PIPE,
             timeout=timeout_s,
         )
-    except subprocess.TimeoutExpired:
+    except subprocess.TimeoutExpired as exc:
         fail_dir.mkdir(parents=True, exist_ok=True)
         base = fail_dir / f"fuzz_seed_{seed}_case_{case_id}"
         base.with_suffix(".in").write_text(input_text, encoding="utf-8", errors="ignore")
-        base.with_suffix(".reason").write_text("timeout", encoding="utf-8")
+        base.with_suffix(".out").write_text(
+            (exc.stdout or b"").decode("utf-8", errors="replace"),
+            encoding="utf-8",
+        )
+        base.with_suffix(".stderr").write_text(
+            (exc.stderr or b"").decode("utf-8", errors="replace"),
+            encoding="utf-8",
+        )
+        base.with_suffix(".reason").write_text(f"timeout after {timeout_s}s", encoding="utf-8")
         return False
 
     if proc.returncode == 0:
@@ -162,7 +170,7 @@ def run_case(exe: Path, seed: int, case_id: int, max_lines: int, timeout_s: int,
     fail_dir.mkdir(parents=True, exist_ok=True)
     base = fail_dir / f"fuzz_seed_{seed}_case_{case_id}"
     base.with_suffix(".in").write_text(input_text, encoding="utf-8", errors="ignore")
-    base.with_suffix(".stdout").write_text(proc.stdout.decode("utf-8", errors="replace"), encoding="utf-8")
+    base.with_suffix(".out").write_text(proc.stdout.decode("utf-8", errors="replace"), encoding="utf-8")
     base.with_suffix(".stderr").write_text(proc.stderr.decode("utf-8", errors="replace"), encoding="utf-8")
     base.with_suffix(".reason").write_text(f"exit_code={proc.returncode}", encoding="utf-8")
     return False
