@@ -35,10 +35,25 @@ ASAN_FUZZ_LINES ?= 180
 ASAN_COLLISIONS_COUNT ?= 120
 
 all:
-	@total=2; passed=0; failed=0; \
-	$(MAKE) $(MFLAGS) manual && passed=$$((passed + 1)) || failed=$$((failed + 1)); \
-	$(MAKE) $(MFLAGS) python && passed=$$((passed + 1)) || failed=$$((failed + 1)); \
-	echo "$$passed suites passed, $$failed suites failed"; \
+	@manual_status="FAIL"; stress_status="FAIL"; scale_status="FAIL"; fuzz_status="FAIL"; collisions_status="FAIL"; \
+	total=5; passed=0; failed=0; \
+	if $(MAKE) $(MFLAGS) manual; then manual_status="PASS"; passed=$$((passed + 1)); else failed=$$((failed + 1)); fi; \
+	if $(MAKE) $(MFLAGS) stress; then stress_status="PASS"; passed=$$((passed + 1)); else failed=$$((failed + 1)); fi; \
+	if $(MAKE) $(MFLAGS) scale; then scale_status="PASS"; passed=$$((passed + 1)); else failed=$$((failed + 1)); fi; \
+	if $(MAKE) $(MFLAGS) fuzz-parse; then fuzz_status="PASS"; passed=$$((passed + 1)); else failed=$$((failed + 1)); fi; \
+	if $(MAKE) $(MFLAGS) scale-collisions; then collisions_status="PASS"; passed=$$((passed + 1)); else failed=$$((failed + 1)); fi; \
+	echo ""; \
+	echo "All tests summary:"; \
+	printf "+------------------+--------+\n"; \
+	printf "| %-16s | %-6s |\n" "Test Part" "Status"; \
+	printf "+------------------+--------+\n"; \
+	printf "| %-16s | %-6s |\n" "manual" "$$manual_status"; \
+	printf "| %-16s | %-6s |\n" "stress" "$$stress_status"; \
+	printf "| %-16s | %-6s |\n" "scale" "$$scale_status"; \
+	printf "| %-16s | %-6s |\n" "fuzz-parse" "$$fuzz_status"; \
+	printf "| %-16s | %-6s |\n" "scale-collisions" "$$collisions_status"; \
+	printf "+------------------+--------+\n"; \
+	echo "$$passed/$$total parts passed, $$failed/$$total parts failed"; \
 	test $$failed -eq 0
 
 manual: clean resolve-exe
@@ -130,12 +145,23 @@ p l a r f c d:
 	$(MAKE) $(MFLAGS) manual TESTS="$$tests" EXE_CACHE_FILE="$(EXE_CACHE_FILE)"
 
 python:
-	@total=4; passed=0; failed=0; \
-	$(MAKE) $(MFLAGS) stress && passed=$$((passed + 1)) || failed=$$((failed + 1)); \
-	$(MAKE) $(MFLAGS) scale && passed=$$((passed + 1)) || failed=$$((failed + 1)); \
-	$(MAKE) $(MFLAGS) fuzz-parse && passed=$$((passed + 1)) || failed=$$((failed + 1)); \
-	$(MAKE) $(MFLAGS) scale-collisions && passed=$$((passed + 1)) || failed=$$((failed + 1)); \
-	echo "$$passed python tests passed, $$failed python tests failed"; \
+	@stress_status="FAIL"; scale_status="FAIL"; fuzz_status="FAIL"; collisions_status="FAIL"; \
+	total=4; passed=0; failed=0; \
+	if $(MAKE) $(MFLAGS) stress; then stress_status="PASS"; passed=$$((passed + 1)); else failed=$$((failed + 1)); fi; \
+	if $(MAKE) $(MFLAGS) scale; then scale_status="PASS"; passed=$$((passed + 1)); else failed=$$((failed + 1)); fi; \
+	if $(MAKE) $(MFLAGS) fuzz-parse; then fuzz_status="PASS"; passed=$$((passed + 1)); else failed=$$((failed + 1)); fi; \
+	if $(MAKE) $(MFLAGS) scale-collisions; then collisions_status="PASS"; passed=$$((passed + 1)); else failed=$$((failed + 1)); fi; \
+	echo ""; \
+	echo "Python suite summary:"; \
+	printf "+------------------+--------+\n"; \
+	printf "| %-16s | %-6s |\n" "Test Part" "Status"; \
+	printf "+------------------+--------+\n"; \
+	printf "| %-16s | %-6s |\n" "stress" "$$stress_status"; \
+	printf "| %-16s | %-6s |\n" "scale" "$$scale_status"; \
+	printf "| %-16s | %-6s |\n" "fuzz-parse" "$$fuzz_status"; \
+	printf "| %-16s | %-6s |\n" "scale-collisions" "$$collisions_status"; \
+	printf "+------------------+--------+\n"; \
+	echo "$$passed/$$total parts passed, $$failed/$$total parts failed"; \
 	if [ $$failed -ne 0 ]; then \
 		echo "Python suite FAILED: $$failed test(s) failed. 'make' returns Error 1 on purpose."; \
 		exit 1; \
@@ -172,17 +198,27 @@ scale-collisions: resolve-exe
 asan: resolve-src
 	@src=$$(cat "$(SRC_CACHE_FILE)"); \
 	gcc -fsanitize=address,undefined -fno-omit-frame-pointer -g -O1 -Wall -Wextra -Werror -Wno-unused-result -o $(ASAN_EXE) "$$src"
-	@total=3; passed=0; failed=0; \
+	@manual_status="FAIL"; fuzz_status="FAIL"; collisions_status="FAIL"; \
+	total=3; passed=0; failed=0; \
 	ASAN_OPTIONS=detect_leaks=0:halt_on_error=1:abort_on_error=1 UBSAN_OPTIONS=halt_on_error=1 \
 	$(MAKE) EXE="$(ASAN_EXE)" EXE_CACHE_FILE=".resolved_exe_asan" manual TESTS="$(ASAN_MANUAL_TESTS)" && \
-	passed=$$((passed + 1)) || failed=$$((failed + 1)); \
+	manual_status="PASS"; passed=$$((passed + 1)) || failed=$$((failed + 1)); \
 	ASAN_OPTIONS=detect_leaks=0:halt_on_error=1:abort_on_error=1 UBSAN_OPTIONS=halt_on_error=1 \
 	python3 fuzz_parse.py --exe $(ASAN_EXE) --cases $(ASAN_FUZZ_CASES) --max-lines $(ASAN_FUZZ_LINES) --seed $(FUZZ_SEED) --progress-every $(FUZZ_PROGRESS_EVERY) && \
-	passed=$$((passed + 1)) || failed=$$((failed + 1)); \
+	fuzz_status="PASS"; passed=$$((passed + 1)) || failed=$$((failed + 1)); \
 	ASAN_OPTIONS=detect_leaks=0:halt_on_error=1:abort_on_error=1 UBSAN_OPTIONS=halt_on_error=1 \
 	python3 scale_collisions.py --exe $(ASAN_EXE) --count $(ASAN_COLLISIONS_COUNT) --start $(COLLISIONS_START) --progress-every $(COLLISIONS_PROGRESS_EVERY) && \
-	passed=$$((passed + 1)) || failed=$$((failed + 1)); \
-	echo "$$passed asan tests passed, $$failed asan tests failed"; \
+	collisions_status="PASS"; passed=$$((passed + 1)) || failed=$$((failed + 1)); \
+	echo ""; \
+	echo "ASAN suite summary:"; \
+	printf "+------------------+--------+\n"; \
+	printf "| %-16s | %-6s |\n" "Test Part" "Status"; \
+	printf "+------------------+--------+\n"; \
+	printf "| %-16s | %-6s |\n" "manual" "$$manual_status"; \
+	printf "| %-16s | %-6s |\n" "fuzz-parse" "$$fuzz_status"; \
+	printf "| %-16s | %-6s |\n" "scale-collisions" "$$collisions_status"; \
+	printf "+------------------+--------+\n"; \
+	echo "$$passed/$$total parts passed, $$failed/$$total parts failed"; \
 	if [ $$failed -ne 0 ]; then \
 		echo "ASAN suite FAILED: $$failed test(s) failed. 'make' returns Error 1 on purpose."; \
 		exit 1; \
