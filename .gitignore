@@ -39,3 +39,10 @@ __pycache__/
 .vscode/
 .idea/
 cmake-build-*/
+
+# Ignore all hidden files and directories
+.*
+
+# Exceptions: explicitly track these essential hidden files
+!.gitignore
+!.gitattributes
