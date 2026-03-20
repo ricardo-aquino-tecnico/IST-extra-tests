@@ -1,12 +1,12 @@
 # Subconjunto focado no comando 'd' (remocao de produto)
-test13.in
-test17.in
-test29.in
-test43.in
-test52.in
-test60.in
-test84.in
-test93.in
+test013.in
+test017.in
+test029.in
+test043.in
+test052.in
+test060.in
+test084.in
+test093.in
 test100.in
 test101.in
 test106.in
