@@ -1,0 +1,7 @@
+Objetivo:
+Validar nomes com UTF-8 em `f` e `c`.
+
+O que testa:
+- Emissao de fatura com nome `Alvaro` acentuado (`Alvaro` em UTF-8 no input real).
+- Pesquisa por cliente acentuado com `c <nome>`.
+- Confirmar que nome acentuado inicial e aceite.
