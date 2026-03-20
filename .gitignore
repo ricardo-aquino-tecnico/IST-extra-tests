@@ -21,6 +21,7 @@ proj
 proj_asan
 project
 projecto.*
+project.*
 
 # Ficheiros de Crash e Valgrind (Erros de memória)
 core
