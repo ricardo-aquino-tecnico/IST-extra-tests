@@ -2,6 +2,7 @@
 import argparse
 import subprocess
 import tempfile
+from datetime import datetime
 from pathlib import Path
 
 
@@ -84,6 +85,30 @@ def build_case(path: Path, eans: list[str]) -> list[str]:
     return expected
 
 
+def dump_failure_artifacts(
+    fail_dir: Path,
+    prefix: str,
+    in_path: Path,
+    out_path: Path,
+    stderr_data: bytes,
+    reason: str,
+    expected_lines: list[str] | None = None,
+) -> Path:
+    fail_dir.mkdir(parents=True, exist_ok=True)
+    stamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
+    base = fail_dir / f"{prefix}_{stamp}"
+
+    if in_path.exists():
+        base.with_suffix(".in").write_bytes(in_path.read_bytes())
+    if out_path.exists():
+        base.with_suffix(".out").write_bytes(out_path.read_bytes())
+    base.with_suffix(".stderr").write_bytes(stderr_data or b"")
+    if expected_lines is not None:
+        base.with_suffix(".expected").write_text("\n".join(expected_lines) + "\n", encoding="utf-8")
+    base.with_suffix(".reason").write_text(reason + "\n", encoding="utf-8")
+    return base
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Hash-collision stress with valid EAN-8 keys.")
     parser.add_argument("--exe", default="../proj", help="Path to executable under test.")
@@ -102,6 +127,7 @@ def main() -> int:
         help="Disable intermediate progress messages.",
     )
     parser.add_argument("--timeout", type=int, default=120, help="Execution timeout in seconds.")
+    parser.add_argument("--fail-dir", default="collisions-failures", help="Where to persist failure artifacts.")
     args = parser.parse_args()
 
     exe = Path(args.exe)
@@ -112,6 +138,7 @@ def main() -> int:
         print("count must be >= 1")
         return 2
 
+    fail_dir = Path(args.fail_dir)
     eans, bucket, tries = find_colliding_eans(
         args.start, args.count, args.max_tries, args.progress_every, args.quiet
     )
@@ -128,29 +155,62 @@ def main() -> int:
         out_path = td_path / "collisions.out"
 
         expected = build_case(in_path, eans)
-        with in_path.open("rb") as fin, out_path.open("wb") as fout:
-            proc = subprocess.run(
-                [str(exe)],
-                stdin=fin,
-                stdout=fout,
-                stderr=subprocess.PIPE,
-                timeout=args.timeout,
+        try:
+            with in_path.open("rb") as fin, out_path.open("wb") as fout:
+                proc = subprocess.run(
+                    [str(exe)],
+                    stdin=fin,
+                    stdout=fout,
+                    stderr=subprocess.PIPE,
+                    timeout=args.timeout,
+                )
+        except subprocess.TimeoutExpired as exc:
+            reason = f"timeout after {args.timeout}s; bucket={bucket}, collisions={len(eans)}, tries={tries}"
+            base = dump_failure_artifacts(
+                fail_dir,
+                "collisions",
+                in_path,
+                out_path,
+                exc.stderr or b"",
+                reason,
+                expected_lines=expected,
             )
+            print(f"Collision test FAILED: {reason}")
+            print(f"Failure artifacts: {base}.*")
+            return 1
+
         if proc.returncode != 0:
+            reason = f"exit_code={proc.returncode}; bucket={bucket}, collisions={len(eans)}, tries={tries}"
+            base = dump_failure_artifacts(
+                fail_dir,
+                "collisions",
+                in_path,
+                out_path,
+                proc.stderr,
+                reason,
+                expected_lines=expected,
+            )
             print(f"Program exited with code {proc.returncode}")
             if proc.stderr:
                 print(proc.stderr.decode("utf-8", errors="replace"))
+            print(f"Failure artifacts: {base}.*")
             return 1
 
         actual = out_path.read_text(encoding="utf-8", errors="replace").splitlines()
         if actual != expected:
+            reason = f"output mismatch; bucket={bucket}, collisions={len(eans)}, tries={tries}"
+            base = dump_failure_artifacts(
+                fail_dir,
+                "collisions",
+                in_path,
+                out_path,
+                proc.stderr,
+                reason,
+                expected_lines=expected,
+            )
             print("Collision test FAILED: output mismatch.")
             print(f"Bucket={bucket}, collisions={len(eans)}, tries={tries}")
-            print(f"Input file: {in_path}")
-            print(f"Output file: {out_path}")
-            exp_path = td_path / "collisions.expected"
-            exp_path.write_text("\n".join(expected) + "\n", encoding="utf-8")
-            print(f"Expected file: {exp_path}")
+            print(f"Failure artifacts: {base}.*")
             return 1
 
     print(f"Collision test passed: bucket={bucket}, collisions={len(eans)}, tries={tries}")

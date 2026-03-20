@@ -2,6 +2,7 @@
 import argparse
 import subprocess
 import tempfile
+from datetime import datetime
 from pathlib import Path
 
 
@@ -129,6 +130,32 @@ def check_output(path: Path, products: int, invoices: int, progress_every: int, 
     return errors
 
 
+def dump_failure_artifacts(
+    fail_dir: Path,
+    prefix: str,
+    in_path: Path,
+    out_path: Path,
+    stderr_data: bytes,
+    reason: str,
+    errors: list[str] | None = None,
+) -> Path:
+    fail_dir.mkdir(parents=True, exist_ok=True)
+    stamp = datetime.now().strftime("%Y%m%d_%H%M%S_%f")
+    base = fail_dir / f"{prefix}_{stamp}"
+
+    if in_path.exists():
+        base.with_suffix(".in").write_bytes(in_path.read_bytes())
+    if out_path.exists():
+        base.with_suffix(".out").write_bytes(out_path.read_bytes())
+    base.with_suffix(".stderr").write_bytes(stderr_data or b"")
+
+    details = [reason]
+    if errors:
+        details.extend(errors)
+    base.with_suffix(".reason").write_text("\n".join(details) + "\n", encoding="utf-8")
+    return base
+
+
 def main() -> int:
     parser = argparse.ArgumentParser(description="Scale test: 10000 products + high invoice counts.")
     parser.add_argument("--exe", default="../proj", help="Path to executable")
@@ -136,6 +163,7 @@ def main() -> int:
     parser.add_argument("--invoices", type=int, default=100001, help="Number of invoices to emit")
     parser.add_argument("--base-start", type=int, default=1000000, help="Base for generating EAN-8 values")
     parser.add_argument("--timeout", type=int, default=600, help="Process timeout in seconds")
+    parser.add_argument("--fail-dir", default="scale-failures", help="Where to persist failure artifacts.")
     parser.add_argument(
         "--progress-every",
         type=int,
@@ -157,6 +185,7 @@ def main() -> int:
         print("products and invoices must be >= 1")
         return 2
 
+    fail_dir = Path(args.fail_dir)
     with tempfile.TemporaryDirectory(prefix="scale_") as td:
         td_path = Path(td)
         in_path = td_path / "scale.in"
@@ -183,18 +212,43 @@ def main() -> int:
                 flush=True,
             )
 
-        with in_path.open("rb") as fin, out_path.open("wb") as fout:
-            proc = subprocess.run(
-                [str(exe)],
-                stdin=fin,
-                stdout=fout,
-                stderr=subprocess.PIPE,
-                timeout=args.timeout,
+        try:
+            with in_path.open("rb") as fin, out_path.open("wb") as fout:
+                proc = subprocess.run(
+                    [str(exe)],
+                    stdin=fin,
+                    stdout=fout,
+                    stderr=subprocess.PIPE,
+                    timeout=args.timeout,
+                )
+        except subprocess.TimeoutExpired as exc:
+            reason = f"timeout after {args.timeout}s"
+            base = dump_failure_artifacts(
+                fail_dir,
+                "scale",
+                in_path,
+                out_path,
+                exc.stderr or b"",
+                reason,
             )
+            print(f"Scale test FAILED: {reason}")
+            print(f"Failure artifacts: {base}.*")
+            return 1
+
         if proc.returncode != 0:
+            reason = f"exit_code={proc.returncode}"
+            base = dump_failure_artifacts(
+                fail_dir,
+                "scale",
+                in_path,
+                out_path,
+                proc.stderr,
+                reason,
+            )
             print(f"Program exited with code {proc.returncode}")
             if proc.stderr:
                 print(proc.stderr.decode("utf-8", errors="replace"))
+            print(f"Failure artifacts: {base}.*")
             return 1
 
         if not args.quiet:
@@ -207,11 +261,19 @@ def main() -> int:
             args.quiet,
         )
         if errors:
+            base = dump_failure_artifacts(
+                fail_dir,
+                "scale",
+                in_path,
+                out_path,
+                proc.stderr,
+                "output mismatch",
+                errors,
+            )
             print("Scale test FAILED:")
             for err in errors:
                 print(f"- {err}")
-            print(f"Input file for debugging: {in_path}")
-            print(f"Output file for debugging: {out_path}")
+            print(f"Failure artifacts: {base}.*")
             return 1
 
     print("Scale test passed.")

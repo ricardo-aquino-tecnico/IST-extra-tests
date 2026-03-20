@@ -34,24 +34,6 @@ def money(cents: int) -> str:
     return f"{cents / 100:.2f}"
 
 
-def parse_int_atoi_style(s: str) -> int:
-    s = s.strip()
-    if not s:
-        return 0
-    sign = 1
-    i = 0
-    if s[i] in "+-":
-        if s[i] == "-":
-            sign = -1
-        i += 1
-    start = i
-    while i < len(s) and s[i].isdigit():
-        i += 1
-    if i == start:
-        return 0
-    return sign * int(s[start:i])
-
-
 def wildcard_match(pattern: str, text: str) -> bool:
     star = None
     ss = 0
