@@ -1,0 +1,2 @@
+Comando d com quantidade fora do intervalo int e formatos assinados.
+Valida rejeicao de overflow e aceitacao de +2 e 0002.

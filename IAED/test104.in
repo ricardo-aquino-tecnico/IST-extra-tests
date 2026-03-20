@@ -1,0 +1,7 @@
+p 5601234123456 B 1.00 1 Milk
+a 5601234123456
+f "Ana Maria" 123456789
+a
+f 123456789 "Ana Maria"
+c "Ana Maria"
+q

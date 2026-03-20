@@ -1,0 +1,2 @@
+Atualizacao de produto ja colocado no cesto com mudanca de preco.
+Confirma erro "product in use" e manutencao do estado em r.

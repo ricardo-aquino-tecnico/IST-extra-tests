@@ -1,0 +1,2 @@
+Descricao iniciada por letra maiuscula vs minuscula em UTF-8.
+Valida rejeicao de descricao com inicial minuscula.

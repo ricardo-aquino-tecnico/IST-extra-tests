@@ -1,0 +1,2 @@
+Comando a com quantidade explicita positiva com sinal e valores fora de int.
+Valida parse de +2, rejeicao de overflow e remocao completa do cesto.

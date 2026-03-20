@@ -1,0 +1,2 @@
+Listagem com wildcard, EAN exato e padrao sem correspondencias.
+Verifica coexistencia de matches validos com mensagem "no such product".

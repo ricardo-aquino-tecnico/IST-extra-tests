@@ -1,0 +1,2 @@
+Apagar fatura intermedia e emitir nova fatura do mesmo cliente.
+Verifica que IDs nao sao reutilizados e listagem de cliente permanece correta.

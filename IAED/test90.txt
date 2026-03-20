@@ -1,0 +1,2 @@
+Resumo r com EAN invalido e com EAN valido inexistente.
+Garante validacao de formato antes da procura no catalogo.

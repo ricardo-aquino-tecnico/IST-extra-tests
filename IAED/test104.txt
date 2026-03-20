@@ -1,0 +1,2 @@
+Comando f com dois argumentos na ordem invalida e na ordem valida.
+Verifica rejeicao quando o primeiro argumento vem entre aspas.

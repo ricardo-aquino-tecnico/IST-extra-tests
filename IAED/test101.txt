@@ -1,0 +1,2 @@
+Tentativa de apagar produto que esta em uso no cesto.
+Confirma bloqueio por "product in use" e consistencia apos faturar e apagar fatura.

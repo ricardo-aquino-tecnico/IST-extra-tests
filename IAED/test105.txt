@@ -1,0 +1,2 @@
+Comando c com argumentos extra apos o nome (com e sem aspas).
+Confirma erro de parsing e funcionamento normal do filtro valido.

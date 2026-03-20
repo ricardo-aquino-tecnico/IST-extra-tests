@@ -1,0 +1,2 @@
+Fecho de fatura com nome especial "error".
+Valida cancelamento do cesto sem emissao de fatura.

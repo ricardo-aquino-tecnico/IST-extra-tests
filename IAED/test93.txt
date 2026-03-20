@@ -1,0 +1,2 @@
+Interacao entre faturacao, resumo global, apagar fatura e reduzir produto.
+Confirma atualizacao consistente de totais e erros de inexistencia apos remocao.

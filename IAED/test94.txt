@@ -1,0 +1,2 @@
+Atualizacao de descricao com produto em cesto sem alterar preco.
+Garante que a alteracao permitida reflete no cesto e em r.

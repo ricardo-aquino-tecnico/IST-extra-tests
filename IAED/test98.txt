@@ -1,0 +1,2 @@
+Comando f com dois argumentos e NIF invalido.
+Garante erro de NIF e preservacao do cesto.

@@ -1,0 +1,2 @@
+Insercao minima de produto seguida de terminacao.
+Valida fluxo basico do comando p sem interferencia de outros comandos.

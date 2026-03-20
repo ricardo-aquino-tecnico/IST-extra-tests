@@ -1,0 +1,2 @@
+Faturacao repetida com nome entre aspas e espaco.
+Confirma persistencia do nome completo e filtro correto em c.

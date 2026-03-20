@@ -15,3 +15,6 @@ test83.in
 test92.in
 test99.in
 test100.in
+test103.in
+test104.in
+test105.in

@@ -1,0 +1,2 @@
+Listagem l * quando os produtos ficam sem stock disponivel.
+Confirma que produtos a zero ou apenas no cesto nao aparecem na listagem.
