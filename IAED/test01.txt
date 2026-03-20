@@ -1,6 +1,0 @@
-Objetivo:
-Validar o comportamento do comando `c` quando nao existem faturas.
-
-O que testa:
-- `c Rui` deve imprimir `Rui: no such client`.
-- `c 8ball` deve imprimir `invalid name` (nome nao comeca por letra).
