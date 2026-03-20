@@ -1,0 +1,2 @@
+Faturacao com apenas NIF valido contendo zeros a esquerda.
+Confirma uso do nome por omissao "Cliente final" e listagem posterior em c.

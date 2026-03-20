@@ -1,0 +1,2 @@
+Apagar fatura com identificador em formato com zeros a esquerda.
+Verifica que d 0001 remove a fatura 1 e atualiza corretamente o resumo r.

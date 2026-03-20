@@ -1,0 +1,2 @@
+Remocao total de stock de produto com d <ean> <quantidade>.
+Valida apagamento do produto do catalogo e erro em l para EAN ja removido.

@@ -1,0 +1,2 @@
+Comando l com argumentos wildcard repetidos.
+Confirma que os resultados sao impressos para cada argumento, incluindo repeticoes.

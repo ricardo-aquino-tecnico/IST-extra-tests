@@ -35,3 +35,15 @@ test104.in
 test105.in
 test106.in
 test107.in
+test108.in
+test109.in
+test110.in
+test111.in
+test113.in
+test114.in
+test115.in
+test116.in
+test117.in
+test118.in
+test119.in
+test120.in

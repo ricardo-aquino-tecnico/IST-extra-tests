@@ -1,0 +1,2 @@
+Comando d com id de fatura fora do intervalo int (overflow positivo).
+Verifica mensagem "<numero>: no such invoice" sem afetar as faturas existentes.

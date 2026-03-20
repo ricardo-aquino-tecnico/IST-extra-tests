@@ -15,3 +15,5 @@ test094.in
 test101.in
 test102.in
 test106.in
+test113.in
+test117.in

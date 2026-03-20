@@ -1,0 +1,2 @@
+Listagem do cesto (a sem argumentos) com produtos inseridos fora de ordem.
+Verifica ordenacao por EAN e ausencia de duplicados no resumo do cesto.

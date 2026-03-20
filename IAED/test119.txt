@@ -1,0 +1,2 @@
+Precedencia de erros no comando a com quantidade nao numerica e EAN invalido.
+Garante "invalid ean" antes de "invalid quantity" quando ambos poderiam ocorrer.

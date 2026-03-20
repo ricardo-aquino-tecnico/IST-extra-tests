@@ -1,0 +1,2 @@
+Arredondamento de total com IVA no comando a/f em valor fracionario.
+Confirma calculo de 0.25 * 2 com IVA D (23%) e total arredondado a 0.62.

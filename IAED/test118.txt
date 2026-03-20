@@ -1,0 +1,2 @@
+Faturacao com nome de cliente entre aspas, minusculo e com espaco.
+Confirma que nomes validos nao precisam de maiuscula e sao filtraveis no comando c.

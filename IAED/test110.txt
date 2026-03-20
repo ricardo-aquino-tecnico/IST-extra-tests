@@ -1,0 +1,2 @@
+Comando l com wildcard "*" explicito e sem argumentos.
+Confirma equivalencia de comportamento e ordem de criacao em ambos os formatos.

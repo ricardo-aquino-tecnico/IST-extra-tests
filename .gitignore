@@ -9,12 +9,6 @@
 # Ficheiros compilados (C/C++)
 *.o
 *.exe
-!IAED/test102.out
-!IAED/test103.out
-!IAED/test104.out
-!IAED/test105.out
-!IAED/test106.out
-!IAED/test107.out
 
 # Executáveis do projeto (gerados pelo make)
 proj
