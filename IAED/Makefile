@@ -2,7 +2,7 @@
 MAKEFLAGS += --no-print-directory
 SHELL := /bin/bash
 .DEFAULT_GOAL := manual-tests
-.PHONY: all manual manual-tests resolve-exe python stress scale fuzz-parse scale-collisions asan clean p l a r f c d
+.PHONY: all manual manual-tests resolve-exe resolve-src python stress scale fuzz-parse scale-collisions asan clean p l a r f c d
 OK="\e[1;32mtest $< PASSED\e[0m"
 KO="\e[1;31mtest $< FAILED\e[0m"
 FAIL=0
@@ -23,6 +23,12 @@ FUZZ_SEED ?= $(shell date +%s)
 COLLISIONS_COUNT ?= 200
 COLLISIONS_START ?= 1000000
 ASAN_EXE ?= ../proj_asan
+ASAN_SRC ?= ../../project.c
+SRC_CACHE_FILE ?= .resolved_src
+ASAN_MANUAL_TESTS ?= $(TESTS)
+ASAN_FUZZ_CASES ?= 150
+ASAN_FUZZ_LINES ?= 180
+ASAN_COLLISIONS_COUNT ?= 120
 
 all:
 	@total=2; passed=0; failed=0; \
@@ -35,7 +41,18 @@ manual: clean resolve-exe
 	@rm -f $(LOG)
 	@touch $(LOG)
 	@exe=$$(cat "$(EXE_CACHE_FILE)"); \
-	for i in $(TESTS); do $(MAKE) $(MFLAGS) $${i%.in}.diff EXE="$$exe" || exit; done
+	for i in $(TESTS); do \
+		base=$${i%.in}; \
+		if [ -f "$$base.arg" ]; then "$$exe" `cat "$$base.arg"` < "$$i" > "$$base.myout"; else "$$exe" < "$$i" > "$$base.myout"; fi; \
+		if [ -f "$$base.out" ]; then diff "$$base.myout" "$$base.out" > "$$base.diff" || :; \
+		else rm -f "$$base.diff"; echo "diff: $$base.out: No such file or directory"; fi; \
+		if [ ! -f "$$base.diff" ] || [ `wc -l < "$$base.diff"` -eq 0 ]; then \
+			echo -e "\e[1;32mtest $$i PASSED\e[0m"; echo "$$base" >> "$(LOG)"; \
+		else \
+			echo -e "\e[1;31mtest $$i FAILED\e[0m"; \
+			if [ $(FAIL) -eq 1 ]; then exit 1; fi; \
+		fi; \
+	done
 	@total=`echo "$(TESTS)" | wc -w`; \
 	passed=`wc -l < $(LOG)`; \
 	failed=`expr $$total - $$passed`; \
@@ -68,6 +85,26 @@ resolve-exe:
 		done; \
 	fi; \
 	echo "$$resolved" > "$(EXE_CACHE_FILE)"
+
+resolve-src:
+	@if [ -n "$(ASAN_SRC)" ] && [ -f "$(ASAN_SRC)" ]; then \
+		resolved="$(ASAN_SRC)"; \
+	elif [ -s "$(SRC_CACHE_FILE)" ] && [ -f "$$(cat "$(SRC_CACHE_FILE)")" ]; then \
+		resolved="$$(cat "$(SRC_CACHE_FILE)")"; \
+	elif [ -f "../../project.c" ]; then \
+		resolved="../../project.c"; \
+	elif [ -f "../project.c" ]; then \
+		resolved="../project.c"; \
+	else \
+		echo "project.c nao foi encontrado em ../../ nem ../."; \
+		read -r -p "Indica o diretorio do projeto ou o caminho do ficheiro .c: " input; \
+		while true; do \
+			if [ -f "$$input" ]; then resolved="$$input"; break; fi; \
+			if [ -f "$$input/project.c" ]; then resolved="$$input/project.c"; break; fi; \
+			read -r -p "Nao encontrado. Indica outro diretorio ou ficheiro .c: " input; \
+		done; \
+	fi; \
+	echo "$$resolved" > "$(SRC_CACHE_FILE)"
 
 p l a r f c d:
 	@cmd_file="$(CMD_LIST_PREFIX)$@.txt"; \
@@ -128,16 +165,19 @@ scale-collisions: resolve-exe
 	echo "1 scale-collisions test passed, 0 scale-collisions tests failed" || \
 	{ echo "0 scale-collisions tests passed, 1 scale-collisions tests failed"; exit 1; }
 
-asan:
-	@gcc -fsanitize=address,undefined -fno-omit-frame-pointer -g -O1 -Wall -Wextra -Werror -Wno-unused-result -o $(ASAN_EXE) ../project.c
+asan: resolve-src
+	@src=$$(cat "$(SRC_CACHE_FILE)"); \
+	gcc -fsanitize=address,undefined -fno-omit-frame-pointer -g -O1 -Wall -Wextra -Werror -Wno-unused-result -o $(ASAN_EXE) "$$src"
 	@total=3; passed=0; failed=0; \
-	ASAN_OPTIONS=detect_leaks=0:halt_on_error=1:abort_on_error=1 UBSAN_OPTIONS=halt_on_error=1 $(MAKE) EXE="$(ASAN_EXE)" EXE_CACHE_FILE=".resolved_exe_asan" manual; \
-	manual_total=`ls test*.in | wc -l`; \
-	manual_passed=`wc -l < $(LOG)`; \
-	manual_failed=`expr $$manual_total - $$manual_passed`; \
-	if [ $$manual_failed -eq 0 ]; then passed=$$((passed + 1)); else failed=$$((failed + 1)); fi; \
-	ASAN_OPTIONS=detect_leaks=0:halt_on_error=1:abort_on_error=1 UBSAN_OPTIONS=halt_on_error=1 python3 fuzz_parse.py --exe $(ASAN_EXE) --cases 150 --max-lines 180 --seed $(FUZZ_SEED) && passed=$$((passed + 1)) || failed=$$((failed + 1)); \
-	ASAN_OPTIONS=detect_leaks=0:halt_on_error=1:abort_on_error=1 UBSAN_OPTIONS=halt_on_error=1 python3 scale_collisions.py --exe $(ASAN_EXE) --count 120 --start $(COLLISIONS_START) && passed=$$((passed + 1)) || failed=$$((failed + 1)); \
+	ASAN_OPTIONS=detect_leaks=0:halt_on_error=1:abort_on_error=1 UBSAN_OPTIONS=halt_on_error=1 \
+	$(MAKE) EXE="$(ASAN_EXE)" EXE_CACHE_FILE=".resolved_exe_asan" manual TESTS="$(ASAN_MANUAL_TESTS)" && \
+	passed=$$((passed + 1)) || failed=$$((failed + 1)); \
+	ASAN_OPTIONS=detect_leaks=0:halt_on_error=1:abort_on_error=1 UBSAN_OPTIONS=halt_on_error=1 \
+	python3 fuzz_parse.py --exe $(ASAN_EXE) --cases $(ASAN_FUZZ_CASES) --max-lines $(ASAN_FUZZ_LINES) --seed $(FUZZ_SEED) && \
+	passed=$$((passed + 1)) || failed=$$((failed + 1)); \
+	ASAN_OPTIONS=detect_leaks=0:halt_on_error=1:abort_on_error=1 UBSAN_OPTIONS=halt_on_error=1 \
+	python3 scale_collisions.py --exe $(ASAN_EXE) --count $(ASAN_COLLISIONS_COUNT) --start $(COLLISIONS_START) && \
+	passed=$$((passed + 1)) || failed=$$((failed + 1)); \
 	echo "$$passed asan tests passed, $$failed asan tests failed"; \
 	if [ $$failed -ne 0 ]; then \
 		echo "ASAN suite FAILED: $$failed test(s) failed. 'make' returns Error 1 on purpose."; \

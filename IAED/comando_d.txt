@@ -7,3 +7,5 @@ test52.in
 test60.in
 test84.in
 test93.in
+test100.in
+test101.in

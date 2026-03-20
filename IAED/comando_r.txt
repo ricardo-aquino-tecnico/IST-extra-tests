@@ -11,3 +11,5 @@ test89.in
 test90.in
 test91.in
 test93.in
+test94.in
+test101.in
