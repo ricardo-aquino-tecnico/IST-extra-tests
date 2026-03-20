@@ -176,6 +176,17 @@ def main() -> int:
     parser.add_argument("--seed", type=int, default=260315, help="Base RNG seed.")
     parser.add_argument("--timeout", type=int, default=5, help="Timeout in seconds per case.")
     parser.add_argument("--fail-dir", default="fuzz-failures", help="Where to write failing cases.")
+    parser.add_argument(
+        "--progress-every",
+        type=int,
+        default=50,
+        help="Print progress every N cases (0 disables progress).",
+    )
+    parser.add_argument(
+        "--quiet",
+        action="store_true",
+        help="Disable intermediate progress messages.",
+    )
     args = parser.parse_args()
 
     exe = Path(args.exe)
@@ -189,7 +200,7 @@ def main() -> int:
         if not ok:
             print(f"Fuzz failure at case {i} (seed={args.seed}). See {fail_dir}.")
             return 1
-        if (i + 1) % 50 == 0:
+        if not args.quiet and args.progress_every > 0 and (i + 1) % args.progress_every == 0:
             print(f"passed {i + 1}/{args.cases} fuzz cases")
 
     print(f"Fuzz parse passed: cases={args.cases}, max_lines={args.max_lines}, seed={args.seed}")

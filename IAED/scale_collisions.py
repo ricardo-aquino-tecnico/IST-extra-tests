@@ -27,12 +27,21 @@ def ean8_from_base(n: int) -> str:
     return base + str(cd)
 
 
-def find_colliding_eans(start: int, count: int, max_tries: int) -> tuple[list[str], int, int]:
+def find_colliding_eans(
+    start: int, count: int, max_tries: int, progress_every: int, quiet: bool
+) -> tuple[list[str], int, int]:
     first = ean8_from_base(start)
     target = hash_fnv1a_c_style(first) % HASH_SIZE
     out = [first]
     tries = 1
     n = start + 1
+
+    if not quiet:
+        print(
+            f"Collision search started: target_bucket={target}, "
+            f"goal={count}, max_tries={max_tries}",
+            flush=True,
+        )
 
     while len(out) < count and tries < max_tries:
         if n > 9_999_999:
@@ -40,6 +49,11 @@ def find_colliding_eans(start: int, count: int, max_tries: int) -> tuple[list[st
         ean = ean8_from_base(n)
         if hash_fnv1a_c_style(ean) % HASH_SIZE == target:
             out.append(ean)
+        if not quiet and progress_every > 0 and tries % progress_every == 0:
+            print(
+                f"Collision search progress: tries={tries}, found={len(out)}/{count}",
+                flush=True,
+            )
         tries += 1
         n += 1
 
@@ -76,6 +90,17 @@ def main() -> int:
     parser.add_argument("--count", type=int, default=200, help="How many colliding EANs to generate.")
     parser.add_argument("--start", type=int, default=1000000, help="Starting 7-digit base for EAN-8 generation.")
     parser.add_argument("--max-tries", type=int, default=20000000, help="Max candidates to scan for collisions.")
+    parser.add_argument(
+        "--progress-every",
+        type=int,
+        default=500000,
+        help="Print search progress every N candidates (0 disables progress).",
+    )
+    parser.add_argument(
+        "--quiet",
+        action="store_true",
+        help="Disable intermediate progress messages.",
+    )
     parser.add_argument("--timeout", type=int, default=120, help="Execution timeout in seconds.")
     args = parser.parse_args()
 
@@ -87,7 +112,9 @@ def main() -> int:
         print("count must be >= 1")
         return 2
 
-    eans, bucket, tries = find_colliding_eans(args.start, args.count, args.max_tries)
+    eans, bucket, tries = find_colliding_eans(
+        args.start, args.count, args.max_tries, args.progress_every, args.quiet
+    )
     if len(eans) < args.count:
         print(
             f"Could not find {args.count} collisions for one bucket within {args.max_tries} tries "

@@ -15,7 +15,14 @@ def ean8_from_base(n: int) -> str:
     return base + str(cd)
 
 
-def build_input(path: Path, products: int, invoices: int, base_start: int) -> tuple[str, str]:
+def build_input(
+    path: Path,
+    products: int,
+    invoices: int,
+    base_start: int,
+    progress_every: int,
+    quiet: bool,
+) -> tuple[str, str]:
     main_ean = ean8_from_base(base_start)
     extra_ean = ean8_from_base(base_start + products)
     stock = invoices + 10
@@ -25,6 +32,8 @@ def build_input(path: Path, products: int, invoices: int, base_start: int) -> tu
             ean = ean8_from_base(base_start + i)
             qty = stock if i == 0 else 1
             f.write(f"p {ean} A 1.00 {qty} P{i}\n")
+            if not quiet and progress_every > 0 and (i + 1) % progress_every == 0:
+                print(f"Input build progress (products): {i + 1}/{products}", flush=True)
         # One above MAX_PRODUCTS (10000) must fail as "invalid product"
         f.write(f"p {extra_ean} A 1.00 1 Extra\n")
 
@@ -33,6 +42,8 @@ def build_input(path: Path, products: int, invoices: int, base_start: int) -> tu
             name = f"C{i}"
             f.write(f"a {main_ean}\n")
             f.write(f"f {nif} {name}\n")
+            if not quiet and progress_every > 0 and i % progress_every == 0:
+                print(f"Input build progress (invoices): {i}/{invoices}", flush=True)
 
         f.write("r\n")
         f.write(f"c C{invoices}\n")
@@ -40,7 +51,7 @@ def build_input(path: Path, products: int, invoices: int, base_start: int) -> tu
     return main_ean, extra_ean
 
 
-def check_output(path: Path, products: int, invoices: int) -> list[str]:
+def check_output(path: Path, products: int, invoices: int, progress_every: int, quiet: bool) -> list[str]:
     errors = []
     idx_invalid_product = products
     idx_first_invoice_line = products + 1 + 1
@@ -70,6 +81,8 @@ def check_output(path: Path, products: int, invoices: int) -> list[str]:
             total_lines = i + 1
             if i in wanted:
                 got[i] = line.rstrip("\n")
+            if not quiet and progress_every > 0 and (i + 1) % progress_every == 0:
+                print(f"Output check progress: scanned {i + 1} lines", flush=True)
 
     expected_extra = "invalid product" if products >= 10000 else "1"
     if got.get(idx_invalid_product) != expected_extra:
@@ -123,6 +136,17 @@ def main() -> int:
     parser.add_argument("--invoices", type=int, default=100001, help="Number of invoices to emit")
     parser.add_argument("--base-start", type=int, default=1000000, help="Base for generating EAN-8 values")
     parser.add_argument("--timeout", type=int, default=600, help="Process timeout in seconds")
+    parser.add_argument(
+        "--progress-every",
+        type=int,
+        default=20000,
+        help="Print progress every N products/invoices/lines (0 disables progress).",
+    )
+    parser.add_argument(
+        "--quiet",
+        action="store_true",
+        help="Disable intermediate progress messages.",
+    )
     args = parser.parse_args()
 
     exe = Path(args.exe)
@@ -138,11 +162,26 @@ def main() -> int:
         in_path = td_path / "scale.in"
         out_path = td_path / "scale.out"
 
-        main_ean, extra_ean = build_input(in_path, args.products, args.invoices, args.base_start)
-        print(
-            f"Running scale test: products={args.products}, invoices={args.invoices}, "
-            f"main_ean={main_ean}, extra_ean={extra_ean}"
+        if not args.quiet:
+            print(
+                f"Running scale test: products={args.products}, invoices={args.invoices}, "
+                f"main_ean_base={args.base_start}",
+                flush=True,
+            )
+            print("Building input file...", flush=True)
+        main_ean, extra_ean = build_input(
+            in_path,
+            args.products,
+            args.invoices,
+            args.base_start,
+            args.progress_every,
+            args.quiet,
         )
+        if not args.quiet:
+            print(
+                f"Input build done: main_ean={main_ean}, extra_ean={extra_ean}. Running executable...",
+                flush=True,
+            )
 
         with in_path.open("rb") as fin, out_path.open("wb") as fout:
             proc = subprocess.run(
@@ -158,7 +197,15 @@ def main() -> int:
                 print(proc.stderr.decode("utf-8", errors="replace"))
             return 1
 
-        errors = check_output(out_path, args.products, args.invoices)
+        if not args.quiet:
+            print("Execution done. Checking output...", flush=True)
+        errors = check_output(
+            out_path,
+            args.products,
+            args.invoices,
+            args.progress_every,
+            args.quiet,
+        )
         if errors:
             print("Scale test FAILED:")
             for err in errors:

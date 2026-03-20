@@ -15,13 +15,17 @@ CMD_LIST_PREFIX ?= comando_
 STRESS_RUNS ?= 1000
 STRESS_STEPS ?= 1250
 STRESS_SEED ?= $(shell date +%s)
+STRESS_PROGRESS_EVERY ?= 25
 SCALE_PRODUCTS ?= 10000
 SCALE_INVOICES ?= 100001
-FUZZ_CASES ?= 400
-FUZZ_LINES ?= 300
+SCALE_PROGRESS_EVERY ?= 20000
+FUZZ_CASES ?= 1200
+FUZZ_LINES ?= 900
 FUZZ_SEED ?= $(shell date +%s)
+FUZZ_PROGRESS_EVERY ?= 50
 COLLISIONS_COUNT ?= 200
 COLLISIONS_START ?= 1000000
+COLLISIONS_PROGRESS_EVERY ?= 500000
 ASAN_EXE ?= ../proj_asan
 ASAN_SRC ?= ../../project.c
 SRC_CACHE_FILE ?= .resolved_src
@@ -142,26 +146,26 @@ python:
 stress: resolve-exe
 	@echo "stress seed: $(STRESS_SEED)"
 	@exe=$$(cat "$(EXE_CACHE_FILE)"); \
-	python3 random_stress.py --exe "$$exe" --runs $(STRESS_RUNS) --steps $(STRESS_STEPS) --seed $(STRESS_SEED) && \
+	python3 random_stress.py --exe "$$exe" --runs $(STRESS_RUNS) --steps $(STRESS_STEPS) --seed $(STRESS_SEED) --progress-every $(STRESS_PROGRESS_EVERY) && \
 	echo "1 stress test passed, 0 stress tests failed" || \
 	{ echo "0 stress tests passed, 1 stress tests failed"; exit 1; }
 
 scale: resolve-exe
 	@exe=$$(cat "$(EXE_CACHE_FILE)"); \
-	python3 scale_limits.py --exe "$$exe" --products $(SCALE_PRODUCTS) --invoices $(SCALE_INVOICES) && \
+	python3 scale_limits.py --exe "$$exe" --products $(SCALE_PRODUCTS) --invoices $(SCALE_INVOICES) --progress-every $(SCALE_PROGRESS_EVERY) && \
 	echo "1 scale test passed, 0 scale tests failed" || \
 	{ echo "0 scale tests passed, 1 scale tests failed"; exit 1; }
 
 fuzz-parse: resolve-exe
 	@echo "fuzz seed: $(FUZZ_SEED)"
 	@exe=$$(cat "$(EXE_CACHE_FILE)"); \
-	python3 fuzz_parse.py --exe "$$exe" --cases $(FUZZ_CASES) --max-lines $(FUZZ_LINES) --seed $(FUZZ_SEED) && \
+	python3 fuzz_parse.py --exe "$$exe" --cases $(FUZZ_CASES) --max-lines $(FUZZ_LINES) --seed $(FUZZ_SEED) --progress-every $(FUZZ_PROGRESS_EVERY) && \
 	echo "1 fuzz-parse test passed, 0 fuzz-parse tests failed" || \
 	{ echo "0 fuzz-parse tests passed, 1 fuzz-parse tests failed"; exit 1; }
 
 scale-collisions: resolve-exe
 	@exe=$$(cat "$(EXE_CACHE_FILE)"); \
-	python3 scale_collisions.py --exe "$$exe" --count $(COLLISIONS_COUNT) --start $(COLLISIONS_START) && \
+	python3 scale_collisions.py --exe "$$exe" --count $(COLLISIONS_COUNT) --start $(COLLISIONS_START) --progress-every $(COLLISIONS_PROGRESS_EVERY) && \
 	echo "1 scale-collisions test passed, 0 scale-collisions tests failed" || \
 	{ echo "0 scale-collisions tests passed, 1 scale-collisions tests failed"; exit 1; }
 
@@ -173,10 +177,10 @@ asan: resolve-src
 	$(MAKE) EXE="$(ASAN_EXE)" EXE_CACHE_FILE=".resolved_exe_asan" manual TESTS="$(ASAN_MANUAL_TESTS)" && \
 	passed=$$((passed + 1)) || failed=$$((failed + 1)); \
 	ASAN_OPTIONS=detect_leaks=0:halt_on_error=1:abort_on_error=1 UBSAN_OPTIONS=halt_on_error=1 \
-	python3 fuzz_parse.py --exe $(ASAN_EXE) --cases $(ASAN_FUZZ_CASES) --max-lines $(ASAN_FUZZ_LINES) --seed $(FUZZ_SEED) && \
+	python3 fuzz_parse.py --exe $(ASAN_EXE) --cases $(ASAN_FUZZ_CASES) --max-lines $(ASAN_FUZZ_LINES) --seed $(FUZZ_SEED) --progress-every $(FUZZ_PROGRESS_EVERY) && \
 	passed=$$((passed + 1)) || failed=$$((failed + 1)); \
 	ASAN_OPTIONS=detect_leaks=0:halt_on_error=1:abort_on_error=1 UBSAN_OPTIONS=halt_on_error=1 \
-	python3 scale_collisions.py --exe $(ASAN_EXE) --count $(ASAN_COLLISIONS_COUNT) --start $(COLLISIONS_START) && \
+	python3 scale_collisions.py --exe $(ASAN_EXE) --count $(ASAN_COLLISIONS_COUNT) --start $(COLLISIONS_START) --progress-every $(COLLISIONS_PROGRESS_EVERY) && \
 	passed=$$((passed + 1)) || failed=$$((failed + 1)); \
 	echo "$$passed asan tests passed, $$failed asan tests failed"; \
 	if [ $$failed -ne 0 ]; then \

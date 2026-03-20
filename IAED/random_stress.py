@@ -545,6 +545,17 @@ def main() -> int:
         default="stress-failures",
         help="Directory where failing cases are written.",
     )
+    parser.add_argument(
+        "--progress-every",
+        type=int,
+        default=25,
+        help="Print progress every N runs (0 disables progress).",
+    )
+    parser.add_argument(
+        "--quiet",
+        action="store_true",
+        help="Disable intermediate progress messages.",
+    )
     args = parser.parse_args()
 
     exe = Path(args.exe)
@@ -561,7 +572,7 @@ def main() -> int:
                 f"See {fail_dir}/seed_{args.seed}_run_{run_id}.*"
             )
             return 1
-        if (run_id + 1) % 25 == 0:
+        if not args.quiet and args.progress_every > 0 and (run_id + 1) % args.progress_every == 0:
             print(f"passed {run_id + 1}/{args.runs} runs")
 
     print(f"All random stress runs passed: runs={args.runs}, steps={args.steps}, seed={args.seed}")
