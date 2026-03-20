@@ -1,2 +1,5 @@
+Objetivo:
 Execução com ficheiro de IVA personalizado contendo apenas o código E.
+
+O que testa:
 Confirma tabela de IVA em r e rejeição de IVA A quando não está definido nesse ficheiro.

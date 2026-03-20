@@ -1,2 +1,5 @@
+Objetivo:
 Comando d com identificador de fatura no formato +1.
+
+O que testa:
 Valida parse de sinal positivo e atualizacao correta do resumo em r apos apagar a fatura.

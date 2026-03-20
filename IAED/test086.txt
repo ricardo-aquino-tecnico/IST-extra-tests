@@ -1,2 +1,5 @@
+Objetivo:
 Insercao minima de produto seguida de terminacao.
+
+O que testa:
 Valida fluxo basico do comando p sem interferencia de outros comandos.

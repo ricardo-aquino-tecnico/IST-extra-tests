@@ -1,2 +1,5 @@
+Objetivo:
 Remocao total de stock de produto com d <ean> <quantidade>.
+
+O que testa:
 Valida apagamento do produto do catalogo e erro em l para EAN ja removido.

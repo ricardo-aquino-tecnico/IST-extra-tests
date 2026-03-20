@@ -1,2 +1,5 @@
+Objetivo:
 Atualizacao de descricao com produto em cesto sem alterar preco.
+
+O que testa:
 Garante que a alteracao permitida reflete no cesto e em r.

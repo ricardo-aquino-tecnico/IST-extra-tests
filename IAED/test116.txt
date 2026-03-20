@@ -1,2 +1,5 @@
+Objetivo:
 Comando l com argumentos wildcard repetidos.
+
+O que testa:
 Confirma que os resultados sao impressos para cada argumento, incluindo repeticoes.

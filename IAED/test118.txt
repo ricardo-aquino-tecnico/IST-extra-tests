@@ -1,2 +1,5 @@
+Objetivo:
 Faturacao com nome de cliente entre aspas, minusculo e com espaco.
+
+O que testa:
 Confirma que nomes validos nao precisam de maiuscula e sao filtraveis no comando c.

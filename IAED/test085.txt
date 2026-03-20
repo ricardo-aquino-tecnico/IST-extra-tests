@@ -1,2 +1,5 @@
+Objetivo:
 Comando f com nome "error" e NIF explícito válido.
+
+O que testa:
 Garante devolução integral do cesto, ausência de factura e consistência dos resumos/listagem de cliente.

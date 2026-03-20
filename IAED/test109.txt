@@ -1,2 +1,5 @@
+Objetivo:
 Limite de comprimento da descricao no comando p.
+
+O que testa:
 Valida aceitacao de 50 bytes e rejeicao de 51 bytes com "invalid description".

@@ -1,2 +1,5 @@
+Objetivo:
 Comando d sobre produto presente no cesto.
+
+O que testa:
 Verifica prioridade do erro "product in use" mesmo com quantidade de remoção inválida para o stock.

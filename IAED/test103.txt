@@ -1,2 +1,5 @@
+Objetivo:
 Comando f com nome numerico entre aspas, seguido de faturacao valida.
+
+O que testa:
 Garante erro "invalid name", cesto preservado e fecho posterior correto.

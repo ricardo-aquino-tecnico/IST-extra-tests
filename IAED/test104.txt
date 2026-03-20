@@ -1,2 +1,5 @@
+Objetivo:
 Comando f com dois argumentos na ordem invalida e na ordem valida.
+
+O que testa:
 Verifica rejeicao quando o primeiro argumento vem entre aspas.

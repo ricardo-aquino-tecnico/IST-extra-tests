@@ -1,2 +1,5 @@
+Objetivo:
 Precedencia de erros no comando a com quantidade nao numerica e EAN invalido.
+
+O que testa:
 Garante "invalid ean" antes de "invalid quantity" quando ambos poderiam ocorrer.

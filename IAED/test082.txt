@@ -1,2 +1,5 @@
+Objetivo:
 Comando l com mistura de wildcard, EAN exato e wildcard sem match.
+
+O que testa:
 Valida ordem por argumento e erro por wildcard sem produto.

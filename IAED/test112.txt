@@ -1,2 +1,5 @@
+Objetivo:
 Comando c sem faturas no sistema.
+
+O que testa:
 Confirma que c nao imprime nada sem filtro e devolve "<nome>: no such client" com filtro.

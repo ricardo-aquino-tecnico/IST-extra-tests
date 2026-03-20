@@ -1,2 +1,5 @@
+Objetivo:
 Wildcards com '?' para comprimentos especificos de EAN.
+
+O que testa:
 Confirma match para 8 digitos e falha para tamanho diferente.

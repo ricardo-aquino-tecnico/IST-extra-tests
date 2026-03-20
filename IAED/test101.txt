@@ -1,2 +1,5 @@
+Objetivo:
 Tentativa de apagar produto que esta em uso no cesto.
+
+O que testa:
 Confirma bloqueio por "product in use" e consistencia apos faturar e apagar fatura.

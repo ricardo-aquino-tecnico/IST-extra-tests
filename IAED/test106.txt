@@ -1,2 +1,5 @@
+Objetivo:
 Comando d com quantidade fora do intervalo int e formatos assinados.
+
+O que testa:
 Valida rejeicao de overflow e aceitacao de +2 e 0002.

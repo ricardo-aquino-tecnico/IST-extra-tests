@@ -1,2 +1,5 @@
+Objetivo:
 Comando l com wildcard "*" explicito e sem argumentos.
+
+O que testa:
 Confirma equivalencia de comportamento e ordem de criacao em ambos os formatos.

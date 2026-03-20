@@ -1,2 +1,5 @@
+Objetivo:
 Interacao entre faturacao, resumo global, apagar fatura e reduzir produto.
+
+O que testa:
 Confirma atualizacao consistente de totais e erros de inexistencia apos remocao.

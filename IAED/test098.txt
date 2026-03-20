@@ -1,2 +1,5 @@
+Objetivo:
 Comando f com dois argumentos e NIF invalido.
+
+O que testa:
 Garante erro de NIF e preservacao do cesto.

@@ -1,2 +1,5 @@
+Objetivo:
 Apagar factura após duas emissões.
+
+O que testa:
 Verifica atualização de totais em r, manutenção de contador total de facturas emitidas e filtragem em c.

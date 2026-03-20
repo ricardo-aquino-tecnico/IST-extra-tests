@@ -1,2 +1,5 @@
+Objetivo:
 Comando a com quantidade zero seguido de tentativa de remocao invalida.
+
+O que testa:
 Verifica tolerancia a 0 e erro quando se tenta remover sem quantidade no cesto.

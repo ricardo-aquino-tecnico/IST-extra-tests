@@ -1,2 +1,5 @@
+Objetivo:
 Comando a com quantidade explicita positiva com sinal e valores fora de int.
+
+O que testa:
 Valida parse de +2, rejeicao de overflow e remocao completa do cesto.

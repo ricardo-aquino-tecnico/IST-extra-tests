@@ -1,2 +1,5 @@
+Objetivo:
 Validação de nomes inválidos no comando c (string vazia e token iniciado por dígito).
+
+O que testa:
 Inclui um fluxo intermédio com f para garantir que as validações não dependem de não existir facturas.

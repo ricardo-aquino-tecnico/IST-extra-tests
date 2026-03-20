@@ -1,2 +1,5 @@
+Objetivo:
 Adição e remoção no cesto até quantidade total zero.
+
+O que testa:
 Confirma impressão com quantidade zero, ocultação no "a" sem argumentos e consistência no resumo do produto.

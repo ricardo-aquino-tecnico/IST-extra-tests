@@ -1,2 +1,5 @@
+Objetivo:
 Adicao e remocao total do mesmo produto no cesto com quantidades assinadas.
+
+O que testa:
 Confirma reposicao de stock e estado final sem vendas em r.

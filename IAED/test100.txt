@@ -1,2 +1,5 @@
+Objetivo:
 Apagar fatura intermedia e emitir nova fatura do mesmo cliente.
+
+O que testa:
 Verifica que IDs nao sao reutilizados e listagem de cliente permanece correta.

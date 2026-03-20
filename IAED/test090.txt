@@ -1,2 +1,5 @@
+Objetivo:
 Resumo r com EAN invalido e com EAN valido inexistente.
+
+O que testa:
 Garante validacao de formato antes da procura no catalogo.

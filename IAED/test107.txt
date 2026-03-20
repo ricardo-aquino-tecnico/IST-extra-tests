@@ -1,2 +1,5 @@
+Objetivo:
 Listagem l * quando os produtos ficam sem stock disponivel.
+
+O que testa:
 Confirma que produtos a zero ou apenas no cesto nao aparecem na listagem.

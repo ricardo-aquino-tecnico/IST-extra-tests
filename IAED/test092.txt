@@ -1,2 +1,5 @@
+Objetivo:
 Varias faturas para clientes diferentes e repetidos.
+
+O que testa:
 Verifica ordenacao em c, filtro por cliente e erro de nome mal formado.

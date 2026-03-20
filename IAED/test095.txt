@@ -1,2 +1,5 @@
+Objetivo:
 Descricao iniciada por letra maiuscula vs minuscula em UTF-8.
+
+O que testa:
 Valida rejeicao de descricao com inicial minuscula.

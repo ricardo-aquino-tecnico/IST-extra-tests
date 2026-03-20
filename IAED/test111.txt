@@ -1,2 +1,5 @@
+Objetivo:
 Listagem do cesto (a sem argumentos) com produtos inseridos fora de ordem.
+
+O que testa:
 Verifica ordenacao por EAN e ausencia de duplicados no resumo do cesto.

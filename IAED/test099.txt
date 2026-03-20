@@ -1,2 +1,5 @@
+Objetivo:
 Faturacao repetida com nome entre aspas e espaco.
+
+O que testa:
 Confirma persistencia do nome completo e filtro correto em c.
