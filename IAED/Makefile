@@ -37,12 +37,12 @@ ASAN_FUZZ_LINES ?= 180
 ASAN_COLLISIONS_COUNT ?= 120
 STATUS_TABLE_FUNC = \
 print_status_table() { \
-	arg_col_width=62; \
+	arg_col_width=46; \
 	status_header="$$1"; \
 	shift; \
-	printf "+------------------+------------------+----------------------------------------------------------------+\n"; \
-	printf "| %-16s | %-16s | %-62s |\n" "Test Part" "$$status_header" "Arguments"; \
-	printf "+------------------+------------------+----------------------------------------------------------------+\n"; \
+	printf "+------------------+----------------------------------+------------------------------------------------+\n"; \
+	printf "| %-16s | %-32s | %-46s |\n" "Test Part" "$$status_header" "Arguments"; \
+	printf "+------------------+----------------------------------+------------------------------------------------+\n"; \
 	while [ -n "$$1" ] && [ -n "$$2" ] && [ -n "$$3" ]; do \
 		part="$$1"; \
 		status="$$2"; \
@@ -57,16 +57,16 @@ print_status_table() { \
 			arg2="$$(printf '%s\n' "$$wrapped" | sed -n '2p')"; \
 			arg3="$$(printf '%s\n' "$$wrapped" | sed -n '3p')"; \
 			if [ -n "$$arg3" ]; then \
-				arg2="$${arg2:0:59}..."; \
+				arg2="$${arg2:0:43}..."; \
 			fi; \
 		fi; \
-		printf "| %-16s | %-16s | %-62s |\n" "$$part" "$$status" "$$arg1"; \
+		printf "| %-16s | %-32s | %-46s |\n" "$$part" "$$status" "$$arg1"; \
 		if [ -n "$$arg2" ]; then \
-			printf "| %-16s | %-16s | %-62s |\n" "" "" "$$arg2"; \
+			printf "| %-16s | %-32s | %-46s |\n" "" "" "$$arg2"; \
 		fi; \
 		shift 3; \
 	done; \
-	printf "+------------------+------------------+----------------------------------------------------------------+\n"; \
+	printf "+------------------+----------------------------------+------------------------------------------------+\n"; \
 }; \
 now_ms() { \
 	python3 -c 'import time; print(int(time.time() * 1000))'; \
@@ -95,6 +95,26 @@ all:
 	t1=$$(now_ms); collisions_ms="$$(($$t1 - $$t0))"; collisions_time="$${collisions_ms}ms"; \
 	sum_ms=$$((manual_ms + stress_ms + scale_ms + fuzz_ms + collisions_ms)); \
 	status_header="Status ($${sum_ms}ms)"; \
+	manual_tests_total=$$(echo "$(TESTS)" | wc -w | tr -d ' '); \
+	stress_tests_total=$(STRESS_RUNS); \
+	scale_tests_total=1; \
+	fuzz_tests_total=$(FUZZ_CASES); \
+	collisions_tests_total=1; \
+	manual_word="tests"; if [ "$$manual_tests_total" -eq 1 ]; then manual_word="test"; fi; \
+	stress_word="tests"; if [ "$$stress_tests_total" -eq 1 ]; then stress_word="test"; fi; \
+	scale_word="tests"; if [ "$$scale_tests_total" -eq 1 ]; then scale_word="test"; fi; \
+	fuzz_word="tests"; if [ "$$fuzz_tests_total" -eq 1 ]; then fuzz_word="test"; fi; \
+	collisions_word="tests"; if [ "$$collisions_tests_total" -eq 1 ]; then collisions_word="test"; fi; \
+	if [ "$$manual_status" = "PASS" ]; then manual_label="PASS ($${manual_tests_total} $${manual_word})"; else manual_label="$$manual_status"; fi; \
+	if [ "$$stress_status" = "PASS" ]; then stress_label="PASS ($${stress_tests_total} $${stress_word})"; else stress_label="$$stress_status"; fi; \
+	if [ "$$scale_status" = "PASS" ]; then scale_label="PASS ($${scale_tests_total} $${scale_word})"; else scale_label="$$scale_status"; fi; \
+	if [ "$$fuzz_status" = "PASS" ]; then fuzz_label="PASS ($${fuzz_tests_total} $${fuzz_word})"; else fuzz_label="$$fuzz_status"; fi; \
+	if [ "$$collisions_status" = "PASS" ]; then collisions_label="PASS ($${collisions_tests_total} $${collisions_word})"; else collisions_label="$$collisions_status"; fi; \
+	printf -v manual_status_disp "%-16s %s" "$$manual_label" "$$manual_time"; \
+	printf -v stress_status_disp "%-16s %s" "$$stress_label" "$$stress_time"; \
+	printf -v scale_status_disp "%-16s %s" "$$scale_label" "$$scale_time"; \
+	printf -v fuzz_status_disp "%-16s %s" "$$fuzz_label" "$$fuzz_time"; \
+	printf -v collisions_status_disp "%-16s %s" "$$collisions_label" "$$collisions_time"; \
 	stress_args="runs $(STRESS_RUNS) steps $(STRESS_STEPS) seed $(STRESS_SEED) progress-every $(STRESS_PROGRESS_EVERY) timeout $(STRESS_TIMEOUT)"; \
 	scale_args="products $(SCALE_PRODUCTS) invoices $(SCALE_INVOICES) progress-every $(SCALE_PROGRESS_EVERY)"; \
 	fuzz_args="cases $(FUZZ_CASES) max-lines $(FUZZ_LINES) seed $(FUZZ_SEED) progress-every $(FUZZ_PROGRESS_EVERY)"; \
@@ -103,11 +123,11 @@ all:
 	echo "All tests summary:"; \
 	print_status_table \
 		"$$status_header" \
-		"manual" "$$manual_status $$manual_time" "-" \
-		"stress" "$$stress_status $$stress_time" "$$stress_args" \
-		"scale" "$$scale_status $$scale_time" "$$scale_args" \
-		"fuzz-parse" "$$fuzz_status $$fuzz_time" "$$fuzz_args" \
-		"scale-collisions" "$$collisions_status $$collisions_time" "$$collisions_args"; \
+		"manual" "$$manual_status_disp" "-" \
+		"stress" "$$stress_status_disp" "$$stress_args" \
+		"scale" "$$scale_status_disp" "$$scale_args" \
+		"fuzz-parse" "$$fuzz_status_disp" "$$fuzz_args" \
+		"scale-collisions" "$$collisions_status_disp" "$$collisions_args"; \
 	echo ""; \
 	if [ "$$manual_status" = "PASS" ]; then \
 		echo "Manual tests Passed"; \
