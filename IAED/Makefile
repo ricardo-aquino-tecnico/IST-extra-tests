@@ -383,75 +383,80 @@ clean::
 	rm -rf *.diff *.myout $(LOG) $(FAIL_LOG)
 
 export:
-	@echo "Exporting failed tests to export/ directory..."
-	@rm -rf export
-	@mkdir -p export
-	@if [ -s "$(FAIL_LOG)" ]; then \
-		while IFS= read -r t; do \
-			base="$${t%.in}"; \
-			[ -f "$$base.in" ] && cp "$$base.in" export/ || :; \
-			[ -f "$$base.out" ] && cp "$$base.out" export/ || :; \
-			[ -f "$$base.myout" ] && cp "$$base.myout" export/ || :; \
-			[ -f "$$base.diff" ] && cp "$$base.diff" export/ || :; \
-			[ -f "$$base.txt" ] && cp "$$base.txt" export/ || :; \
-			[ -f "$$base.arg" ] && cp "$$base.arg" export/ || :; \
-		done < "$(FAIL_LOG)"; \
-		mv "$(FAIL_LOG)" export/; \
-		echo "Manual failed tests exported."; \
-	else \
-		echo "No manual failed tests to export."; \
-	fi
-	@echo "Extracting Python failures..."
-	@rm -f export/python_failures.txt
-	@has_py_fail=0; \
+	@has_manual_fail=0; \
+	if [ -s "$(FAIL_LOG)" ]; then has_manual_fail=1; fi; \
+	has_py_fail=0; \
 	for d in stress-failures scale-failures collisions-failures fuzz-failures; do \
 		if [ -d "$$d" ]; then \
-			for f in "$$d"/*.in; do \
-				if [ -f "$$f" ]; then \
-					has_py_fail=1; \
-					echo "========================================" >> export/python_failures.txt; \
-					echo "File: $$f" >> export/python_failures.txt; \
-					seed=$$(echo "$$f" | grep -o 'seed_[0-9]*' | cut -d'_' -f2); \
-					echo "Seed: $$seed" >> export/python_failures.txt; \
-					echo "Cases:" >> export/python_failures.txt; \
-					cat "$$f" >> export/python_failures.txt; \
-					echo "" >> export/python_failures.txt; \
-				fi; \
-			done; \
+			if ls "$$d"/*.in >/dev/null 2>&1; then has_py_fail=1; fi; \
 		fi; \
 	done; \
-	if [ $$has_py_fail -eq 1 ]; then \
-		echo "Python failures exported to export/python_failures.txt"; \
+	if [ $$has_manual_fail -eq 0 ] && [ $$has_py_fail -eq 0 ]; then \
+		echo "✔ Não há testes falhados para exportar."; \
 	else \
-		echo "No Python failures found."; \
-	fi
-	@zip_done=0; \
-	if [ "$(AUTO_ZIP)" = "1" ]; then \
-		zip_name="export_$$(date +%Y-%m-%d_%H-%M-%S).zip"; \
-		zip -r "$$zip_name" export > /dev/null 2>&1; \
-		zip_done=1; \
-		echo "✔ Ficheiro $$zip_name criado automaticamente."; \
-	else \
-		read -r -p "Queres criar um ficheiro zip com os testes exportados? [y/N] " ans; \
-		if [ "$$ans" = "y" ] || [ "$$ans" = "Y" ]; then \
+		echo "Exporting failed tests to export/ directory..."; \
+		rm -rf export; \
+		mkdir -p export; \
+		if [ $$has_manual_fail -eq 1 ]; then \
+			while IFS= read -r t; do \
+				base="$${t%.in}"; \
+				[ -f "$$base.in" ] && cp "$$base.in" export/ || :; \
+				[ -f "$$base.out" ] && cp "$$base.out" export/ || :; \
+				[ -f "$$base.myout" ] && cp "$$base.myout" export/ || :; \
+				[ -f "$$base.diff" ] && cp "$$base.diff" export/ || :; \
+				[ -f "$$base.txt" ] && cp "$$base.txt" export/ || :; \
+				[ -f "$$base.arg" ] && cp "$$base.arg" export/ || :; \
+			done < "$(FAIL_LOG)"; \
+			mv "$(FAIL_LOG)" export/; \
+			echo "Manual failed tests exported."; \
+		fi; \
+		if [ $$has_py_fail -eq 1 ]; then \
+			echo "Extracting Python failures..."; \
+			for d in stress-failures scale-failures collisions-failures fuzz-failures; do \
+				if [ -d "$$d" ]; then \
+					for f in "$$d"/*.in; do \
+						if [ -f "$$f" ]; then \
+							echo "========================================" >> export/python_failures.txt; \
+							echo "File: $$f" >> export/python_failures.txt; \
+							seed=$$(echo "$$f" | grep -o 'seed_[0-9]*' | cut -d'_' -f2); \
+							echo "Seed: $$seed" >> export/python_failures.txt; \
+							echo "Cases:" >> export/python_failures.txt; \
+							cat "$$f" >> export/python_failures.txt; \
+							echo "" >> export/python_failures.txt; \
+						fi; \
+					done; \
+				fi; \
+			done; \
+			echo "Python failures exported to export/python_failures.txt"; \
+		fi; \
+		zip_done=0; \
+		if [ "$(AUTO_ZIP)" = "1" ]; then \
 			zip_name="export_$$(date +%Y-%m-%d_%H-%M-%S).zip"; \
 			zip -r "$$zip_name" export > /dev/null 2>&1; \
 			zip_done=1; \
-			echo "✔ Ficheiro $$zip_name criado."; \
-		fi; \
-	fi; \
-	if [ "$$zip_done" -eq 1 ]; then \
-		read -r -p "Queres apagar a pasta export/ original? [y/N] " apagar; \
-		if [ "$$apagar" = "y" ] || [ "$$apagar" = "Y" ]; then \
-			rm -rf export; \
-			echo "✔ Pasta export/ apagada."; \
+			echo "✔ Ficheiro $$zip_name criado automaticamente."; \
 		else \
-			echo "  $$(pwd)/export preservado."; \
+			read -r -p "Queres criar um ficheiro zip com os testes exportados? [y/N] " ans; \
+			if [ "$$ans" = "y" ] || [ "$$ans" = "Y" ]; then \
+				zip_name="export_$$(date +%Y-%m-%d_%H-%M-%S).zip"; \
+				zip -r "$$zip_name" export > /dev/null 2>&1; \
+				zip_done=1; \
+				echo "✔ Ficheiro $$zip_name criado."; \
+			fi; \
 		fi; \
+		if [ "$$zip_done" -eq 1 ]; then \
+			read -r -p "Queres apagar a pasta export/ original? [y/N] " apagar; \
+			if [ "$$apagar" = "y" ] || [ "$$apagar" = "Y" ]; then \
+				rm -rf export; \
+				echo "✔ Pasta export/ apagada."; \
+			else \
+				echo "  $$(pwd)/export preservado."; \
+			fi; \
+		fi; \
+		echo "========================================"; \
+		echo "✔ Export complete."; \
+		echo "========================================"; \
 	fi
-	@echo "========================================"
-	@echo "✔ Export complete."
-	@echo "========================================"
 
 export-zip:
 	@$(MAKE) $(MFLAGS) export AUTO_ZIP=1
