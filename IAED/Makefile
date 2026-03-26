@@ -2,7 +2,7 @@
 MAKEFLAGS += --no-print-directory
 SHELL := /bin/bash
 .DEFAULT_GOAL := manual-tests
-.PHONY: all quick manual manual-tests resolve-exe resolve-src python stress scale fuzz-parse scale-collisions asan clean p l a r f c d export
+.PHONY: all quick manual manual-tests resolve-exe resolve-src python stress scale fuzz-parse scale-collisions asan clean p l a r f c d export export-zip zip
 OK="\e[1;32mtest $< PASSED\e[0m"
 KO="\e[1;31mtest $< FAILED\e[0m"
 FAIL=0
@@ -12,6 +12,10 @@ EXE_CACHE_FILE ?= .resolved_exe
 LOG=tests.log
 FAIL_LOG=tests_failed.log
 TESTS ?= $(sort $(wildcard test*.in))
+
+ifeq ($(filter zip,$(MAKECMDGOALS)),zip)
+AUTO_ZIP := 1
+endif
 CMD_LIST_PREFIX ?= comando_
 STRESS_RUNS ?= 1000
 STRESS_STEPS ?= 1250
@@ -418,7 +422,36 @@ export:
 	else \
 		echo "No Python failures found."; \
 	fi
+	@zip_done=0; \
+	if [ "$(AUTO_ZIP)" = "1" ]; then \
+		zip_name="export_$$(date +%Y-%m-%d_%H-%M-%S).zip"; \
+		zip -r "$$zip_name" export > /dev/null 2>&1; \
+		zip_done=1; \
+		echo "✔ Ficheiro $$zip_name criado automaticamente."; \
+	else \
+		read -r -p "Queres criar um ficheiro zip com os testes exportados? [y/N] " ans; \
+		if [ "$$ans" = "y" ] || [ "$$ans" = "Y" ]; then \
+			zip_name="export_$$(date +%Y-%m-%d_%H-%M-%S).zip"; \
+			zip -r "$$zip_name" export > /dev/null 2>&1; \
+			zip_done=1; \
+			echo "✔ Ficheiro $$zip_name criado."; \
+		fi; \
+	fi; \
+	if [ "$$zip_done" -eq 1 ]; then \
+		read -r -p "Queres apagar a pasta export/ original? [y/N] " apagar; \
+		if [ "$$apagar" = "y" ] || [ "$$apagar" = "Y" ]; then \
+			rm -rf export; \
+			echo "✔ Pasta export/ apagada."; \
+		else \
+			echo "  $$(pwd)/export preservado."; \
+		fi; \
+	fi
 	@echo "========================================"
-	@echo "✔ Export complete. Ficheiros guardados com sucesso no diretório:"
-	@echo "  $$(pwd)/export"
+	@echo "✔ Export complete."
 	@echo "========================================"
+
+export-zip:
+	@$(MAKE) $(MFLAGS) export AUTO_ZIP=1
+
+zip:
+	@:
