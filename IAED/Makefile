@@ -12,6 +12,7 @@ EXE_CACHE_FILE ?= .resolved_exe
 LOG=tests.log
 FAIL_LOG=tests_failed.log
 TESTS ?= $(sort $(wildcard test*.in))
+ORIG_GOALS ?= $(if $(MAKECMDGOALS),$(MAKECMDGOALS),$(.DEFAULT_GOAL))
 
 ifeq ($(filter zip,$(MAKECMDGOALS)),zip)
 AUTO_ZIP := 1
@@ -44,9 +45,10 @@ print_status_table() { \
 	arg_col_width=46; \
 	status_header="$$1"; \
 	shift; \
-	printf "+------------------+----------------------------------+------------------------------------------------+\n"; \
-	printf "| %-16s | %-32s | %-46s |\n" "Test Part" "$$status_header" "Arguments"; \
-	printf "+------------------+----------------------------------+------------------------------------------------+\n"; \
+	arg_header="Arguments ($(ORIG_GOALS))"; \
+	printf "+------------------+----------------------------+------------------------------------------------+\n"; \
+	printf "| %-16s | %-26s | %-46s |\n" "Test Part" "$$status_header" "$$arg_header"; \
+	printf "+------------------+----------------------------+------------------------------------------------+\n"; \
 	while [ -n "$$1" ] && [ -n "$$2" ] && [ -n "$$3" ]; do \
 		part="$$1"; \
 		status="$$2"; \
@@ -64,13 +66,13 @@ print_status_table() { \
 				arg2="$${arg2:0:43}..."; \
 			fi; \
 		fi; \
-		printf "| %-16s | %-32s | %-46s |\n" "$$part" "$$status" "$$arg1"; \
+		printf "| %-16s | %-26s | %-46s |\n" "$$part" "$$status" "$$arg1"; \
 		if [ -n "$$arg2" ]; then \
-			printf "| %-16s | %-32s | %-46s |\n" "" "" "$$arg2"; \
+			printf "| %-16s | %-26s | %-46s |\n" "" "" "$$arg2"; \
 		fi; \
 		shift 3; \
 	done; \
-	printf "+------------------+----------------------------------+------------------------------------------------+\n"; \
+	printf "+------------------+----------------------------+------------------------------------------------+\n"; \
 }; \
 now_ms() { \
 	python3 -c 'import time; print(int(time.time() * 1000))'; \
@@ -145,7 +147,7 @@ all:
 	test $$failed -eq 0
 
 quick:
-	@$(MAKE) $(MFLAGS) all \
+	@$(MAKE) $(MFLAGS) all ORIG_GOALS=quick \
 		STRESS_RUNS=8 STRESS_STEPS=120 STRESS_PROGRESS_EVERY=2 \
 		SCALE_PRODUCTS=500 SCALE_INVOICES=1200 SCALE_PROGRESS_EVERY=0 \
 		FUZZ_CASES=40 FUZZ_LINES=120 FUZZ_PROGRESS_EVERY=10 \
