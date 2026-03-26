@@ -389,6 +389,7 @@ export:
 			base="$${t%.in}"; \
 			[ -f "$$base.in" ] && cp "$$base.in" export/ || :; \
 			[ -f "$$base.out" ] && cp "$$base.out" export/ || :; \
+			[ -f "$$base.myout" ] && cp "$$base.myout" export/ || :; \
 			[ -f "$$base.diff" ] && cp "$$base.diff" export/ || :; \
 			[ -f "$$base.txt" ] && cp "$$base.txt" export/ || :; \
 			[ -f "$$base.arg" ] && cp "$$base.arg" export/ || :; \
