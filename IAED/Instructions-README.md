@@ -23,6 +23,65 @@ make all
 
 ```
 
+### Para uma validação superficial rápida (`quick`):
+
+Corre o conjunto completo de testes, mas com limites e execuções muito reduzidas para obteres uma resposta em poucos segundos:
+
+```bash
+make quick
+
+```
+
+### Para correr apenas a suite Python:
+
+Corre os scripts Python de testes automáticos em conjunto (`stress`, `scale`, `fuzz-parse` e `scale-collisions`):
+
+```bash
+make python
+
+```
+
+### Para extrair os testes que falharam (`export` e `export-zip`):
+
+Se quiseres reunir todos os casos de teste em que o teu programa falhou (incluindo manuais e de Python) numa pasta isolada (`export/`), usa:
+
+```bash
+make export
+```
+
+Ou, se preferires extrair e gerar automaticamente um ficheiro comprimido `.zip` sem qualquer prompt, limpando de seguida a pasta:
+
+```bash
+make export-zip
+```
+
+### Para validação de memória rigorosa (`asan`):
+
+Compila o código com as *flags* de *AddressSanitizer/UBSan* e corre vários testes (manuais e python) de forma exaustiva para tentar detetar *memory leaks*, falhas de segmentação ou acessos indevidos à memória:
+
+```bash
+make asan
+```
+
+### Para executar os scripts Python individualmente:
+
+Se precisares de voltar a focar-te num problema detetado por um único script da suite Python, podes correr esse passo isoladamente:
+
+```bash
+make stress
+make scale
+make fuzz-parse
+make scale-collisions
+```
+
+### Para limpar os ficheiros temporários gerados (`clean`):
+
+Limpa de forma rápida todo o teu diretório de ficheiros perdidos (`*.myout`, `*.diff`), apaga os ficheiros de *logs* de erros e limpa as pastas de exportação criadas:
+
+```bash
+make clean
+```
+
 ### Correr testes individualmente ou em conjunto:
 
 Exemplo:

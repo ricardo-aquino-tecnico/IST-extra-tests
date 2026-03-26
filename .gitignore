@@ -40,6 +40,10 @@ __pycache__/
 .idea/
 cmake-build-*/
 
+# Exportação gerada pelo Makefile
+export/
+*.zip
+
 # Ignore all hidden files and directories
 .*
 
