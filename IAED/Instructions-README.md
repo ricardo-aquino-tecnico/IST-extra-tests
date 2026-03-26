@@ -43,16 +43,21 @@ make python
 
 ### Para extrair os testes que falharam (`export` e `export-zip`):
 
-Se quiseres reunir todos os casos de teste em que o teu programa falhou (incluindo manuais e de Python) numa pasta isolada (`export/`), usa:
+Se quiseres reunir todos os casos de teste que falharam numa pasta isolada (`export/`), podes executar a operação isoladamente (baseada em registos da execução anterior), ou podes conjugar com qualquer pacote de testes (`manual`, `python`, `all`, `asan`). A opção de exportação bloqueia a paragem forçada por erro e arquiva tudo no fim:
 
 ```bash
+# Exportar baseando num teste corrido previamente
 make export
+
+# Testar APENAS os testes manuais e, caso existam erros, prosseguir para a exportação
+make manual export
 ```
 
-Ou, se preferires extrair e gerar automaticamente um ficheiro comprimido `.zip` sem qualquer prompt, limpando de seguida a pasta:
+Se preferires extrair e gerar imediatamente um ficheiro comprimido `.zip` sem *prompts* de diálogo (limpando a pasta `export/` original no decorrer), basta utilizares `export-zip`:
 
 ```bash
-make export-zip
+# Correr TODO o ambiente e extrair as piores falhas num zip limpo
+make all export-zip
 ```
 
 ### Para validação de memória rigorosa (`asan`):
