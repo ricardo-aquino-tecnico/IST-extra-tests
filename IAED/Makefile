@@ -2,7 +2,7 @@
 MAKEFLAGS += --no-print-directory
 SHELL := /bin/bash
 .DEFAULT_GOAL := manual-tests
-.PHONY: all quick manual manual-tests resolve-exe resolve-src python stress scale fuzz-parse scale-collisions asan clean p l a r f c d
+.PHONY: all quick manual manual-tests resolve-exe resolve-src python stress scale fuzz-parse scale-collisions asan clean p l a r f c d export
 OK="\e[1;32mtest $< PASSED\e[0m"
 KO="\e[1;31mtest $< FAILED\e[0m"
 FAIL=0
@@ -375,3 +375,50 @@ asan: resolve-src
 
 clean::
 	rm -rf *.diff *.myout $(LOG) $(FAIL_LOG)
+
+export:
+	@echo "Exporting failed tests to export/ directory..."
+	@rm -rf export
+	@mkdir -p export
+	@if [ -s "$(FAIL_LOG)" ]; then \
+		while IFS= read -r t; do \
+			base="$${t%.in}"; \
+			[ -f "$$base.in" ] && cp "$$base.in" export/ || :; \
+			[ -f "$$base.out" ] && cp "$$base.out" export/ || :; \
+			[ -f "$$base.diff" ] && cp "$$base.diff" export/ || :; \
+			[ -f "$$base.txt" ] && cp "$$base.txt" export/ || :; \
+			[ -f "$$base.arg" ] && cp "$$base.arg" export/ || :; \
+		done < "$(FAIL_LOG)"; \
+		mv "$(FAIL_LOG)" export/; \
+		echo "Manual failed tests exported."; \
+	else \
+		echo "No manual failed tests to export."; \
+	fi
+	@echo "Extracting Python failures..."
+	@rm -f export/python_failures.txt
+	@has_py_fail=0; \
+	for d in stress-failures scale-failures collisions-failures fuzz-failures; do \
+		if [ -d "$$d" ]; then \
+			for f in "$$d"/*.in; do \
+				if [ -f "$$f" ]; then \
+					has_py_fail=1; \
+					echo "========================================" >> export/python_failures.txt; \
+					echo "File: $$f" >> export/python_failures.txt; \
+					seed=$$(echo "$$f" | grep -o 'seed_[0-9]*' | cut -d'_' -f2); \
+					echo "Seed: $$seed" >> export/python_failures.txt; \
+					echo "Cases:" >> export/python_failures.txt; \
+					cat "$$f" >> export/python_failures.txt; \
+					echo "" >> export/python_failures.txt; \
+				fi; \
+			done; \
+		fi; \
+	done; \
+	if [ $$has_py_fail -eq 1 ]; then \
+		echo "Python failures exported to export/python_failures.txt"; \
+	else \
+		echo "No Python failures found."; \
+	fi
+	@echo "========================================"
+	@echo "✔ Export complete. Ficheiros guardados com sucesso no diretório:"
+	@echo "  $$(pwd)/export"
+	@echo "========================================"
