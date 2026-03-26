@@ -17,6 +17,9 @@ ORIG_GOALS ?= $(if $(MAKECMDGOALS),$(MAKECMDGOALS),$(.DEFAULT_GOAL))
 ifeq ($(filter zip,$(MAKECMDGOALS)),zip)
 AUTO_ZIP := 1
 endif
+ifneq ($(filter export export-zip zip,$(MAKECMDGOALS)),)
+EXPORTING := 1
+endif
 CMD_LIST_PREFIX ?= comando_
 STRESS_RUNS ?= 1000
 STRESS_STEPS ?= 1250
@@ -144,7 +147,7 @@ all:
 		echo "Manual suite failed before per-test execution"; \
 	fi; \
 	echo "$$passed/$$total parts passed, $$failed/$$total parts failed"; \
-	test $$failed -eq 0
+	if [ $$failed -ne 0 ]; then if [ "$(EXPORTING)" != "1" ]; then exit 1; fi; fi
 
 quick:
 	@$(MAKE) $(MFLAGS) all ORIG_GOALS=quick \
@@ -176,7 +179,7 @@ manual: clean resolve-exe
 	echo "$$passed tests passed, $$failed tests failed"; \
 	if [ $$failed -ne 0 ]; then \
 		echo "Manual suite FAILED: $$failed test(s) failed. 'make' returns Error 1 on purpose."; \
-		exit 1; \
+		if [ "$(EXPORTING)" != "1" ]; then exit 1; fi; \
 	else \
 		echo "Manual suite PASSED."; \
 	fi
@@ -292,7 +295,7 @@ python:
 	echo "$$passed/$$total parts passed, $$failed/$$total parts failed"; \
 	if [ $$failed -ne 0 ]; then \
 		echo "Python suite FAILED: $$failed test(s) failed. 'make' returns Error 1 on purpose."; \
-		exit 1; \
+		if [ "$(EXPORTING)" != "1" ]; then exit 1; fi; \
 	else \
 		echo "Python suite PASSED."; \
 	fi
@@ -369,7 +372,7 @@ asan: resolve-src
 	echo "$$passed/$$total parts passed, $$failed/$$total parts failed"; \
 	if [ $$failed -ne 0 ]; then \
 		echo "ASAN suite FAILED: $$failed test(s) failed. 'make' returns Error 1 on purpose."; \
-		exit 1; \
+		if [ "$(EXPORTING)" != "1" ]; then exit 1; fi; \
 	else \
 		echo "ASAN suite PASSED."; \
 	fi
