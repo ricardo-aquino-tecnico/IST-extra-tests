@@ -7,7 +7,7 @@ FAIL=0
 EXE ?=
 EXE_NAME ?= proj
 EXE_CACHE_FILE ?= .resolved_exe
-LOG=tests.log
+
 FAIL_LOG=tests_failed.log
 COMPARE_FAIL_LOG=compare_failed.log
 STATS_FILE=test_stats.txt
@@ -162,8 +162,7 @@ quick:
 		COLLISIONS_COUNT=20 COLLISIONS_PROGRESS_EVERY=0
 
 manual: clean resolve-exe
-	@rm -f $(LOG) $(FAIL_LOG)
-	@touch $(LOG)
+	@rm -f $(FAIL_LOG)
 	@touch $(FAIL_LOG)
 	@exe=$$(cat "$(EXE_CACHE_FILE)"); \
 	for i in $(TESTS); do \
@@ -172,7 +171,7 @@ manual: clean resolve-exe
 		if [ -f "$$base.out" ]; then diff "$$base.myout" "$$base.out" > "$$base.diff" || :; \
 		else rm -f "$$base.diff"; echo "diff: $$base.out: No such file or directory"; fi; \
 		if [ ! -f "$$base.diff" ] || [ `wc -l < "$$base.diff"` -eq 0 ]; then \
-			echo -e "\e[1;32mtest $$i PASSED\e[0m"; echo "$$base" >> "$(LOG)"; \
+			echo -e "\e[1;32mtest $$i PASSED\e[0m"; \
 			rm -f "$$base.diff" "$$base.myout"; \
 		else \
 			echo -e "\e[1;31mtest $$i FAILED\e[0m"; echo "$$i" >> "$(FAIL_LOG)"; \
@@ -180,8 +179,8 @@ manual: clean resolve-exe
 		fi; \
 	done
 	@total=`echo "$(TESTS)" | wc -w`; \
-	passed=`wc -l < $(LOG)`; \
-	failed=`expr $$total - $$passed`; \
+	failed=`wc -l < $(FAIL_LOG)`; \
+	passed=`expr $$total - $$failed`; \
 	echo "$$passed tests passed, $$failed tests failed"; \
 	if [ $$failed -ne 0 ]; then \
 		echo "Manual suite FAILED: $$failed test(s) failed. 'make' returns Error 1 on purpose."; \
@@ -413,7 +412,7 @@ asan: resolve-src
 
 
 clean::
-	rm -rf *.diff *.myout *.cmpdiff $(LOG) $(FAIL_LOG) $(COMPARE_FAIL_LOG) $(STATS_FILE) *.gcno *.gcda *.gcov
+	rm -rf *.diff *.myout *.cmpdiff $(FAIL_LOG) $(COMPARE_FAIL_LOG) $(STATS_FILE) *.gcno *.gcda *.gcov
 
 export:
 	@has_manual_fail=0; \
