@@ -1,0 +1,18 @@
+10
+10
+10
+10
+10
+invalid ean
+D 0.50 1 0.62 TestBoundary50
+C 1.50 1 1.70 TestBoundary150
+B 2.50 1 2.65 TestBoundary250
+D 3.50 1 4.31 TestBoundary350
+D 0.40 3 1.48 TestBoundaryQty3
+invalid ean
+7 10.76 1
+7 1 10.76
+A 0%
+B 6%
+C 13%
+D 23%
