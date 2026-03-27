@@ -173,6 +173,7 @@ manual: clean resolve-exe
 		else rm -f "$$base.diff"; echo "diff: $$base.out: No such file or directory"; fi; \
 		if [ ! -f "$$base.diff" ] || [ `wc -l < "$$base.diff"` -eq 0 ]; then \
 			echo -e "\e[1;32mtest $$i PASSED\e[0m"; echo "$$base" >> "$(LOG)"; \
+			rm -f "$$base.diff" "$$base.myout"; \
 		else \
 			echo -e "\e[1;31mtest $$i FAILED\e[0m"; echo "$$i" >> "$(FAIL_LOG)"; \
 			if [ $(FAIL) -eq 1 ]; then exit 1; fi; \
