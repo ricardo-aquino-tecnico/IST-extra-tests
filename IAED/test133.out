@@ -1,0 +1,15 @@
+10
+invalid ean
+30
+A 1.00 5 5.00 Item A
+invalid ean
+product in use
+invalid ean
+12345678 A 1.00 5 5 Item A
+40170721 A 3.00 0 30 Item C
+invalid ean
+12345678 A 1.00 5 5 Item A
+40170721 A 3.00 0 30 Item C
+A 1.00 10 10.00 Item A
+product in use
+40170721 A 3.00 0 30 Item C

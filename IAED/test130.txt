@@ -1,0 +1,1 @@
+Valida as fronteiras exatas (0.50, 1.50) e multiplicadores de quantidade no cálculo do arredondamento do IVA.

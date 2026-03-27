@@ -1,0 +1,16 @@
+p 5601009943319 A 1.00 100 Produto Normal
+f "Cliente" Com" "Aspas"""
+f        Espacos    em        excesso     
+f   UTF8 ção ção e tal
+f 999999999 Cliente final omitido o nif no input
+f 123456789 João
+f 987654321 João
+f 111111111 Ana
+f 222222222 Ana
+f 333333333 Bernardo
+c João
+c Ana
+c "*"
+c "J?ão"
+c "?na"
+q

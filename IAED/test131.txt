@@ -1,0 +1,1 @@
+Testa os recortes superiores das variáveis (limites máximos de inteiros, preçários bilionários) e os comportamentos perante overflow.

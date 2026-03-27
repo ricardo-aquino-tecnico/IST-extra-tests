@@ -1,0 +1,1 @@
+Verifica falhas de eliminação cruzada quando o stock total esgota mas existem cativos no cesto de compras.

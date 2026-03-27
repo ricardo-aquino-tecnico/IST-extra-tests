@@ -1,0 +1,1 @@
+Valida sequências complexas no parser: duplicação de aspas, utf8 em clientes, espaçamentos excessivos e matchings com wildcards.

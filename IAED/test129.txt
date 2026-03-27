@@ -1,0 +1,1 @@
+Valida os limites matemáticos exatos no arredondamento do IVA nas meias metades (X.5 cêntimos).

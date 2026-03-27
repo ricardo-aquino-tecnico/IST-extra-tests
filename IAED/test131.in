@@ -1,0 +1,10 @@
+p 12345678 D 0.82 2147483647 Produto Z
+a 2147483647 12345678
+a 1 12345678
+p 12345678 D 0.82 1 Produto Z
+p 87654321 A 21474836.47 1 Produto Y
+a 1 87654321
+f Cliente Bilionario
+r
+c Cliente Bilionario
+q
