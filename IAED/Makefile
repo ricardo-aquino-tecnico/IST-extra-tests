@@ -1,7 +1,7 @@
 MAKEFLAGS += --no-print-directory
 SHELL := /bin/bash
 .DEFAULT_GOAL := manual-tests
-.PHONY: all quick manual manual-tests resolve-exe resolve-src python stress scale fuzz-parse scale-collisions asan clean p l a r f c d export export-zip zip compare count rerun show-diff valgrind lizard help
+.PHONY: all quick manual manual-tests resolve-exe resolve-src python stress scale fuzz-parse scale-collisions asan clean p l a r f c d export export-zip zip compare count rerun show-diff valgrind lizard coverage help
 
 FAIL=0
 EXE ?=
@@ -46,6 +46,8 @@ ASAN_FUZZ_LINES ?= 180
 ASAN_COLLISIONS_COUNT ?= 120
 VALGRIND_EXE ?= ../proj_valgrind
 VALGRIND_TESTS ?= $(TESTS)
+COVERAGE_EXE ?= ../proj_coverage
+COVERAGE_TESTS ?= $(TESTS)
 STATUS_TABLE_FUNC = \
 print_status_table() { \
 	arg_col_width=46; \
@@ -410,7 +412,7 @@ asan: resolve-src
 
 
 clean::
-	rm -rf *.diff *.myout *.cmpdiff $(LOG) $(FAIL_LOG) $(COMPARE_FAIL_LOG) $(STATS_FILE)
+	rm -rf *.diff *.myout *.cmpdiff $(LOG) $(FAIL_LOG) $(COMPARE_FAIL_LOG) $(STATS_FILE) *.gcno *.gcda *.gcov
 
 export:
 	@has_manual_fail=0; \
@@ -699,6 +701,52 @@ lizard: resolve-src
 	echo ""; \
 	lizard "$$src"
 
+coverage: resolve-src
+	@if ! command -v gcov >/dev/null 2>&1; then \
+		echo "Erro: 'gcov' não está instalado."; \
+		echo "  gcov faz parte do GCC. Instala gcc para obter gcov."; \
+		exit 1; \
+	fi; \
+	src=$$(cat "$(SRC_CACHE_FILE)"); \
+	cp "$$src" .cov_src.c; \
+	echo "Compiling with coverage instrumentation..."; \
+	gcc --coverage -g -O0 -Wall -Wextra -Wno-unused-result -o $(COVERAGE_EXE) .cov_src.c || { rm -f .cov_src.c; exit 1; }; \
+	test_count=$$(echo "$(COVERAGE_TESTS)" | wc -w | tr -d ' '); \
+	echo "Running $$test_count tests through coverage build..."; \
+	for i in $(COVERAGE_TESTS); do \
+		base=$${i%.in}; \
+		if [ -f "$$base.arg" ]; then \
+			$(COVERAGE_EXE) `cat "$$base.arg"` < "$$i" > /dev/null 2>&1 || :; \
+		else \
+			$(COVERAGE_EXE) < "$$i" > /dev/null 2>&1 || :; \
+		fi; \
+	done; \
+	echo ""; \
+	gcov .cov_src.c > /dev/null 2>&1; \
+	echo "════════════════════════════════════════"; \
+	gcov -n .cov_src.c 2>/dev/null | head -n 2; \
+	echo "════════════════════════════════════════"; \
+	echo ""; \
+	uncovered=$$(grep -c '#####' .cov_src.c.gcov 2>/dev/null || echo 0); \
+	if [ "$$uncovered" -eq 0 ]; then \
+		echo -e "\e[1;32m✔ Todas as linhas foram executadas!\e[0m"; \
+	else \
+		echo -e "\e[1;33mLinhas não executadas ($$uncovered):\e[0m"; \
+		echo ""; \
+		grep -n '#####' .cov_src.c.gcov | while IFS= read -r line; do \
+			echo -e "\e[31m  $$line\e[0m"; \
+		done; \
+	fi; \
+	echo ""; \
+	if [ -t 0 ]; then \
+		read -r -p "Guardar relatório completo em coverage_report.gcov? [y/N] " ans; \
+		if [ "$$ans" = "y" ] || [ "$$ans" = "Y" ]; then \
+			cp .cov_src.c.gcov coverage_report.gcov; \
+			echo "✔ Relatório guardado em coverage_report.gcov"; \
+		fi; \
+	fi; \
+	rm -f .cov_src.c .cov_src.gcno .cov_src.gcda .cov_src.c.gcov $(COVERAGE_EXE) $(COVERAGE_EXE)-*.gcno $(COVERAGE_EXE)-*.gcda
+
 help:
 	@echo ""
 	@echo "  Makefile — Suite de testes IAED"
@@ -737,6 +785,7 @@ help:
 	@echo "    make show-diff      Mostra os diffs dos testes falhados (colorizado)"
 	@echo "    make valgrind       Corre testes com Valgrind (deteta memory leaks)"
 	@echo "    make lizard         Analisa complexidade do código com Lizard"
+	@echo "    make coverage       Relatório de cobertura de código (gcov)"
 	@echo "    make clean          Remove ficheiros gerados (*.diff, *.myout, logs)"
 	@echo "    make help           Mostra esta ajuda"
 	@echo ""

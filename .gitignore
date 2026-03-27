@@ -14,9 +14,17 @@
 # Executáveis do projeto (gerados pelo make)
 proj
 proj_asan
+proj_valgrind
+proj_coverage
 project
 projecto.*
 project.*
+
+# Ficheiros de cobertura (gcov)
+*.gcno
+*.gcda
+*.gcov
+coverage_report.gcov
 
 # Ficheiros de Crash e Valgrind (Erros de memória)
 core

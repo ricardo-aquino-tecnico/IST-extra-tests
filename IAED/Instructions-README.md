@@ -229,6 +229,16 @@ make lizard
 
 > **Requisito:** Lizard tem de estar instalado (`pip install lizard`). O Makefile avisa automaticamente se não estiver disponível.
 
+### Cobertura de código (`coverage`):
+
+Compila o projeto com instrumentação de cobertura (`--coverage`), corre todos os testes manuais, e mostra diretamente no terminal a percentagem de cobertura e as linhas que não foram executadas (a vermelho). No final, pergunta se queres guardar o relatório completo num ficheiro:
+
+```bash
+make coverage
+```
+
+> **Requisito:** `gcov` faz parte do GCC e já está disponível se tiveres o `gcc` instalado.
+
 ---
 
 > **Nota:** Quando usam `../proj_asan`, além da lógica, estão também a testar a segurança de memória (*AddressSanitizer/UBSan*) durante estes cenários.
