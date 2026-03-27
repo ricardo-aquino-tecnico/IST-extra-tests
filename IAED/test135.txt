@@ -1,0 +1,1 @@
+Verifica os matches complexos de wildcards na listagem de produtos, cruzando máscaras de tamanho fixo (?) e variáveis (*) em EANs reais.

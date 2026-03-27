@@ -1,0 +1,12 @@
+p 12345678 A 1.00 10 Produto Original
+p 12345678 B 2.00 5 Produto Atualizado
+l
+a 2 12345678
+p 12345678 C 3.00 10 Preço Diferente
+p 12345678 B 2.00 10 Mesma Categoria Diff Descricao
+l
+a 12345678
+f Cliente
+p 12345678 A 1.00 5 Volta Ao Normal
+l
+q

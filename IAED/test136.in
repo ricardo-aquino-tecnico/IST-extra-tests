@@ -1,0 +1,13 @@
+p 12345678 A 1.00 10 Produto Oito
+a 12345678
+f Cliente Inicial
+d 1
+d 1
+d 2
+p 40170721 B 2.00 5 Produto Novo
+d 40170721 10
+d 40170721 5
+l
+d 40170721 1
+d 99999999 1
+q

@@ -1,0 +1,1 @@
+Valida a lógica de atualização de produtos já existentes: incrementos de quantidade, alterações de metadados, e restrições de preço para produtos cativos no cesto.
