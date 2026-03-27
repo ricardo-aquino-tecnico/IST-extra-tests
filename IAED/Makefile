@@ -777,7 +777,6 @@ help:
 	@echo "    make export         Exporta testes falhados para export/"
 	@echo "    make export-zip     Exporta + cria zip automaticamente"
 	@echo "    make all export     Corre tudo e exporta os que falharam"
-	@echo "    make compare EXE2=path export  Compara e exporta diferenças"
 	@echo "    make count export   Inclui estatísticas na exportação"
 	@echo ""
 	@echo "  Utilidades:"
