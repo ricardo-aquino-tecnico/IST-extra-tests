@@ -1,10 +1,9 @@
-.SUFFIXES: .in .out .diff
+
 MAKEFLAGS += --no-print-directory
 SHELL := /bin/bash
 .DEFAULT_GOAL := manual-tests
 .PHONY: all quick manual manual-tests resolve-exe resolve-src python stress scale fuzz-parse scale-collisions asan clean p l a r f c d export export-zip zip compare count
-OK="\e[1;32mtest $< PASSED\e[0m"
-KO="\e[1;31mtest $< FAILED\e[0m"
+
 FAIL=0
 EXE ?=
 EXE_NAME ?= proj
@@ -22,9 +21,7 @@ endif
 ifneq ($(filter export export-zip zip,$(MAKECMDGOALS)),)
 EXPORTING := 1
 endif
-ifneq ($(filter compare,$(MAKECMDGOALS)),)
-EXPORTING := 1
-endif
+
 CMD_LIST_PREFIX ?= comando_
 STRESS_RUNS ?= 1000
 STRESS_STEPS ?= 1250
@@ -476,10 +473,6 @@ export:
 			cp "$(COMPARE_FAIL_LOG)" export/compare/; \
 			echo "Compare failures exported to export/compare/."; \
 		fi; \
-		if [ -s "$(STATS_FILE)" ]; then \
-			cp "$(STATS_FILE)" export/; \
-			echo "Test statistics exported to export/$(STATS_FILE)."; \
-		fi; \
 		zip_done=0; \
 		if [ "$(AUTO_ZIP)" = "1" ]; then \
 			zip_name="export_$$(date +%Y-%m-%d_%H-%M-%S).zip"; \
@@ -507,6 +500,11 @@ export:
 		echo "========================================"; \
 		echo "✔ Export complete."; \
 		echo "========================================"; \
+	fi; \
+	if [ -s "$(STATS_FILE)" ]; then \
+		if [ ! -d export ]; then mkdir -p export; fi; \
+		cp "$(STATS_FILE)" export/; \
+		echo "Test statistics exported to export/$(STATS_FILE)."; \
 	fi
 
 export-zip:
