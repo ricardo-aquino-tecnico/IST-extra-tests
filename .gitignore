@@ -1,6 +1,7 @@
 # Outputs dos testes
 *.myout
 *.diff
+*.cmpdiff
 *.log
 *.actual
 *.expected

@@ -137,4 +137,43 @@ make a p r f
 * **`fuzz_parse.py`:** Envia *inputs* "malformados"/ruído para testar a robustez do *parser* (garantir que não há *crashes* nem comportamento indefinido).
 * **`scale_collisions.py`:** Força muitos EANs a cair no mesmo *bucket* da *hash table* para testar colisões e verificar se a pesquisa continua correta.
 
+### Comparar dois executáveis (`compare`):
+
+Corre dois executáveis diferentes sobre os mesmos testes e compara os seus *outputs* entre si (em vez de comparar com os ficheiros `.out`). Útil para comparar a tua solução com uma implementação de referência ou uma versão anterior:
+
+```bash
+# Comparar o executável principal com outro
+make compare EXE2=/caminho/para/outro/executavel
+
+# Comparar apenas testes específicos de um comando
+make p compare EXE2=../proj_v2
+```
+
+Os testes onde os *outputs* diferem geram ficheiros `*.cmpdiff` com os detalhes das diferenças. O `compare` é compatível com o `export` — as diferenças são guardadas em `export/compare/`:
+
+```bash
+# Comparar e exportar as diferenças
+make compare EXE2=../proj_v2 export
+
+# Comparar e exportar diretamente num zip
+make compare EXE2=../proj_v2 export-zip
+```
+
+### Estatísticas da suite de testes (`count`):
+
+Mostra um resumo rápido da suite: número total de testes, testes por comando, testes com ficheiros `.arg`, e estado dos scripts Python. O resultado é também guardado em `test_stats.txt`:
+
+```bash
+make count
+```
+
+Pode ser combinado com outros comandos e com o `export` — o ficheiro `test_stats.txt` é incluído automaticamente na pasta de exportação:
+
+```bash
+# Correr tudo e incluir as estatísticas na exportação
+make all count export
+```
+
+---
+
 > **Nota:** Quando usam `../proj_asan`, além da lógica, estão também a testar a segurança de memória (*AddressSanitizer/UBSan*) durante estes cenários.

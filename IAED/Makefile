@@ -2,7 +2,7 @@
 MAKEFLAGS += --no-print-directory
 SHELL := /bin/bash
 .DEFAULT_GOAL := manual-tests
-.PHONY: all quick manual manual-tests resolve-exe resolve-src python stress scale fuzz-parse scale-collisions asan clean p l a r f c d export export-zip zip
+.PHONY: all quick manual manual-tests resolve-exe resolve-src python stress scale fuzz-parse scale-collisions asan clean p l a r f c d export export-zip zip compare count
 OK="\e[1;32mtest $< PASSED\e[0m"
 KO="\e[1;31mtest $< FAILED\e[0m"
 FAIL=0
@@ -11,6 +11,8 @@ EXE_NAME ?= proj
 EXE_CACHE_FILE ?= .resolved_exe
 LOG=tests.log
 FAIL_LOG=tests_failed.log
+COMPARE_FAIL_LOG=compare_failed.log
+STATS_FILE=test_stats.txt
 TESTS ?= $(sort $(wildcard test*.in))
 ORIG_GOALS ?= $(if $(MAKECMDGOALS),$(MAKECMDGOALS),$(.DEFAULT_GOAL))
 
@@ -18,6 +20,9 @@ ifeq ($(filter zip,$(MAKECMDGOALS)),zip)
 AUTO_ZIP := 1
 endif
 ifneq ($(filter export export-zip zip,$(MAKECMDGOALS)),)
+EXPORTING := 1
+endif
+ifneq ($(filter compare,$(MAKECMDGOALS)),)
 EXPORTING := 1
 endif
 CMD_LIST_PREFIX ?= comando_
@@ -280,6 +285,22 @@ python:
 	t1=$$(now_ms); collisions_ms="$$(($$t1 - $$t0))"; collisions_time="$${collisions_ms}ms"; \
 	sum_ms=$$((stress_ms + scale_ms + fuzz_ms + collisions_ms)); \
 	status_header="Status ($${sum_ms}ms)"; \
+	stress_tests_total=$(STRESS_RUNS); \
+	scale_tests_total=1; \
+	fuzz_tests_total=$(FUZZ_CASES); \
+	collisions_tests_total=1; \
+	stress_word="tests"; if [ "$$stress_tests_total" -eq 1 ]; then stress_word="test"; fi; \
+	scale_word="tests"; if [ "$$scale_tests_total" -eq 1 ]; then scale_word="test"; fi; \
+	fuzz_word="tests"; if [ "$$fuzz_tests_total" -eq 1 ]; then fuzz_word="test"; fi; \
+	collisions_word="tests"; if [ "$$collisions_tests_total" -eq 1 ]; then collisions_word="test"; fi; \
+	if [ "$$stress_status" = "PASS" ]; then stress_label="PASS ($${stress_tests_total} $${stress_word})"; else stress_label="$$stress_status"; fi; \
+	if [ "$$scale_status" = "PASS" ]; then scale_label="PASS ($${scale_tests_total} $${scale_word})"; else scale_label="$$scale_status"; fi; \
+	if [ "$$fuzz_status" = "PASS" ]; then fuzz_label="PASS ($${fuzz_tests_total} $${fuzz_word})"; else fuzz_label="$$fuzz_status"; fi; \
+	if [ "$$collisions_status" = "PASS" ]; then collisions_label="PASS ($${collisions_tests_total} $${collisions_word})"; else collisions_label="$$collisions_status"; fi; \
+	printf -v stress_status_disp "%-16s %s" "$$stress_label" "$$stress_time"; \
+	printf -v scale_status_disp "%-16s %s" "$$scale_label" "$$scale_time"; \
+	printf -v fuzz_status_disp "%-16s %s" "$$fuzz_label" "$$fuzz_time"; \
+	printf -v collisions_status_disp "%-16s %s" "$$collisions_label" "$$collisions_time"; \
 	stress_args="runs $(STRESS_RUNS) steps $(STRESS_STEPS) seed $(STRESS_SEED) progress-every $(STRESS_PROGRESS_EVERY) timeout $(STRESS_TIMEOUT)"; \
 	scale_args="products $(SCALE_PRODUCTS) invoices $(SCALE_INVOICES) progress-every $(SCALE_PROGRESS_EVERY)"; \
 	fuzz_args="cases $(FUZZ_CASES) max-lines $(FUZZ_LINES) seed $(FUZZ_SEED) progress-every $(FUZZ_PROGRESS_EVERY)"; \
@@ -288,10 +309,10 @@ python:
 	echo "Python suite summary:"; \
 	print_status_table \
 		"$$status_header" \
-		"stress" "$$stress_status $$stress_time" "$$stress_args" \
-		"scale" "$$scale_status $$scale_time" "$$scale_args" \
-		"fuzz-parse" "$$fuzz_status $$fuzz_time" "$$fuzz_args" \
-		"scale-collisions" "$$collisions_status $$collisions_time" "$$collisions_args"; \
+		"stress" "$$stress_status_disp" "$$stress_args" \
+		"scale" "$$scale_status_disp" "$$scale_args" \
+		"fuzz-parse" "$$fuzz_status_disp" "$$fuzz_args" \
+		"scale-collisions" "$$collisions_status_disp" "$$collisions_args"; \
 	echo "$$passed/$$total parts passed, $$failed/$$total parts failed"; \
 	if [ $$failed -ne 0 ]; then \
 		echo "Python suite FAILED: $$failed test(s) failed. 'make' returns Error 1 on purpose."; \
@@ -360,15 +381,27 @@ asan: resolve-src
 	t1=$$(now_ms); collisions_ms="$$(($$t1 - $$t0))"; collisions_time="$${collisions_ms}ms"; \
 	sum_ms=$$((manual_ms + fuzz_ms + collisions_ms)); \
 	status_header="Status ($${sum_ms}ms)"; \
+	manual_tests_total=$$(echo "$(ASAN_MANUAL_TESTS)" | wc -w | tr -d ' '); \
+	fuzz_tests_total=$(ASAN_FUZZ_CASES); \
+	collisions_tests_total=1; \
+	manual_word="tests"; if [ "$$manual_tests_total" -eq 1 ]; then manual_word="test"; fi; \
+	fuzz_word="tests"; if [ "$$fuzz_tests_total" -eq 1 ]; then fuzz_word="test"; fi; \
+	collisions_word="tests"; if [ "$$collisions_tests_total" -eq 1 ]; then collisions_word="test"; fi; \
+	if [ "$$manual_status" = "PASS" ]; then manual_label="PASS ($${manual_tests_total} $${manual_word})"; else manual_label="$$manual_status"; fi; \
+	if [ "$$fuzz_status" = "PASS" ]; then fuzz_label="PASS ($${fuzz_tests_total} $${fuzz_word})"; else fuzz_label="$$fuzz_status"; fi; \
+	if [ "$$collisions_status" = "PASS" ]; then collisions_label="PASS ($${collisions_tests_total} $${collisions_word})"; else collisions_label="$$collisions_status"; fi; \
+	printf -v manual_status_disp "%-16s %s" "$$manual_label" "$$manual_time"; \
+	printf -v fuzz_status_disp "%-16s %s" "$$fuzz_label" "$$fuzz_time"; \
+	printf -v collisions_status_disp "%-16s %s" "$$collisions_label" "$$collisions_time"; \
 	fuzz_args="cases $(ASAN_FUZZ_CASES) max-lines $(ASAN_FUZZ_LINES) seed $(FUZZ_SEED) progress-every $(FUZZ_PROGRESS_EVERY)"; \
 	collisions_args="count $(ASAN_COLLISIONS_COUNT) start $(COLLISIONS_START) progress-every $(COLLISIONS_PROGRESS_EVERY)"; \
 	echo ""; \
 	echo "ASAN suite summary:"; \
 	print_status_table \
 		"$$status_header" \
-		"manual" "$$manual_status $$manual_time" "-" \
-		"fuzz-parse" "$$fuzz_status $$fuzz_time" "$$fuzz_args" \
-		"scale-collisions" "$$collisions_status $$collisions_time" "$$collisions_args"; \
+		"manual" "$$manual_status_disp" "-" \
+		"fuzz-parse" "$$fuzz_status_disp" "$$fuzz_args" \
+		"scale-collisions" "$$collisions_status_disp" "$$collisions_args"; \
 	echo "$$passed/$$total parts passed, $$failed/$$total parts failed"; \
 	if [ $$failed -ne 0 ]; then \
 		echo "ASAN suite FAILED: $$failed test(s) failed. 'make' returns Error 1 on purpose."; \
@@ -377,13 +410,9 @@ asan: resolve-src
 		echo "ASAN suite PASSED."; \
 	fi
 
-.in.diff:
-	@-if [ -f $*.arg ]; then "$(EXE)" `cat $*.arg` < $< > $*.myout; else "$(EXE)" < $< > $*.myout; fi
-	@-diff $*.myout $*.out > $@ ||:
-	@if [ `wc -l < $@` -eq 0 ]; then echo -e $(OK); echo $* >> $(LOG); else echo -e $(KO); if [ $(FAIL) -eq 1 ]; then false; fi; fi;
 
 clean::
-	rm -rf *.diff *.myout $(LOG) $(FAIL_LOG)
+	rm -rf *.diff *.myout *.cmpdiff $(LOG) $(FAIL_LOG) $(COMPARE_FAIL_LOG) $(STATS_FILE)
 
 export:
 	@has_manual_fail=0; \
@@ -394,7 +423,9 @@ export:
 			if ls "$$d"/*.in >/dev/null 2>&1; then has_py_fail=1; fi; \
 		fi; \
 	done; \
-	if [ $$has_manual_fail -eq 0 ] && [ $$has_py_fail -eq 0 ]; then \
+	has_compare_fail=0; \
+	if [ -s "$(COMPARE_FAIL_LOG)" ]; then has_compare_fail=1; fi; \
+	if [ $$has_manual_fail -eq 0 ] && [ $$has_py_fail -eq 0 ] && [ $$has_compare_fail -eq 0 ]; then \
 		echo "✔ Não há testes falhados para exportar."; \
 	else \
 		echo "Exporting failed tests to export/ directory..."; \
@@ -432,6 +463,23 @@ export:
 			done; \
 			echo "Python failures exported to export/python_failures.txt"; \
 		fi; \
+		if [ $$has_compare_fail -eq 1 ]; then \
+			mkdir -p export/compare; \
+			while IFS= read -r t; do \
+				base="$${t%.in}"; \
+				[ -f "$$base.in" ] && cp "$$base.in" export/compare/ || :; \
+				[ -f "$$base.out" ] && cp "$$base.out" export/compare/ || :; \
+				[ -f "$$base.cmpdiff" ] && cp "$$base.cmpdiff" export/compare/ || :; \
+				[ -f "$$base.txt" ] && cp "$$base.txt" export/compare/ || :; \
+				[ -f "$$base.arg" ] && cp "$$base.arg" export/compare/ || :; \
+			done < "$(COMPARE_FAIL_LOG)"; \
+			cp "$(COMPARE_FAIL_LOG)" export/compare/; \
+			echo "Compare failures exported to export/compare/."; \
+		fi; \
+		if [ -s "$(STATS_FILE)" ]; then \
+			cp "$(STATS_FILE)" export/; \
+			echo "Test statistics exported to export/$(STATS_FILE)."; \
+		fi; \
 		zip_done=0; \
 		if [ "$(AUTO_ZIP)" = "1" ]; then \
 			zip_name="export_$$(date +%Y-%m-%d_%H-%M-%S).zip"; \
@@ -466,3 +514,105 @@ export-zip:
 
 zip:
 	@:
+
+EXE2 ?=
+EXE2_CACHE_FILE ?= .resolved_exe2
+COMPARE_TESTS ?= $(TESTS)
+
+compare: resolve-exe
+	@if [ -z "$(EXE2)" ]; then \
+		if [ -s "$(EXE2_CACHE_FILE)" ] && [ -x "$$(cat "$(EXE2_CACHE_FILE)")" ]; then \
+			exe2=$$(cat "$(EXE2_CACHE_FILE)"); \
+		else \
+			if [ ! -t 0 ]; then \
+				echo "EXE2 must be set. Usage: make compare EXE2=/path/to/second/executable"; \
+				exit 1; \
+			fi; \
+			read -r -p "Indica o caminho do segundo executável para comparar: " input; \
+			while true; do \
+				if [ -x "$$input" ]; then exe2="$$input"; break; fi; \
+				if [ -x "$$input/$(EXE_NAME)" ]; then exe2="$$input/$(EXE_NAME)"; break; fi; \
+				read -r -p "Não encontrado. Indica outro caminho: " input; \
+			done; \
+		fi; \
+	else \
+		if [ ! -x "$(EXE2)" ]; then \
+			echo "EXE2 path is not executable: $(EXE2)"; \
+			exit 1; \
+		fi; \
+		exe2="$(EXE2)"; \
+	fi; \
+	echo "$$exe2" > "$(EXE2_CACHE_FILE)"; \
+	exe1=$$(cat "$(EXE_CACHE_FILE)"); \
+	rm -f "$(COMPARE_FAIL_LOG)"; \
+	echo "Comparing:"; \
+	echo "  EXE1: $$exe1"; \
+	echo "  EXE2: $$exe2"; \
+	echo ""; \
+	total=0; same=0; differ=0; \
+	for i in $(COMPARE_TESTS); do \
+		total=$$((total + 1)); \
+		base=$${i%.in}; \
+		if [ -f "$$base.arg" ]; then \
+			"$$exe1" `cat "$$base.arg"` < "$$i" > "$$base.cmp1" 2>/dev/null; \
+			"$$exe2" `cat "$$base.arg"` < "$$i" > "$$base.cmp2" 2>/dev/null; \
+		else \
+			"$$exe1" < "$$i" > "$$base.cmp1" 2>/dev/null; \
+			"$$exe2" < "$$i" > "$$base.cmp2" 2>/dev/null; \
+		fi; \
+		if diff -q "$$base.cmp1" "$$base.cmp2" > /dev/null 2>&1; then \
+			echo -e "\e[1;32mtest $$i IDENTICAL\e[0m"; \
+			same=$$((same + 1)); \
+		else \
+			echo -e "\e[1;31mtest $$i DIFFERS\e[0m"; \
+			differ=$$((differ + 1)); \
+			diff "$$base.cmp1" "$$base.cmp2" > "$$base.cmpdiff" || :; \
+			echo "$$i" >> "$(COMPARE_FAIL_LOG)"; \
+		fi; \
+		rm -f "$$base.cmp1" "$$base.cmp2"; \
+	done; \
+	echo ""; \
+	echo "$$same/$$total identical, $$differ/$$total differ"; \
+	if [ $$differ -ne 0 ]; then \
+		echo "Diff files saved as *.cmpdiff for differing tests."; \
+		if [ "$(EXPORTING)" != "1" ]; then exit 1; fi; \
+	fi
+
+count:
+	@{ \
+	total=$$(echo "$(TESTS)" | wc -w | tr -d ' '); \
+	with_arg=$$(ls -1 test*.arg 2>/dev/null | wc -l | tr -d ' '); \
+	with_txt=$$(ls -1 test*.txt 2>/dev/null | wc -l | tr -d ' '); \
+	echo "Test suite statistics"; \
+	echo "===================="; \
+	echo "Total tests:          $$total"; \
+	echo "Tests with .arg file: $$with_arg"; \
+	echo "Tests with .txt desc: $$with_txt"; \
+	echo ""; \
+	echo "Tests per command:"; \
+	echo "--------------------"; \
+	for cmd_file in $(CMD_LIST_PREFIX)*.txt; do \
+		if [ -f "$$cmd_file" ]; then \
+			cmd=$$(echo "$$cmd_file" | sed 's/$(CMD_LIST_PREFIX)//' | sed 's/\.txt$$//'); \
+			cmd_count=$$(sed -e 's/#.*//' -e '/^[[:space:]]*$$/d' "$$cmd_file" | wc -l | tr -d ' '); \
+			printf "  %-20s %s tests\n" "$$cmd" "$$cmd_count"; \
+		fi; \
+	done; \
+	for cmd_file in "comando "*.txt; do \
+		if [ -f "$$cmd_file" ]; then \
+			cmd=$$(echo "$$cmd_file" | sed 's/comando //' | sed 's/\.txt$$//'); \
+			cmd_count=$$(sed -e 's/#.*//' -e '/^[[:space:]]*$$/d' "$$cmd_file" | wc -l | tr -d ' '); \
+			printf "  %-20s %s tests\n" "$$cmd" "$$cmd_count"; \
+		fi; \
+	done; \
+	echo ""; \
+	echo "Python test scripts:"; \
+	echo "--------------------"; \
+	for py in random_stress.py scale_limits.py fuzz_parse.py scale_collisions.py; do \
+		if [ -f "$$py" ]; then \
+			printf "  %-28s present\n" "$$py"; \
+		else \
+			printf "  %-28s missing\n" "$$py"; \
+		fi; \
+	done; \
+	} | tee "$(STATS_FILE)"
