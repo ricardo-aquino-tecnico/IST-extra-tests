@@ -178,4 +178,57 @@ make all count export
 
 ---
 
+### Re-executar testes falhados (`rerun`):
+
+Volta a correr apenas os testes que falharam na última execução (lidos de `tests_failed.log`), sem repetir toda a suite:
+
+```bash
+make rerun
+```
+
+### Ver diffs dos testes falhados (`show-diff`):
+
+Mostra o conteúdo dos diffs de todos os testes falhados diretamente no terminal, com cores (vermelho = o teu output, verde = output esperado) e a descrição do teste:
+
+```bash
+make show-diff
+```
+
+Fluxo típico de debugging:
+
+```bash
+make              # correr testes
+make show-diff    # ver o que falhou
+# ... corrigir código ...
+make rerun        # re-testar só os que falharam
+```
+
+### Deteção de memory leaks com Valgrind (`valgrind`):
+
+Compila o projeto com *debug symbols* e corre os testes manuais sob Valgrind com `--leak-check=full`. Deteta *memory leaks*, acessos inválidos e erros de memória que o ASAN com `detect_leaks=0` não apanha:
+
+```bash
+make valgrind
+```
+
+> **Requisito:** Valgrind tem de estar instalado (`brew install valgrind` no macOS ou `sudo apt install valgrind` no Ubuntu). O Makefile avisa automaticamente se não estiver disponível.
+
+Para ver os detalhes de um teste específico:
+
+```bash
+valgrind --leak-check=full ../proj_valgrind < testXXX.in
+```
+
+### Análise de complexidade com Lizard (`lizard`):
+
+Corre o [Lizard](https://github.com/terryyin/lizard) sobre o ficheiro `.c` do projeto para analisar a complexidade ciclomática, número de linhas e parâmetros de cada função:
+
+```bash
+make lizard
+```
+
+> **Requisito:** Lizard tem de estar instalado (`pip install lizard`). O Makefile avisa automaticamente se não estiver disponível.
+
+---
+
 > **Nota:** Quando usam `../proj_asan`, além da lógica, estão também a testar a segurança de memória (*AddressSanitizer/UBSan*) durante estes cenários.

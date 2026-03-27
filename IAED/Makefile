@@ -1,8 +1,7 @@
-
 MAKEFLAGS += --no-print-directory
 SHELL := /bin/bash
 .DEFAULT_GOAL := manual-tests
-.PHONY: all quick manual manual-tests resolve-exe resolve-src python stress scale fuzz-parse scale-collisions asan clean p l a r f c d export export-zip zip compare count help
+.PHONY: all quick manual manual-tests resolve-exe resolve-src python stress scale fuzz-parse scale-collisions asan clean p l a r f c d export export-zip zip compare count rerun show-diff valgrind lizard help
 
 FAIL=0
 EXE ?=
@@ -45,6 +44,8 @@ ASAN_MANUAL_TESTS ?= $(TESTS)
 ASAN_FUZZ_CASES ?= 150
 ASAN_FUZZ_LINES ?= 180
 ASAN_COLLISIONS_COUNT ?= 120
+VALGRIND_EXE ?= ../proj_valgrind
+VALGRIND_TESTS ?= $(TESTS)
 STATUS_TABLE_FUNC = \
 print_status_table() { \
 	arg_col_width=46; \
@@ -615,6 +616,89 @@ count:
 	done; \
 	} | tee "$(STATS_FILE)"
 
+rerun: resolve-exe
+	@if [ ! -s "$(FAIL_LOG)" ]; then \
+		echo "Não há testes falhados para re-executar ($(FAIL_LOG) vazio ou inexistente)."; \
+		exit 0; \
+	fi; \
+	tests=$$(tr '\n' ' ' < "$(FAIL_LOG)"); \
+	echo "Re-running failed tests: $$tests"; \
+	$(MAKE) $(MFLAGS) manual TESTS="$$tests" EXE_CACHE_FILE="$(EXE_CACHE_FILE)"
+
+show-diff:
+	@found=0; \
+	for f in *.diff; do \
+		if [ -f "$$f" ] && [ -s "$$f" ]; then \
+			found=1; \
+			base=$${f%.diff}; \
+			echo ""; \
+			echo -e "\e[1;33m════════════════════════════════════════\e[0m"; \
+			echo -e "\e[1;31m  $$base FAILED\e[0m"; \
+			if [ -f "$$base.txt" ]; then \
+				echo -e "\e[0;36m  $$(head -1 "$$base.txt")\e[0m"; \
+			fi; \
+			echo -e "\e[1;33m════════════════════════════════════════\e[0m"; \
+			while IFS= read -r line; do \
+				case "$$line" in \
+					'<'*) echo -e "\e[31m$$line\e[0m" ;; \
+					'>'*) echo -e "\e[32m$$line\e[0m" ;; \
+					*) echo "$$line" ;; \
+				esac; \
+			done < "$$f"; \
+		fi; \
+	done; \
+	if [ $$found -eq 0 ]; then \
+		echo "Não há diffs para mostrar. Todos os testes passaram ou ainda não foram executados."; \
+	fi
+
+valgrind: resolve-src
+	@if ! command -v valgrind >/dev/null 2>&1; then \
+		echo "Erro: 'valgrind' não está instalado."; \
+		echo "  macOS:  brew install valgrind"; \
+		echo "  Ubuntu: sudo apt install valgrind"; \
+		exit 1; \
+	fi; \
+	src=$$(cat "$(SRC_CACHE_FILE)"); \
+	echo "Compiling with debug symbols for Valgrind..."; \
+	gcc -g -O0 -Wall -Wextra -Wno-unused-result -o $(VALGRIND_EXE) "$$src" || exit 1; \
+	echo ""; \
+	total=0; passed=0; failed=0; \
+	for i in $(VALGRIND_TESTS); do \
+		total=$$((total + 1)); \
+		base=$${i%.in}; \
+		if [ -f "$$base.arg" ]; then \
+			vg_out=$$(valgrind --leak-check=full --error-exitcode=42 --log-fd=2 \
+				$(VALGRIND_EXE) `cat "$$base.arg"` < "$$i" > /dev/null 2>&1; echo $$?); \
+		else \
+			vg_out=$$(valgrind --leak-check=full --error-exitcode=42 --log-fd=2 \
+				$(VALGRIND_EXE) < "$$i" > /dev/null 2>&1; echo $$?); \
+		fi; \
+		if [ "$$vg_out" -eq 42 ]; then \
+			echo -e "\e[1;31mtest $$i LEAK/ERROR\e[0m"; \
+			failed=$$((failed + 1)); \
+		else \
+			echo -e "\e[1;32mtest $$i CLEAN\e[0m"; \
+			passed=$$((passed + 1)); \
+		fi; \
+	done; \
+	echo ""; \
+	echo "$$passed/$$total clean, $$failed/$$total with leaks/errors"; \
+	if [ $$failed -ne 0 ]; then \
+		echo "Corre 'valgrind --leak-check=full $(VALGRIND_EXE) < testXXX.in' para detalhes."; \
+		exit 1; \
+	fi
+
+lizard: resolve-src
+	@if ! command -v lizard >/dev/null 2>&1; then \
+		echo "Erro: 'lizard' não está instalado."; \
+		echo "  Instala com: pip install lizard"; \
+		exit 1; \
+	fi; \
+	src=$$(cat "$(SRC_CACHE_FILE)"); \
+	echo "Running Lizard complexity analysis on $$src..."; \
+	echo ""; \
+	lizard "$$src"
+
 help:
 	@echo ""
 	@echo "  Makefile — Suite de testes IAED"
@@ -649,6 +733,10 @@ help:
 	@echo "    make count export   Inclui estatísticas na exportação"
 	@echo ""
 	@echo "  Utilidades:"
+	@echo "    make rerun          Re-executa apenas os testes que falharam"
+	@echo "    make show-diff      Mostra os diffs dos testes falhados (colorizado)"
+	@echo "    make valgrind       Corre testes com Valgrind (deteta memory leaks)"
+	@echo "    make lizard         Analisa complexidade do código com Lizard"
 	@echo "    make clean          Remove ficheiros gerados (*.diff, *.myout, logs)"
 	@echo "    make help           Mostra esta ajuda"
 	@echo ""
