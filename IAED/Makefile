@@ -2,7 +2,7 @@
 MAKEFLAGS += --no-print-directory
 SHELL := /bin/bash
 .DEFAULT_GOAL := manual-tests
-.PHONY: all quick manual manual-tests resolve-exe resolve-src python stress scale fuzz-parse scale-collisions asan clean p l a r f c d export export-zip zip compare count
+.PHONY: all quick manual manual-tests resolve-exe resolve-src python stress scale fuzz-parse scale-collisions asan clean p l a r f c d export export-zip zip compare count help
 
 FAIL=0
 EXE ?=
@@ -614,3 +614,49 @@ count:
 		fi; \
 	done; \
 	} | tee "$(STATS_FILE)"
+
+help:
+	@echo ""
+	@echo "  Makefile — Suite de testes IAED"
+	@echo "  ================================"
+	@echo ""
+	@echo "  Comandos principais:"
+	@echo "    make                Corre apenas os testes manuais (default)"
+	@echo "    make all            Corre tudo: manual + stress + scale + fuzz + collisions"
+	@echo "    make quick          Igual a 'all' mas com limites reduzidos (rápido)"
+	@echo "    make python         Corre apenas a suite Python (stress/scale/fuzz/collisions)"
+	@echo "    make asan           Compila com ASAN/UBSan e corre testes de memória"
+	@echo ""
+	@echo "  Scripts Python individuais:"
+	@echo "    make stress         Teste de stress com sequências aleatórias"
+	@echo "    make scale          Teste de escala (muitos produtos/faturas)"
+	@echo "    make fuzz-parse     Fuzzing do parser com inputs malformados"
+	@echo "    make scale-collisions  Teste de colisões na hash table"
+	@echo ""
+	@echo "  Testes por comando:"
+	@echo "    make p|l|a|r|f|c|d  Corre testes específicos de cada comando"
+	@echo "                        (ex: 'make p' ou 'make a r f')"
+	@echo ""
+	@echo "  Comparação e estatísticas:"
+	@echo "    make compare EXE2=path  Compara dois executáveis nos mesmos testes"
+	@echo "    make count              Mostra estatísticas da suite de testes"
+	@echo ""
+	@echo "  Exportação:"
+	@echo "    make export         Exporta testes falhados para export/"
+	@echo "    make export-zip     Exporta + cria zip automaticamente"
+	@echo "    make all export     Corre tudo e exporta os que falharam"
+	@echo "    make compare EXE2=path export  Compara e exporta diferenças"
+	@echo "    make count export   Inclui estatísticas na exportação"
+	@echo ""
+	@echo "  Utilidades:"
+	@echo "    make clean          Remove ficheiros gerados (*.diff, *.myout, logs)"
+	@echo "    make help           Mostra esta ajuda"
+	@echo ""
+	@echo "  Variáveis úteis:"
+	@echo "    EXE=path            Caminho do executável principal"
+	@echo "    EXE2=path           Caminho do segundo executável (compare)"
+	@echo "    FAIL=1              Parar ao primeiro teste falhado"
+	@echo "    TESTS='t1.in t2.in' Correr apenas testes específicos"
+	@echo "    STRESS_RUNS=N       Número de iterações do stress (default: $(STRESS_RUNS))"
+	@echo "    FUZZ_CASES=N        Número de casos de fuzz (default: $(FUZZ_CASES))"
+	@echo ""

@@ -4,6 +4,8 @@ Se encontrarem algum teste incorreto, sintam-se à vontade para o modificar ou a
 
 Caso existam cenários em que o vosso código não passe, analisem o que está a ser testado para perceber se a falha faz sentido.
 
+> **Dica:** Corre `make help` para ver um resumo rápido de todos os comandos e variáveis disponíveis.
+
 ### Para correr apenas os testes manuais:
 ```bash
 make
