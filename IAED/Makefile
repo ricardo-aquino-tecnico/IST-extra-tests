@@ -168,7 +168,7 @@ manual: clean resolve-exe
 	for i in $(TESTS); do \
 		base=$${i%.in}; \
 		if [ -f "$$base.arg" ]; then "$$exe" `cat "$$base.arg"` < "$$i" > "$$base.myout"; else "$$exe" < "$$i" > "$$base.myout"; fi; \
-		if [ -f "$$base.out" ]; then diff "$$base.myout" "$$base.out" > "$$base.diff" || :; \
+		if [ -f "$$base.out" ]; then diff -u "$$base.myout" "$$base.out" > "$$base.diff" || :; \
 		else rm -f "$$base.diff"; echo "diff: $$base.out: No such file or directory"; fi; \
 		if [ ! -f "$$base.diff" ] || [ `wc -l < "$$base.diff"` -eq 0 ]; then \
 			echo -e "\e[1;32mtest $$i PASSED\e[0m"; \
@@ -567,7 +567,7 @@ compare: resolve-exe
 		else \
 			echo -e "\e[1;31mtest $$i DIFFERS\e[0m"; \
 			differ=$$((differ + 1)); \
-			diff "$$base.cmp1" "$$base.cmp2" > "$$base.cmpdiff" || :; \
+			diff -u "$$base.cmp1" "$$base.cmp2" > "$$base.cmpdiff" || :; \
 			echo "$$i" >> "$(COMPARE_FAIL_LOG)"; \
 		fi; \
 		rm -f "$$base.cmp1" "$$base.cmp2"; \
@@ -627,76 +627,142 @@ rerun: resolve-exe
 	echo "Re-running failed tests: $$tests"; \
 	$(MAKE) $(MFLAGS) manual TESTS="$$tests" EXE_CACHE_FILE="$(EXE_CACHE_FILE)"
 
+define PRETTY_DIFF_PY
+import os, glob, shutil
+from difflib import SequenceMatcher
+R,RED,GRN,YEL,CYN,BLD = "\033[0m","\033[31m","\033[32m","\033[33m","\033[36m","\033[1m"
+BYLW,BRED,DIM = "\033[1;33m","\033[1;31m","\033[2m"
+BGRED,BGGRN = "\033[48;5;52m","\033[48;5;22m"
+SEP = f"{BYLW}{'═'*60}{R}"
+THIN = f"{DIM}{'─'*60}{R}"
+def print_header(title, subtitle=None):
+    print(); print(SEP); print(f"{BRED}  ✗ {title}{R}")
+    if subtitle: print(f"{CYN}  {subtitle}{R}")
+    print(SEP); print()
+def print_description(p):
+    if not os.path.isfile(p): return
+    with open(p) as f: lines = f.read().strip().split("\n")
+    for l in lines: print(f"{DIM}  │ {l}{R}")
+    print(THIN)
+def highlight_inline(a, b, w):
+    at, bt = a[:w-1] if len(a)>w else a, b[:w-1] if len(b)>w else b
+    sm = SequenceMatcher(None, at, bt)
+    ep, ap = [], []
+    for op,i1,i2,j1,j2 in sm.get_opcodes():
+        if op=="equal": ep.append(at[i1:i2]); ap.append(bt[j1:j2])
+        elif op=="replace": ep.append(f"{BGGRN}{BLD}{at[i1:i2]}{R}"); ap.append(f"{BGRED}{BLD}{bt[j1:j2]}{R}")
+        elif op=="delete": ep.append(f"{BGGRN}{BLD}{at[i1:i2]}{R}")
+        elif op=="insert": ap.append(f"{BGRED}{BLD}{bt[j1:j2]}{R}")
+    if len(a)>w: ep.append(f"{DIM}…{R}")
+    if len(b)>w: ap.append(f"{DIM}…{R}")
+    return "".join(ep), "".join(ap)
+def show_input_context(in_path, first_diff_line):
+    if not os.path.isfile(in_path): return
+    with open(in_path) as f: cmds = f.read().splitlines()
+    if not cmds: return
+    idx = min(first_diff_line, len(cmds)-1)
+    # Show all commands from start to suspect+1 (state build-up matters)
+    end = min(len(cmds), idx+2)
+    show = cmds[:end]
+    print(f"\n  {YEL}📥 Input leading to first difference ({R}output line {first_diff_line+1}{YEL}):{R}")
+    if len(show) <= 8:
+        for i, cmd in enumerate(show):
+            if i == idx:
+                print(f"  {BRED}▸ {i+1:>3}: {cmd}{R}")
+            else:
+                print(f"  {DIM}  {i+1:>3}: {cmd}{R}")
+    else:
+        for i in range(3):
+            print(f"  {DIM}  {i+1:>3}: {cmds[i]}{R}")
+        print(f"  {DIM}       ... ({idx-5} more commands) ...{R}")
+        for i in range(max(3,idx-2), end):
+            if i == idx:
+                print(f"  {BRED}▸ {i+1:>3}: {cmds[i]}{R}")
+            else:
+                print(f"  {DIM}  {i+1:>3}: {cmds[i]}{R}")
+
+def sbs(exp_path, act_path, in_path=None):
+    if not os.path.isfile(exp_path) or not os.path.isfile(act_path): return
+    with open(exp_path) as f: el = f.read().splitlines()
+    with open(act_path) as f: al = f.read().splitlines()
+    total = max(len(el), len(al))
+    if total == 0: return
+    tw = shutil.get_terminal_size((100,24)).columns
+    lw = len(str(total))+1
+    max_line = max((len(l) for l in el+al), default=0)
+    cw = max(min(max_line + 4, (tw-lw-10)//2), 15)
+    print(f"  {DIM}{' '*lw} │{R} {CYN}Expected (.out){' '*(cw-15)}{R}     {YEL}Got (.myout){R}")
+    print(f"  {DIM}{' '*lw} │ {'─'*cw}  ─  {'─'*cw}{R}")
+    # Pre-compute which lines differ
+    diffs = []
+    for i in range(total):
+        e = el[i] if i<len(el) else None
+        a = al[i] if i<len(al) else None
+        diffs.append(e != a)
+    dc = 0; first_diff = None; skip_count = 0; ctx = 2  # context lines around diffs
+    def trunc(s): return (s[:cw-1]+"…" if len(s)>cw else s)
+    for i in range(total):
+        e = el[i] if i<len(el) else ""; a = al[i] if i<len(al) else ""
+        ln = f"{i+1:>{lw}}"
+        # Check if this line is near a diff (within ctx lines)
+        near_diff = any(diffs[j] for j in range(max(0,i-ctx), min(total,i+ctx+1)))
+        if e == a and not near_diff and total > 20:
+            skip_count += 1
+            continue
+        if skip_count > 0:
+            print(f"  {DIM}{'·':>{lw}} │ {'':^{cw}}  ·  ... {skip_count} lines match ...{R}")
+            skip_count = 0
+        if e == a:
+            t = trunc(e)
+            print(f"  {DIM}{ln} │ {t:<{cw}}  ·  {t}{R}")
+        else:
+            if first_diff is None: first_diff = i
+            dc += 1; mk = f"{BRED}≠{R}"
+            if i>=len(el):
+                ep2 = f"{BGGRN}    {R}"; ap2 = f"{BGRED}{BLD}{trunc(a)}{R}"; pad = cw-4
+            elif i>=len(al):
+                ep2 = f"{BGGRN}{BLD}{trunc(e)}{R}"; ap2 = f"{BGRED}    {R}"; pad = cw-min(len(e),cw)
+            else:
+                ep2, ap2 = highlight_inline(e, a, cw); pad = cw-min(len(e),cw)
+            print(f"  {BYLW}{ln}{R} │ {ep2}{' '*pad}  {mk}  {ap2}")
+    if skip_count > 0:
+        print(f"  {DIM}{'·':>{lw}} │ {'':^{cw}}  ·  ... {skip_count} lines match ...{R}")
+    print()
+    if dc: print(f"  {BYLW}{dc}{R} line(s) differ  ({len(el)} expected, {len(al)} got)")
+    if first_diff is not None and in_path:
+        show_input_context(in_path, first_diff)
+found = False
+for df in sorted(glob.glob("*.diff")):
+    if not os.path.getsize(df): continue
+    found = True; base = df.rsplit(".diff",1)[0]
+    print_header(f"{base} FAILED"); print_description(f"{base}.txt")
+    sbs(f"{base}.out", f"{base}.myout", f"{base}.in")
+for d in ["stress-failures","scale-failures","fuzz-failures","collisions-failures"]:
+    if not os.path.isdir(d): continue
+    suite = d.replace("-failures","")
+    for rf in sorted(glob.glob(f"{d}/*.reason")):
+        found = True; base = rf.rsplit(".reason",1)[0]; name = os.path.basename(base)
+        with open(rf) as f: reason = f.read().strip()
+        print_header(f"[{suite}] {name}", f"Reason: {reason}")
+        ep, op, sp, ip = f"{base}.expected", f"{base}.out", f"{base}.stderr", f"{base}.in"
+        if os.path.isfile(ep) and os.path.isfile(op): sbs(ep, op, ip)
+        elif os.path.isfile(op):
+            with open(op) as f: ls = f.readlines()
+            print(f"  {YEL}Output ({len(ls)} lines):{R}")
+            for l in ls[:20]: print(f"  {l.rstrip()}")
+            if len(ls)>20: print(f"  {DIM}... ({len(ls)} lines total){R}")
+        if os.path.isfile(sp) and os.path.getsize(sp):
+            with open(sp) as f: se = f.read().strip()
+            if se:
+                print(f"\n  {YEL}Stderr:{R}")
+                for l in se.split("\n")[:10]: print(f"  {RED}{l}{R}")
+if not found: print("Não há diffs para mostrar. Todos os testes passaram ou ainda não foram executados.")
+else: print()
+endef
+export PRETTY_DIFF_PY
+
 show-diff:
-	@found=0; \
-	for f in *.diff; do \
-		if [ -f "$$f" ] && [ -s "$$f" ]; then \
-			found=1; \
-			base=$${f%.diff}; \
-			echo ""; \
-			echo -e "\e[1;33m════════════════════════════════════════\e[0m"; \
-			echo -e "\e[1;31m  $$base FAILED\e[0m"; \
-			if [ -f "$$base.txt" ]; then \
-				echo -e "\e[0;36m  $$(head -1 "$$base.txt")\e[0m"; \
-			fi; \
-			echo -e "\e[1;33m════════════════════════════════════════\e[0m"; \
-			while IFS= read -r line; do \
-				case "$$line" in \
-					'<'*) echo -e "\e[31m$$line\e[0m" ;; \
-					'>'*) echo -e "\e[32m$$line\e[0m" ;; \
-					*) echo "$$line" ;; \
-				esac; \
-			done < "$$f"; \
-		fi; \
-	done; \
-	for d in stress-failures scale-failures fuzz-failures collisions-failures; do \
-		if [ -d "$$d" ]; then \
-			for reason_file in "$$d"/*.reason; do \
-				if [ -f "$$reason_file" ]; then \
-					found=1; \
-					base=$${reason_file%.reason}; \
-					name=$$(basename "$$base"); \
-					suite=$$(basename "$$d" -failures); \
-					echo ""; \
-					echo -e "\e[1;33m════════════════════════════════════════\e[0m"; \
-					echo -e "\e[1;31m  [$$suite] $$name FAILED\e[0m"; \
-					echo -e "\e[0;36m  Reason: $$(cat "$$reason_file")\e[0m"; \
-					echo -e "\e[1;33m════════════════════════════════════════\e[0m"; \
-					if [ -f "$$base.expected" ] && [ -f "$$base.out" ]; then \
-						diffout=$$(diff "$$base.expected" "$$base.out" | head -60); \
-						if [ -n "$$diffout" ]; then \
-							echo -e "\e[0;33m  Expected vs Actual:\e[0m"; \
-							echo "$$diffout" | while IFS= read -r line; do \
-								case "$$line" in \
-									'<'*) echo -e "\e[31m  $$line\e[0m" ;; \
-									'>'*) echo -e "\e[32m  $$line\e[0m" ;; \
-									*) echo "  $$line" ;; \
-								esac; \
-							done; \
-						fi; \
-					elif [ -f "$$base.out" ]; then \
-						out_lines=$$(wc -l < "$$base.out" | tr -d ' '); \
-						echo -e "\e[0;33m  Output ($$out_lines lines):\e[0m"; \
-						head -20 "$$base.out" | while IFS= read -r line; do \
-							echo "  $$line"; \
-						done; \
-						if [ "$$out_lines" -gt 20 ]; then \
-							echo "  ... ($$out_lines lines total, showing first 20)"; \
-						fi; \
-					fi; \
-					if [ -f "$$base.stderr" ] && [ -s "$$base.stderr" ]; then \
-						echo -e "\e[0;33m  Stderr:\e[0m"; \
-						head -10 "$$base.stderr" | while IFS= read -r line; do \
-							echo -e "\e[31m  $$line\e[0m"; \
-						done; \
-					fi; \
-				fi; \
-			done; \
-		fi; \
-	done; \
-	if [ $$found -eq 0 ]; then \
-		echo "Não há diffs para mostrar. Todos os testes passaram ou ainda não foram executados."; \
-	fi
+	@echo "$$PRETTY_DIFF_PY" | python3
 
 valgrind: resolve-src
 	@if ! command -v valgrind >/dev/null 2>&1; then \
