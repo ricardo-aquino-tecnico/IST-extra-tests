@@ -132,13 +132,10 @@ class Model:
 
     @staticmethod
     def _total_with_iva(price_cents: int, qty: int, iva_code: str) -> int:
-        # Mirror project.c floating-point path and symmetric cent rounding.
-        base = (price_cents / 100.0) * qty
-        taxed = base * (100.0 + TAX[iva_code]) / 100.0
-        cents = taxed * 100.0
-        if cents >= 0:
-            return int(cents + 0.5 + 1e-12)
-        return int(cents - 0.5 - 1e-12)
+        # Mirror project.c integer path: n = price_cents * qty * (100 + iva_pct);
+        # return (n + 50) / 100;
+        n = price_cents * qty * (100 + TAX[iva_code])
+        return (n + 50) // 100
 
     def cmd_a_list(self):
         lines = []
