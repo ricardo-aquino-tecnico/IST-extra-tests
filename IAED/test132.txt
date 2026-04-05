@@ -1,1 +1,9 @@
-Valida sequências complexas no parser: duplicação de aspas, utf8 em clientes, espaçamentos excessivos e matchings com wildcards.
+Objetivo:
+Validar sequências complexas no parser: aspas, UTF-8 em clientes, espaçamentos excessivos e wildcards.
+
+O que testa:
+- Nomes com aspas mal formadas → `invalid name`.
+- Entrada com espaços em excesso → `invalid name`.
+- Entrada com caracteres UTF-8 não-alfabéticos no nome → `invalid name`.
+- `c` com wildcards e padrões no nome → `invalid name` ou `no such client`.
+- Faturas vazias (cesto sem produtos adicionados) com NIF explícito.

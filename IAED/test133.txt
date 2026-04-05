@@ -1,1 +1,8 @@
-Verifica falhas de eliminação cruzada quando o stock total esgota mas existem cativos no cesto de compras.
+Objetivo:
+Verificar falhas de eliminação cruzada quando o stock total esgota mas existem cativos no cesto.
+
+O que testa:
+- Produto no cesto impede `d` do produto (`product in use`).
+- EAN-8 com checksum inválido rejeitado em `a` e `d`.
+- `l` mostra apenas produtos com stock > 0.
+- Adicionar mais ao cesto e tentar apagar novamente.

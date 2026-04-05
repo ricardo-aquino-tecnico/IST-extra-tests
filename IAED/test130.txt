@@ -1,1 +1,7 @@
-Valida as fronteiras exatas (0.50, 1.50) e multiplicadores de quantidade no cálculo do arredondamento do IVA.
+Objetivo:
+Validar fronteiras exatas (0.50, 1.50) e multiplicadores de quantidade no cálculo do arredondamento do IVA.
+
+O que testa:
+- Preços com IVA D (23%), C (13%), B (6%) aplicados a valores limítrofes.
+- Quantidade multiplicada no preço total com IVA.
+- EAN inválido rejeitado no meio do fluxo.

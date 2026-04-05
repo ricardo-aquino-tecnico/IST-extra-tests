@@ -1,1 +1,8 @@
-Valida a lógica de atualização de produtos já existentes: incrementos de quantidade, alterações de metadados, e restrições de preço para produtos cativos no cesto.
+Objetivo:
+Validar lógica de atualização de produtos existentes: incrementos de quantidade, alterações de metadados e restrições.
+
+O que testa:
+- `p` com EAN existente incrementa stock e atualiza IVA/preço/descrição.
+- `product in use` ao tentar atualizar produto no cesto.
+- Após facturar, atualização volta a funcionar.
+- `l` reflete os dados mais recentes.

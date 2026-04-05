@@ -1,1 +1,7 @@
-Valida os limites matemáticos exatos no arredondamento do IVA nas meias metades (X.5 cêntimos).
+Objetivo:
+Validar limites matemáticos no arredondamento do IVA nas meias metades (X.5 cêntimos).
+
+O que testa:
+- EANs de 13 dígitos com checksum inválido são rejeitados.
+- Tentativa de adicionar ao cesto produtos inexistentes.
+- `f` com nome com espaço sem aspas trata primeira palavra como NIF.

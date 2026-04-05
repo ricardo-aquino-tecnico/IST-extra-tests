@@ -1,1 +1,9 @@
-Verifica os matches complexos de wildcards na listagem de produtos, cruzando máscaras de tamanho fixo (?) e variáveis (*) em EANs reais.
+Objetivo:
+Verificar matches complexos de wildcards na listagem de produtos.
+
+O que testa:
+- `l ????????` encontra apenas EAN-8.
+- `l ?????????????` encontra apenas EAN-13.
+- Wildcards `*` em várias posições: início, meio, fim.
+- `l *` lista todos os produtos disponíveis.
+- EAN-13 com checksum inválido rejeitado no `p`.

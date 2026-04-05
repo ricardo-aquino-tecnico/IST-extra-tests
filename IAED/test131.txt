@@ -1,1 +1,8 @@
-Testa os recortes superiores das variáveis (limites máximos de inteiros, preçários bilionários) e os comportamentos perante overflow.
+Objetivo:
+Testar recortes superiores das variáveis (limites máximos de inteiros) e comportamentos perante overflow.
+
+O que testa:
+- Stock com valor INT_MAX (2147483647).
+- `a` com quantidade INT_MAX seguido de `a 1` quando já não há stock.
+- EAN inválido rejeitado para EAN-8 com checksum errado.
+- `f` com nome com espaço sem aspas → NIF inválido.

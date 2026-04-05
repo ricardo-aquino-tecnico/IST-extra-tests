@@ -1,1 +1,9 @@
-Teste rigoroso aos limites do comando 'd' (deleteRegistry): eliminação repetida de faturas e de produtos além do seu stock, validando as mensagens de erro esperadas.
+Objetivo:
+Teste rigoroso aos limites do comando `d` (deleteRegistry).
+
+O que testa:
+- Eliminação de fatura e tentativa de eliminar novamente (`no such invoice`).
+- `d <ean> <qtd>` com quantidade superior ao stock → `invalid quantity`.
+- `d <ean> <qtd>` com qtd == stock remove o produto.
+- Produto removido dá `no such product` em `d` subsequente.
+- EAN-8 com checksum inválido rejeitado em `d`.
