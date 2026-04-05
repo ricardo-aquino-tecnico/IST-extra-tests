@@ -649,6 +649,51 @@ show-diff:
 			done < "$$f"; \
 		fi; \
 	done; \
+	for d in stress-failures scale-failures fuzz-failures collisions-failures; do \
+		if [ -d "$$d" ]; then \
+			for reason_file in "$$d"/*.reason; do \
+				if [ -f "$$reason_file" ]; then \
+					found=1; \
+					base=$${reason_file%.reason}; \
+					name=$$(basename "$$base"); \
+					suite=$$(basename "$$d" -failures); \
+					echo ""; \
+					echo -e "\e[1;33m════════════════════════════════════════\e[0m"; \
+					echo -e "\e[1;31m  [$$suite] $$name FAILED\e[0m"; \
+					echo -e "\e[0;36m  Reason: $$(cat "$$reason_file")\e[0m"; \
+					echo -e "\e[1;33m════════════════════════════════════════\e[0m"; \
+					if [ -f "$$base.expected" ] && [ -f "$$base.out" ]; then \
+						diffout=$$(diff "$$base.expected" "$$base.out" | head -60); \
+						if [ -n "$$diffout" ]; then \
+							echo -e "\e[0;33m  Expected vs Actual:\e[0m"; \
+							echo "$$diffout" | while IFS= read -r line; do \
+								case "$$line" in \
+									'<'*) echo -e "\e[31m  $$line\e[0m" ;; \
+									'>'*) echo -e "\e[32m  $$line\e[0m" ;; \
+									*) echo "  $$line" ;; \
+								esac; \
+							done; \
+						fi; \
+					elif [ -f "$$base.out" ]; then \
+						out_lines=$$(wc -l < "$$base.out" | tr -d ' '); \
+						echo -e "\e[0;33m  Output ($$out_lines lines):\e[0m"; \
+						head -20 "$$base.out" | while IFS= read -r line; do \
+							echo "  $$line"; \
+						done; \
+						if [ "$$out_lines" -gt 20 ]; then \
+							echo "  ... ($$out_lines lines total, showing first 20)"; \
+						fi; \
+					fi; \
+					if [ -f "$$base.stderr" ] && [ -s "$$base.stderr" ]; then \
+						echo -e "\e[0;33m  Stderr:\e[0m"; \
+						head -10 "$$base.stderr" | while IFS= read -r line; do \
+							echo -e "\e[31m  $$line\e[0m"; \
+						done; \
+					fi; \
+				fi; \
+			done; \
+		fi; \
+	done; \
 	if [ $$found -eq 0 ]; then \
 		echo "Não há diffs para mostrar. Todos os testes passaram ou ainda não foram executados."; \
 	fi
