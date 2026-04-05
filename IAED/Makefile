@@ -782,7 +782,8 @@ if has_py and os.environ.get("ONLY_MANUAL") != "1":
         sys.stderr.write(f"\n  {BRED}Existem falhas nos testes em Python.{R} Ver as diferenças? (y/N) ")
         try: ans = input().strip()
         except EOFError: ans = "N"
-        if ans.lower() != "y": sys.exit(0)
+        if ans.lower() != "y": py_dirs = []
+    
     for d in py_dirs:
         if not os.path.isdir(d): continue
         suite = d.replace("-failures","")
