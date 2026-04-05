@@ -688,7 +688,7 @@ def highlight_inline(a, b, w):
     for op,i1,i2,j1,j2 in sm.get_opcodes():
         if op=="equal": ep.append(at[i1:i2]); ap.append(bt[j1:j2])
         elif op=="replace": ep.append(f"{BGGRN}{BLD}{at[i1:i2]}{R}"); ap.append(f"{BGRED}{BLD}{bt[j1:j2]}{R}")
-        elif op=="delete": ep.append(f"{BGGRN}{BLD}{at[i1:i2]}{R}")
+        elif op=="delete": ep.append(f"{BGGRN}{BLD}{at[i1:i2]}{R}"); ap.append(f"{BGRED}{DIM}{' ' * (i2-i1)}{R}")
         elif op=="insert": ap.append(f"{BGRED}{BLD}{bt[j1:j2]}{R}")
     if len(a)>w: ep.append(f"{DIM}…{R}")
     if len(b)>w: ap.append(f"{DIM}…{R}")
