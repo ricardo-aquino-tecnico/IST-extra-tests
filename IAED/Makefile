@@ -1,7 +1,7 @@
 MAKEFLAGS += --no-print-directory
 SHELL := /bin/bash
 .DEFAULT_GOAL := manual-tests
-.PHONY: all quick manual manual-tests resolve-exe resolve-src python stress scale fuzz-parse scale-collisions asan clean p l a r f c d export export-zip zip compare count rerun show-diff valgrind lizard coverage help
+.PHONY: all quick manual manual-tests resolve-exe resolve-src python stress scale fuzz-parse scale-collisions asan clean p l a r f c d export export-zip zip compare count rerun show-diff valgrind lizard coverage help analyse profile
 
 FAIL=0
 EXE ?=
@@ -208,7 +208,7 @@ manual: clean resolve-exe
 			echo ""; \
 			read -r -p "Executar 'make show-diff' para ver as diferenças? (Y/n) " ans; \
 			if [ "$$ans" != "n" ] && [ "$$ans" != "N" ]; then \
-				$(MAKE) $(MFLAGS) show-diff; \
+				$(MAKE) $(MFLAGS) show-diff ONLY_MANUAL=1; \
 			fi; \
 		fi; \
 		if [ "$(EXPORTING)" != "1" ]; then \
@@ -665,7 +665,7 @@ rerun: resolve-exe
 	$(MAKE) $(MFLAGS) manual TESTS="$$tests" EXE_CACHE_FILE="$(EXE_CACHE_FILE)"
 
 define PRETTY_DIFF_PY
-import os, glob, shutil
+import sys, os, glob, shutil
 from difflib import SequenceMatcher
 R,RED,GRN,YEL,CYN,BLD = "\033[0m","\033[31m","\033[32m","\033[33m","\033[36m","\033[1m"
 BYLW,BRED,DIM = "\033[1;33m","\033[1;31m","\033[2m"
@@ -769,37 +769,139 @@ def sbs(exp_path, act_path, in_path=None):
     if first_diff is not None and in_path:
         show_input_context(in_path, first_diff)
 found = False
-for df in sorted(glob.glob("*.diff")):
-    if not os.path.getsize(df): continue
+diff_files = [f for f in sorted(glob.glob("*.diff")) if os.path.getsize(f)]
+for n, df in enumerate(diff_files, 1):
     found = True; base = df.rsplit(".diff",1)[0]
-    print_header(f"{base} FAILED"); print_description(f"{base}.txt")
+    print_header(f"{base} FAILED ({n})"); print_description(f"{base}.txt")
     sbs(f"{base}.out", f"{base}.myout", f"{base}.in")
-for d in ["stress-failures","scale-failures","fuzz-failures","collisions-failures"]:
-    if not os.path.isdir(d): continue
-    suite = d.replace("-failures","")
-    for rf in sorted(glob.glob(f"{d}/*.reason")):
-        found = True; base = rf.rsplit(".reason",1)[0]; name = os.path.basename(base)
-        with open(rf) as f: reason = f.read().strip()
-        print_header(f"[{suite}] {name}", f"Motivo: {reason}")
-        ep, op, sp, ip = f"{base}.expected", f"{base}.out", f"{base}.stderr", f"{base}.in"
-        if os.path.isfile(ep) and os.path.isfile(op): sbs(ep, op, ip)
-        elif os.path.isfile(op):
-            with open(op) as f: ls = f.readlines()
-            print(f"  {YEL}Output ({len(ls)} linhas):{R}")
-            for l in ls[:20]: print(f"  {l.rstrip()}")
-            if len(ls)>20: print(f"  {DIM}... (total de {len(ls)} linhas){R}")
-        if os.path.isfile(sp) and os.path.getsize(sp):
-            with open(sp) as f: se = f.read().strip()
-            if se:
-                print(f"\n  {YEL}Stderr:{R}")
-                for l in se.split("\n")[:10]: print(f"  {RED}{l}{R}")
+
+py_dirs = ["stress-failures", "scale-failures", "fuzz-failures", "collisions-failures"]
+has_py = any(os.path.isdir(d) and glob.glob(f"{d}/*.reason") for d in py_dirs)
+if has_py and os.environ.get("ONLY_MANUAL") != "1":
+    if found:
+        sys.stderr.write(f"\n  {BRED}Existem falhas nos testes em Python.{R} Ver as diferenças? (y/N) ")
+        try: ans = input().strip()
+        except EOFError: ans = "N"
+        if ans.lower() != "y": sys.exit(0)
+    for d in py_dirs:
+        if not os.path.isdir(d): continue
+        suite = d.replace("-failures","")
+        reason_files = sorted(glob.glob(f"{d}/*.reason"))
+        for i, rf in enumerate(reason_files, 1):
+            found = True; base = rf.rsplit(".reason",1)[0]; name = os.path.basename(base)
+            with open(rf) as f: reason = f.read().strip()
+            print_header(f"[{suite}] {name} ({i})", f"Motivo: {reason}")
+            ep, op, sp, ip = f"{base}.expected", f"{base}.out", f"{base}.stderr", f"{base}.in"
+            if os.path.isfile(ep) and os.path.isfile(op): sbs(ep, op, ip)
+            elif os.path.isfile(op):
+                with open(op) as f: ls = f.readlines()
+                print(f"  {YEL}Output ({len(ls)} linhas):{R}")
+                for l in ls[:20]: print(f"  {l.rstrip()}")
+                if len(ls)>20: print(f"  {DIM}... (total de {len(ls)} linhas){R}")
+            if os.path.isfile(sp) and os.path.getsize(sp):
+                with open(sp) as f: se = f.read().strip()
+                if se:
+                    print(f"\n  {YEL}Stderr:{R}")
+                    for l in se.split("\n")[:10]: print(f"  {RED}{l}{R}")
 if not found: print("Não há diffs para mostrar. Todos os testes passaram ou ainda não foram executados.")
-else: print()
+else:
+    sys.stderr.write(f"\n  {CYN}Executar 'make analyse' ? (y/N){R} ")
+    try: ans = input().strip().lower()
+    except EOFError: ans = "n"
+    
+    if ans == "y":
+        while True:
+            sys.stderr.write(f"  {DIM}Indica o ID do teste (ou 'q' para sair): test{R}")
+            try: test = input().strip()
+            except EOFError: break
+            
+            if not test or test.lower() in ("q", "n", "sair", "exit"): break
+            real_id = test
+            if test.isdigit(): real_id = f"test{int(test):03d}.in"
+            elif not test.endswith(".in"): real_id = f"{test}.in"
+            
+            while True:
+                sys.stderr.write(f"  {DIM}Alvo: {real_id}{R}\n  O que pretendes lançar? [d] Debugger | [p] Profiler | [c] Voltar | [q] Sair\n  > ")
+                try: action = input().strip().lower()
+                except EOFError: action = "q"
+                
+                if not action or action == "d":
+                    tgt = "analyse"; break
+                elif action == "p":
+                    tgt = "profile"; break
+                elif action == "c":
+                    tgt = "voltar"; break
+                elif action in ("q", "sair", "n", "exit"):
+                    sys.exit(0)
+                else:
+                    sys.stderr.write(f"  {RED}Opção inválida.{R}\n")
+            
+            if tgt == "voltar":
+                continue
+                
+            if tgt:
+                sys.stderr.write(f"\n  {YEL}A iniciar o alvo '{tgt}' para {real_id}...{R}\n")
+                os.system(f"make -s {tgt} TEST={real_id}")
+    print()
 endef
 export PRETTY_DIFF_PY
 
 show-diff:
-	@echo "$$PRETTY_DIFF_PY" | python3
+	@python3 -c "$$PRETTY_DIFF_PY"
+
+ANALYSE_EXE = proj-analyse
+PROFILE_EXE = proj-profile
+
+analyse: resolve-src
+	@if [ -z "$(TEST)" ]; then \
+		echo "Uso: make analyse TEST=test007.in (ou apenas TEST=007)"; \
+		exit 1; \
+	fi; \
+	src=$$(cat "$(SRC_CACHE_FILE)"); \
+	tc="$(TEST)"; \
+	if [[ "$$tc" =~ ^[0-9]+$$ ]]; then tc="test$$tc.in"; \
+	elif [[ ! "$$tc" == *".in" ]]; then tc="$$tc.in"; fi; \
+	if [ ! -f "$$tc" ]; then \
+		found=$$(find . -name "$$tc" -type f | head -n 1); \
+		if [ -n "$$found" ]; then tc="$$found"; else echo "Teste '$$tc' não encontrado!"; exit 1; fi; \
+	fi; \
+	echo -e "\n\033[1;33mA compilar com '-g -O0' para análise do caso $$tc\033[0m"; \
+	gcc -D_POSIX_C_SOURCE=200809L -D_DEFAULT_SOURCE -g -O0 -Wall -Wextra -Werror -o $(ANALYSE_EXE) "$$src" -lm || exit 1; \
+	if command -v lldb >/dev/null 2>&1; then \
+		echo -e "\033[2mA iniciar LLDB (MacOS). O input já está anexado. Executa 'run' para iniciar.\033[0m"; \
+		lldb -O "settings set target.input-path $$tc" -O "b main" -- ./$(ANALYSE_EXE); \
+	elif command -v gdb >/dev/null 2>&1; then \
+		echo -e "\033[2mA iniciar GDB (Linux). O input já está anexado, vais dar por ti no início da main.\033[0m"; \
+		gdb -ex "break main" -ex "run < $$tc" --args ./$(ANALYSE_EXE); \
+	else \
+		echo "Nem GDB nem LLDB foram encontrados no sistema."; exit 1; \
+	fi
+
+profile: resolve-src
+	@if [ -z "$(TEST)" ]; then \
+		echo "Uso: make profile TEST=test007.in"; \
+		exit 1; \
+	fi; \
+	src=$$(cat "$(SRC_CACHE_FILE)"); \
+	tc="$(TEST)"; \
+	if [[ "$$tc" =~ ^[0-9]+$$ ]]; then tc="test$$tc.in"; \
+	elif [[ ! "$$tc" == *".in" ]]; then tc="$$tc.in"; fi; \
+	if [ ! -f "$$tc" ]; then \
+		found=$$(find . -name "$$tc" -type f | head -n 1); \
+		if [ -n "$$found" ]; then tc="$$found"; else echo "Teste '$$tc' não encontrado!"; exit 1; fi; \
+	fi; \
+	echo -e "\n\033[1;33mA compilar com '-pg -O2' para profilagem do caso $$tc\033[0m"; \
+	gcc -D_POSIX_C_SOURCE=200809L -D_DEFAULT_SOURCE -pg -O2 -Wall -Wextra -o $(PROFILE_EXE) "$$src" -lm || exit 1; \
+	./$(PROFILE_EXE) < "$$tc" > /dev/null; \
+	if [ -f "gmon.out" ]; then \
+		echo ""; gprof -b ./$(PROFILE_EXE) gmon.out | head -n 25; \
+		echo -e "\n\033[2mRelatório detalhado guardado em profile_$$tc.txt\033[0m"; \
+		gprof -b ./$(PROFILE_EXE) gmon.out > "profile_$$tc.txt"; \
+	else \
+		echo -e "\n\033[1;31mErro: Ficheiro de profilagem 'gmon.out' não foi gerado.\033[0m"; \
+		echo -e "Nota para utilizadores Mac (Apple Silicon): O compilador nativo (Apple Clang) ignora silenciosamente a flag '-pg' e não suporta o gprof de origem."; \
+		echo -e "Para rodares o Profiler num Mac precisas de instalar o GCC verdadeiro via Homebrew (ex: brew install gcc) e alterar o 'gcc' na Makefile para 'gcc-14' (ou a tua versão), ou usar o 'Instruments' nativo da Apple."; \
+	fi
 
 valgrind: resolve-src
 	@if ! command -v valgrind >/dev/null 2>&1; then \
@@ -927,9 +1029,11 @@ help:
 	@echo "    make all export     Corre tudo e exporta os que falharam"
 	@echo "    make count export   Inclui estatísticas na exportação"
 	@echo ""
-	@echo "  Utilidades:"
+	@echo "  Utilidades & Depuração (Debug):"
+	@echo "    make analyse TEST=x Inicia o GDB/LLDB anexado ao teste (ex: TEST=test007.in)"
+	@echo "    make profile TEST=x Analisa a performance da run com o gprof (identifica timeouts)"
 	@echo "    make rerun          Re-executa apenas os testes que falharam"
-	@echo "    make show-diff      Mostra os diffs dos testes falhados (colorizado)"
+	@echo "    make show-diff      Mostra os diffs dos testes falhados (colorizado e interativo)"
 	@echo "    make valgrind       Corre testes com Valgrind (deteta memory leaks)"
 	@echo "    make lizard         Analisa complexidade do código com Lizard"
 	@echo "    make coverage       Relatório de cobertura de código (gcov)"

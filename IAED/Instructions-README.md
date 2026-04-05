@@ -188,19 +188,43 @@ make rerun
 
 ### Ver diffs dos testes falhados (`show-diff`) (!!!):
 
-Mostra o conteúdo dos diffs de todos os testes falhados diretamente no terminal, com cores (vermelho = o teu output, verde = output esperado) e a descrição do teste:
+Mostra o conteúdo dos diffs de todos os testes falhados diretamente no terminal, com cores (vermelho = o teu output, verde = output esperado) e a descrição do teste.
+
+✨ **Novidade Interativa:** No final de mostrar os diffs, o `show-diff` abre-te um **Feiticeiro de Depuração** (`Wizard`). Sem saíres do terminal, podes inserir o número de um teste que acabou de falhar (ex: `118`) e escolher uma das seguintes armas para atacares o problema imediatamente:
+*   `[d] Debugger` – Puxa esse caso e lança-o no LLDB / GDB (atalho para `make analyse`).
+*   `[p] Profiler` – Corre o teste e gera-te uma tabela com as métricas de tempo (atalho para `make profile`).
+*   `[q] Sair` – Limpa a consola e sai desta vista interativa.
 
 ```bash
 make show-diff
+```
+
+### Análise e Depuração Manual (`analyse` e `profile`):
+
+Se em vez do Wizard do `show-diff` quiseres correr estes comandos individualmente noutra ocasião:
+
+**1. Lançar no Debugger (`analyse`)**
+Compila o teu código sem otimizações e com *symbols* (`-O0 -g`) e arranca diretamente o **GDB** ou o **LLDB** já com break-point na `main` e o *input* do teste especificado pre-injetado!
+
+```bash
+make analyse TEST=118
+# ou: make analyse TEST=test118.in
+```
+
+**2. Avaliar Performance (`profile`)**
+Se estás a ter chumbos por *timeout*, este alvo compila com flag de perfil (`-O2 -pg`), roda o código sub-repticiamente e apresenta os resultados do rastreio (`gprof`) das fatias de tempo dispendido por função.
+
+```bash
+make profile TEST=118
 ```
 
 Fluxo típico de debugging:
 
 ```bash
 make              # correr testes
-make show-diff    # ver o que falhou
-# ... corrigir código ...
-make rerun        # re-testar só os que falharam
+make show-diff    # ver o que falhou (entrar de seguida no [d] Debugger)
+# ... interagir nas entranhas do LLDB e corrigir o C ...
+make rerun        # re-testar se as correções resultaram
 ```
 
 ### Deteção de memory leaks com Valgrind (`valgrind`):
