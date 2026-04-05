@@ -186,7 +186,7 @@ Volta a correr apenas os testes que falharam na última execução (lidos de `te
 make rerun
 ```
 
-### Ver diffs dos testes falhados (`show-diff`):
+### Ver diffs dos testes falhados (`show-diff`) (!!!):
 
 Mostra o conteúdo dos diffs de todos os testes falhados diretamente no terminal, com cores (vermelho = o teu output, verde = output esperado) e a descrição do teste:
 

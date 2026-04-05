@@ -53,9 +53,9 @@ print_status_table() { \
 	arg_col_width=46; \
 	status_header="$$1"; \
 	shift; \
-	arg_header="Arguments ($(ORIG_GOALS))"; \
+	arg_header="Argumentos ($(ORIG_GOALS))"; \
 	printf "+------------------+----------------------------+------------------------------------------------+\n"; \
-	printf "| %-16s | %-26s | %-46s |\n" "Test Part" "$$status_header" "$$arg_header"; \
+	printf "| %-16s | %-26s | %-46s |\n" "Teste" "$$status_header" "$$arg_header"; \
 	printf "+------------------+----------------------------+------------------------------------------------+\n"; \
 	while [ -n "$$1" ] && [ -n "$$2" ] && [ -n "$$3" ]; do \
 		part="$$1"; \
@@ -93,19 +93,19 @@ all:
 	manual_ms=0; stress_ms=0; scale_ms=0; fuzz_ms=0; collisions_ms=0; \
 	total=5; passed=0; failed=0; \
 	t0=$$(now_ms); \
-	if $(MAKE) $(MFLAGS) manual; then manual_status="PASS"; passed=$$((passed + 1)); else failed=$$((failed + 1)); fi; \
+	if $(MAKE) $(MFLAGS) manual NO_PROMPT=1; then manual_status="PASS"; passed=$$((passed + 1)); else failed=$$((failed + 1)); fi; \
 	t1=$$(now_ms); manual_ms="$$(($$t1 - $$t0))"; manual_time="$${manual_ms}ms"; \
 	t0=$$(now_ms); \
-	if $(MAKE) $(MFLAGS) stress; then stress_status="PASS"; passed=$$((passed + 1)); else failed=$$((failed + 1)); fi; \
+	if $(MAKE) $(MFLAGS) stress NO_PROMPT=1; then stress_status="PASS"; passed=$$((passed + 1)); else failed=$$((failed + 1)); fi; \
 	t1=$$(now_ms); stress_ms="$$(($$t1 - $$t0))"; stress_time="$${stress_ms}ms"; \
 	t0=$$(now_ms); \
-	if $(MAKE) $(MFLAGS) scale; then scale_status="PASS"; passed=$$((passed + 1)); else failed=$$((failed + 1)); fi; \
+	if $(MAKE) $(MFLAGS) scale NO_PROMPT=1; then scale_status="PASS"; passed=$$((passed + 1)); else failed=$$((failed + 1)); fi; \
 	t1=$$(now_ms); scale_ms="$$(($$t1 - $$t0))"; scale_time="$${scale_ms}ms"; \
 	t0=$$(now_ms); \
-	if $(MAKE) $(MFLAGS) fuzz-parse; then fuzz_status="PASS"; passed=$$((passed + 1)); else failed=$$((failed + 1)); fi; \
+	if $(MAKE) $(MFLAGS) fuzz-parse NO_PROMPT=1; then fuzz_status="PASS"; passed=$$((passed + 1)); else failed=$$((failed + 1)); fi; \
 	t1=$$(now_ms); fuzz_ms="$$(($$t1 - $$t0))"; fuzz_time="$${fuzz_ms}ms"; \
 	t0=$$(now_ms); \
-	if $(MAKE) $(MFLAGS) scale-collisions; then collisions_status="PASS"; passed=$$((passed + 1)); else failed=$$((failed + 1)); fi; \
+	if $(MAKE) $(MFLAGS) scale-collisions NO_PROMPT=1; then collisions_status="PASS"; passed=$$((passed + 1)); else failed=$$((failed + 1)); fi; \
 	t1=$$(now_ms); collisions_ms="$$(($$t1 - $$t0))"; collisions_time="$${collisions_ms}ms"; \
 	sum_ms=$$((manual_ms + stress_ms + scale_ms + fuzz_ms + collisions_ms)); \
 	status_header="Status ($${sum_ms}ms)"; \
@@ -134,7 +134,7 @@ all:
 	fuzz_args="cases $(FUZZ_CASES) max-lines $(FUZZ_LINES) seed $(FUZZ_SEED) progress-every $(FUZZ_PROGRESS_EVERY)"; \
 	collisions_args="count $(COLLISIONS_COUNT) start $(COLLISIONS_START) progress-every $(COLLISIONS_PROGRESS_EVERY)"; \
 	echo ""; \
-	echo "All tests summary:"; \
+	echo "Resumo de todos os testes:"; \
 	print_status_table \
 		"$$status_header" \
 		"manual" "$$manual_status_disp" "-" \
@@ -144,15 +144,28 @@ all:
 		"scale-collisions" "$$collisions_status_disp" "$$collisions_args"; \
 	echo ""; \
 	if [ "$$manual_status" = "PASS" ]; then \
-		echo "Manual tests Passed"; \
+		echo "Testes manuais PASSED"; \
 	elif [ -s "$(FAIL_LOG)" ]; then \
-		echo "Manual failed tests:"; \
+		echo "Testes manuais falhados:"; \
 		while IFS= read -r t; do printf "%s\n" "$$t"; done < "$(FAIL_LOG)"; \
 	else \
-		echo "Manual suite failed before per-test execution"; \
+		echo "A suite manual falhou antes de correr os testes individuais"; \
 	fi; \
-	echo "$$passed/$$total parts passed, $$failed/$$total parts failed"; \
-	if [ $$failed -ne 0 ]; then if [ "$(EXPORTING)" != "1" ]; then exit 1; fi; fi
+	echo ""; \
+	echo "$$passed/$$total partes passaram, $$failed/$$total partes falharam"; \
+	if [ $$failed -ne 0 ]; then \
+		if [ "$(EXPORTING)" != "1" ] && [ -t 0 ]; then \
+			echo ""; \
+			read -r -p "Executar 'make show-diff' para ver as diferenças? (Y/n) " ans; \
+			if [ "$$ans" != "n" ] && [ "$$ans" != "N" ]; then \
+				$(MAKE) $(MFLAGS) show-diff; \
+			fi; \
+		fi; \
+		if [ "$(EXPORTING)" != "1" ]; then \
+			printf "\n\033[1mPodes ignorar os erros do 'make' abaixo\033[0m\n"; \
+			exit 1; \
+		fi; \
+	fi
 
 quick:
 	@$(MAKE) $(MFLAGS) all ORIG_GOALS=quick \
@@ -171,22 +184,33 @@ manual: clean resolve-exe
 		if [ -f "$$base.out" ]; then diff -u "$$base.myout" "$$base.out" > "$$base.diff" || :; \
 		else rm -f "$$base.diff"; echo "diff: $$base.out: No such file or directory"; fi; \
 		if [ ! -f "$$base.diff" ] || [ `wc -l < "$$base.diff"` -eq 0 ]; then \
-			echo -e "\e[1;32mtest $$i PASSED\e[0m"; \
+			printf "\033[1;32mtest $$i PASSED\033[0m\n"; \
 			rm -f "$$base.diff" "$$base.myout"; \
 		else \
-			echo -e "\e[1;31mtest $$i FAILED\e[0m"; echo "$$i" >> "$(FAIL_LOG)"; \
+			printf "\033[1;31mtest $$i FAILED\033[0m\n"; echo "$$i" >> "$(FAIL_LOG)"; \
 			if [ $(FAIL) -eq 1 ]; then exit 1; fi; \
 		fi; \
 	done
 	@total=`echo "$(TESTS)" | wc -w`; \
 	failed=`wc -l < $(FAIL_LOG)`; \
 	passed=`expr $$total - $$failed`; \
-	echo "$$passed tests passed, $$failed tests failed"; \
+	echo ""; \
+	echo "$$passed testes passaram, $$failed testes falharam"; \
 	if [ $$failed -ne 0 ]; then \
-		echo "Manual suite FAILED: $$failed test(s) failed. 'make' returns Error 1 on purpose."; \
-		if [ "$(EXPORTING)" != "1" ]; then exit 1; fi; \
+		echo "Suite manual FAILED: $$failed teste(s) falharam."; \
+		if [ "$(EXPORTING)" != "1" ] && [ -t 0 ] && [ "$(NO_PROMPT)" != "1" ]; then \
+			echo ""; \
+			read -r -p "Executar 'make show-diff' para ver as diferenças? (Y/n) " ans; \
+			if [ "$$ans" != "n" ] && [ "$$ans" != "N" ]; then \
+				$(MAKE) $(MFLAGS) show-diff; \
+			fi; \
+		fi; \
+		if [ "$(EXPORTING)" != "1" ]; then \
+			printf "\n\033[1mPodes ignorar os erros do 'make' abaixo\033[0m\n"; \
+			exit 1; \
+		fi; \
 	else \
-		echo "Manual suite PASSED."; \
+		echo "Suite manual PASSED."; \
 	fi
 
 manual-tests: manual
@@ -315,8 +339,11 @@ python:
 		"scale-collisions" "$$collisions_status_disp" "$$collisions_args"; \
 	echo "$$passed/$$total parts passed, $$failed/$$total parts failed"; \
 	if [ $$failed -ne 0 ]; then \
-		echo "Python suite FAILED: $$failed test(s) failed. 'make' returns Error 1 on purpose."; \
-		if [ "$(EXPORTING)" != "1" ]; then exit 1; fi; \
+		echo "Python suite FAILED: $$failed test(s) failed."; \
+		if [ "$(EXPORTING)" != "1" ]; then \
+			printf "\n\033[1mPodes ignorar os erros do 'make' abaixo\033[0m\n"; \
+			exit 1; \
+		fi; \
 	else \
 		echo "Python suite PASSED."; \
 	fi
@@ -404,7 +431,7 @@ asan: resolve-src
 		"scale-collisions" "$$collisions_status_disp" "$$collisions_args"; \
 	echo "$$passed/$$total parts passed, $$failed/$$total parts failed"; \
 	if [ $$failed -ne 0 ]; then \
-		echo "ASAN suite FAILED: $$failed test(s) failed. 'make' returns Error 1 on purpose."; \
+		echo "ASAN suite FAILED: $$failed test(s) failed."; \
 		if [ "$(EXPORTING)" != "1" ]; then exit 1; fi; \
 	else \
 		echo "ASAN suite PASSED."; \
@@ -664,7 +691,7 @@ def show_input_context(in_path, first_diff_line):
     # Show all commands from start to suspect+1 (state build-up matters)
     end = min(len(cmds), idx+2)
     show = cmds[:end]
-    print(f"\n  {YEL}📥 Input leading to first difference ({R}output line {first_diff_line+1}{YEL}):{R}")
+    print(f"\n  {YEL}{BLD}Comandos até à primeira diferença ({R}linha de output {first_diff_line+1}{YEL}{BLD}):{R}")
     if len(show) <= 8:
         for i, cmd in enumerate(show):
             if i == idx:
@@ -674,7 +701,7 @@ def show_input_context(in_path, first_diff_line):
     else:
         for i in range(3):
             print(f"  {DIM}  {i+1:>3}: {cmds[i]}{R}")
-        print(f"  {DIM}       ... ({idx-5} more commands) ...{R}")
+        print(f"  {DIM}       ... (mais {idx-5} comandos) ...{R}")
         for i in range(max(3,idx-2), end):
             if i == idx:
                 print(f"  {BRED}▸ {i+1:>3}: {cmds[i]}{R}")
@@ -691,7 +718,7 @@ def sbs(exp_path, act_path, in_path=None):
     lw = len(str(total))+1
     max_line = max((len(l) for l in el+al), default=0)
     cw = max(min(max_line + 4, (tw-lw-10)//2), 15)
-    print(f"  {DIM}{' '*lw} │{R} {CYN}Expected (.out){' '*(cw-15)}{R}     {YEL}Got (.myout){R}")
+    print(f"  {DIM}{' '*lw} │{R} {CYN}Esperado (.out){' '*(cw-15)}{R}     {YEL}Obtido (.myout){R}")
     print(f"  {DIM}{' '*lw} │ {'─'*cw}  ─  {'─'*cw}{R}")
     # Pre-compute which lines differ
     diffs = []
@@ -710,7 +737,7 @@ def sbs(exp_path, act_path, in_path=None):
             skip_count += 1
             continue
         if skip_count > 0:
-            print(f"  {DIM}{'·':>{lw}} │ {'':^{cw}}  ·  ... {skip_count} lines match ...{R}")
+            print(f"  {DIM}{'·':>{lw}} │ {'':^{cw}}  ·  ... {skip_count} linhas iguais ...{R}")
             skip_count = 0
         if e == a:
             t = trunc(e)
@@ -726,9 +753,9 @@ def sbs(exp_path, act_path, in_path=None):
                 ep2, ap2 = highlight_inline(e, a, cw); pad = cw-min(len(e),cw)
             print(f"  {BYLW}{ln}{R} │ {ep2}{' '*pad}  {mk}  {ap2}")
     if skip_count > 0:
-        print(f"  {DIM}{'·':>{lw}} │ {'':^{cw}}  ·  ... {skip_count} lines match ...{R}")
+        print(f"  {DIM}{'·':>{lw}} │ {'':^{cw}}  ·  ... {skip_count} linhas iguais ...{R}")
     print()
-    if dc: print(f"  {BYLW}{dc}{R} line(s) differ  ({len(el)} expected, {len(al)} got)")
+    if dc: print(f"  {BYLW}{dc}{R} linha(s) difere(m)  (esperado: {len(el)}, obtido: {len(al)})")
     if first_diff is not None and in_path:
         show_input_context(in_path, first_diff)
 found = False
@@ -743,14 +770,14 @@ for d in ["stress-failures","scale-failures","fuzz-failures","collisions-failure
     for rf in sorted(glob.glob(f"{d}/*.reason")):
         found = True; base = rf.rsplit(".reason",1)[0]; name = os.path.basename(base)
         with open(rf) as f: reason = f.read().strip()
-        print_header(f"[{suite}] {name}", f"Reason: {reason}")
+        print_header(f"[{suite}] {name}", f"Motivo: {reason}")
         ep, op, sp, ip = f"{base}.expected", f"{base}.out", f"{base}.stderr", f"{base}.in"
         if os.path.isfile(ep) and os.path.isfile(op): sbs(ep, op, ip)
         elif os.path.isfile(op):
             with open(op) as f: ls = f.readlines()
-            print(f"  {YEL}Output ({len(ls)} lines):{R}")
+            print(f"  {YEL}Output ({len(ls)} linhas):{R}")
             for l in ls[:20]: print(f"  {l.rstrip()}")
-            if len(ls)>20: print(f"  {DIM}... ({len(ls)} lines total){R}")
+            if len(ls)>20: print(f"  {DIM}... (total de {len(ls)} linhas){R}")
         if os.path.isfile(sp) and os.path.getsize(sp):
             with open(sp) as f: se = f.read().strip()
             if se:
