@@ -74,7 +74,13 @@ print_status_table() { \
 				arg2="$${arg2:0:43}..."; \
 			fi; \
 		fi; \
-		printf "| %-16s | %-26s | %-46s |\n" "$$part" "$$status" "$$arg1"; \
+		status_padded=$$(printf "%-26s" "$$status"); \
+		case "$$status_padded" in \
+			PASS*) status_colored="\033[1;32mPASS\033[0m$$(echo "$$status_padded" | sed 's/^PASS//')" ;; \
+			FAIL*) status_colored="\033[1;31mFAIL\033[0m$$(echo "$$status_padded" | sed 's/^FAIL//')" ;; \
+			*) status_colored="$$status_padded" ;; \
+		esac; \
+		printf "| %-16s | %b | %-46s |\n" "$$part" "$$status_colored" "$$arg1"; \
 		if [ -n "$$arg2" ]; then \
 			printf "| %-16s | %-26s | %-46s |\n" "" "" "$$arg2"; \
 		fi; \
@@ -134,7 +140,7 @@ all:
 	fuzz_args="cases $(FUZZ_CASES) max-lines $(FUZZ_LINES) seed $(FUZZ_SEED) progress-every $(FUZZ_PROGRESS_EVERY)"; \
 	collisions_args="count $(COLLISIONS_COUNT) start $(COLLISIONS_START) progress-every $(COLLISIONS_PROGRESS_EVERY)"; \
 	echo ""; \
-	echo "Resumo de todos os testes:"; \
+	printf "\n\033[1mResumo de todos os testes:\033[0m\n"; \
 	print_status_table \
 		"$$status_header" \
 		"manual" "$$manual_status_disp" "-" \
@@ -143,13 +149,13 @@ all:
 		"fuzz-parse" "$$fuzz_status_disp" "$$fuzz_args" \
 		"scale-collisions" "$$collisions_status_disp" "$$collisions_args"; \
 	echo ""; \
-	if [ "$$manual_status" = "PASS" ]; then \
-		echo "Testes manuais PASSED"; \
-	elif [ -s "$(FAIL_LOG)" ]; then \
-		echo "Testes manuais falhados:"; \
-		while IFS= read -r t; do printf "%s\n" "$$t"; done < "$(FAIL_LOG)"; \
-	else \
-		echo "A suite manual falhou antes de correr os testes individuais"; \
+	if [ "$$manual_status" != "PASS" ]; then \
+		if [ -s "$(FAIL_LOG)" ]; then \
+			echo "Testes manuais falhados:"; \
+			while IFS= read -r t; do printf "%s\n" "$$t"; done < "$(FAIL_LOG)"; \
+		else \
+			echo "A suite manual falhou antes de correr os testes individuais"; \
+		fi; \
 	fi; \
 	echo ""; \
 	echo "$$passed/$$total partes passaram, $$failed/$$total partes falharam"; \
@@ -330,7 +336,7 @@ python:
 	fuzz_args="cases $(FUZZ_CASES) max-lines $(FUZZ_LINES) seed $(FUZZ_SEED) progress-every $(FUZZ_PROGRESS_EVERY)"; \
 	collisions_args="count $(COLLISIONS_COUNT) start $(COLLISIONS_START) progress-every $(COLLISIONS_PROGRESS_EVERY)"; \
 	echo ""; \
-	echo "Python suite summary:"; \
+	printf "\033[1mResumo da suite Python:\033[0m\n"; \
 	print_status_table \
 		"$$status_header" \
 		"stress" "$$stress_status_disp" "$$stress_args" \
@@ -349,6 +355,7 @@ python:
 	fi
 
 stress: resolve-exe
+	@echo ""
 	@echo "stress seed: $(STRESS_SEED)"
 	@exe=$$(cat "$(EXE_CACHE_FILE)"); \
 	python3 random_stress.py --exe "$$exe" --runs $(STRESS_RUNS) --steps $(STRESS_STEPS) --seed $(STRESS_SEED) --progress-every $(STRESS_PROGRESS_EVERY) --timeout $(STRESS_TIMEOUT) && \
@@ -356,12 +363,14 @@ stress: resolve-exe
 	{ echo "0 stress tests passed, 1 stress tests failed"; exit 1; }
 
 scale: resolve-exe
+	@echo ""
 	@exe=$$(cat "$(EXE_CACHE_FILE)"); \
 	python3 scale_limits.py --exe "$$exe" --products $(SCALE_PRODUCTS) --invoices $(SCALE_INVOICES) --progress-every $(SCALE_PROGRESS_EVERY) && \
 	echo "1 scale test passed, 0 scale tests failed" || \
 	{ echo "0 scale tests passed, 1 scale tests failed"; exit 1; }
 
 fuzz-parse: resolve-exe
+	@echo ""
 	@echo "fuzz seed: $(FUZZ_SEED)"
 	@exe=$$(cat "$(EXE_CACHE_FILE)"); \
 	python3 fuzz_parse.py --exe "$$exe" --cases $(FUZZ_CASES) --max-lines $(FUZZ_LINES) --seed $(FUZZ_SEED) --progress-every $(FUZZ_PROGRESS_EVERY) && \
@@ -369,6 +378,7 @@ fuzz-parse: resolve-exe
 	{ echo "0 fuzz-parse tests passed, 1 fuzz-parse tests failed"; exit 1; }
 
 scale-collisions: resolve-exe
+	@echo ""
 	@exe=$$(cat "$(EXE_CACHE_FILE)"); \
 	python3 scale_collisions.py --exe "$$exe" --count $(COLLISIONS_COUNT) --start $(COLLISIONS_START) --progress-every $(COLLISIONS_PROGRESS_EVERY) && \
 	echo "1 scale-collisions test passed, 0 scale-collisions tests failed" || \
@@ -423,7 +433,7 @@ asan: resolve-src
 	fuzz_args="cases $(ASAN_FUZZ_CASES) max-lines $(ASAN_FUZZ_LINES) seed $(FUZZ_SEED) progress-every $(FUZZ_PROGRESS_EVERY)"; \
 	collisions_args="count $(ASAN_COLLISIONS_COUNT) start $(COLLISIONS_START) progress-every $(COLLISIONS_PROGRESS_EVERY)"; \
 	echo ""; \
-	echo "ASAN suite summary:"; \
+	printf "\033[1mResumo da suite ASAN:\033[0m\n"; \
 	print_status_table \
 		"$$status_header" \
 		"manual" "$$manual_status_disp" "-" \
