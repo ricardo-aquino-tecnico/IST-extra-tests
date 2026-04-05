@@ -1,0 +1,6 @@
+Objetivo:
+Validar rejeição de EAN-8 com dígito de verificação errado.
+
+O que testa:
+- `p` com EAN-8 cujo checksum difere por 1.
+- Deve imprimir `invalid ean`.

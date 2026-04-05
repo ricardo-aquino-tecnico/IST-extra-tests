@@ -1,0 +1,6 @@
+Objetivo:
+Validar erros do comando `a` com EAN.
+
+O que testa:
+- `a` com EAN inválido (checksum errado).
+- `a` com EAN válido mas inexistente no catálogo.

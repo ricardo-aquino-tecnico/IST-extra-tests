@@ -1,0 +1,7 @@
+Objetivo:
+Validar erros de NIF no comando `f`.
+
+O que testa:
+- NIF com menos de 9 dígitos.
+- NIF com mais de 9 dígitos.
+- NIF com letras.

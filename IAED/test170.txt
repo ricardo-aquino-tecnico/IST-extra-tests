@@ -1,0 +1,6 @@
+Objetivo:
+Validar que `a <ean>` sem quantidade adiciona 1 unidade.
+
+O que testa:
+- `a 96385074` equivale a `a 1 96385074`.
+- Stock é atualizado corretamente.

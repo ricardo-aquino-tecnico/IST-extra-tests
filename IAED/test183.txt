@@ -1,0 +1,6 @@
+Objetivo:
+Validar que `f error` não consome número de fatura.
+
+O que testa:
+- `f error` não incrementa o contador.
+- Primeira fatura válida tem ID=1.

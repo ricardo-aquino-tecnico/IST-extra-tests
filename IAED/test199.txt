@@ -1,0 +1,6 @@
+Objetivo:
+Validar `c` com nome de cliente entre aspas.
+
+O que testa:
+- `c "Ana Maria"` encontra faturas do cliente.
+- `c "Inexistente"` dá `no such client`.

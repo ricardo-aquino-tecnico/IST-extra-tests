@@ -1,0 +1,6 @@
+Objetivo:
+Validar ordem de `c` sem args: alfabética por nome, cronológica dentro.
+
+O que testa:
+- 3 clientes com faturas intercaladas.
+- Output agrupado alfabeticamente, dentro cronológico.

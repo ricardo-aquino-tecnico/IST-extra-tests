@@ -1,0 +1,6 @@
+Objetivo:
+Validar `f "error"` — nome error entre aspas.
+
+O que testa:
+- `f "error"` deve funcionar igual a `f error` (devolver items).
+- Cesto fica vazio após error.

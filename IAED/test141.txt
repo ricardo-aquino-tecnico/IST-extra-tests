@@ -1,0 +1,6 @@
+Objetivo:
+Validar rejeição de quantidade negativa no comando `p`.
+
+O que testa:
+- `p` com quantidade -5 deve dar `invalid quantity`.
+- `p` com quantidade 0 é aceite (stock fica 0).

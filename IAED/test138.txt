@@ -1,0 +1,6 @@
+Objetivo:
+Verificar cálculo do checksum EAN-13.
+
+O que testa:
+- EAN-13 válido (5601234123456) aceite.
+- EAN-13 com último dígito alterado (5601234123455) rejeitado.

@@ -1,0 +1,6 @@
+Objetivo:
+Validar que IDs de fatura são sequenciais e nunca reutilizados.
+
+O que testa:
+- Emitir 3 faturas, apagar a 2, emitir mais uma → ID=4.
+- `c` mostra faturas 1, 3, 4 (não 2).

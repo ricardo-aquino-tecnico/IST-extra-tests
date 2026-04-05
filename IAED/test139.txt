@@ -1,0 +1,6 @@
+Objetivo:
+Validar rejeição de códigos IVA inválidos.
+
+O que testa:
+- `p` com IVA 'a' (minúscula) deve dar `invalid iva`.
+- `p` com IVA 'Z' (não definido) deve dar `invalid iva`.

@@ -1,0 +1,6 @@
+Objetivo:
+Validar faturação sem argumentos.
+
+O que testa:
+- `f` sem args usa NIF 999999999 e nome `Cliente final`.
+- `c` sem args lista a fatura com nome `Cliente final`.

@@ -1,0 +1,6 @@
+Objetivo:
+Validar wildcard `?` no comando `l`.
+
+O que testa:
+- `l 9638507?` deve encontrar EAN-8 96385074.
+- `l 9638507X` não deve encontrar nada.

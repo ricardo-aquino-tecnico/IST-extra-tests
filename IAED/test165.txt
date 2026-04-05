@@ -1,0 +1,7 @@
+Objetivo:
+Validar carregamento de tabela IVA a partir de ficheiro.
+
+O que testa:
+- Códigos IVA do ficheiro são aceites (E, G).
+- Códigos IVA padrão (A, B, C, D) são rejeitados quando não no ficheiro.
+- `r` lista apenas os códigos do ficheiro.

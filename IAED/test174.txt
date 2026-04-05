@@ -1,0 +1,7 @@
+Objetivo:
+Teste integrado com todos os comandos.
+
+O que testa:
+- Criar 3 produtos, adicionar ao cesto, facturar.
+- Apagar fatura, reduzir stock.
+- Verificar consistência do resumo final.

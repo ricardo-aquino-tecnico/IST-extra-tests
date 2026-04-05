@@ -1,0 +1,6 @@
+Objetivo:
+Validar `invalid quantity` no `d`.
+
+O que testa:
+- `d <ean> <qtd>` com qtd > stock.
+- `d <ean> 0` — qtd zero (não positiva).

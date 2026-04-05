@@ -1,0 +1,5 @@
+p 12345678 D 1.00 1 Prod1
+p 40170721 D 2.00 1 Prod2
+p 12345678 D 1.50 2 Prod1 Updated
+l
+q

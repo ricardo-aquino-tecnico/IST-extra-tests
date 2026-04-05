@@ -1,0 +1,6 @@
+Objetivo:
+Validar que produto esgotado (stock=0) permanece no sistema mas não em `l`.
+
+O que testa:
+- Produto vendido inteiramente, stock=0.
+- `l` não o mostra, mas `r <ean>` é válido.

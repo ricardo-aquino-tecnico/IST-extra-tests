@@ -1,0 +1,6 @@
+Objetivo:
+Validar nome com tabulação horizontal.
+
+O que testa:
+- Nome com tab: `"Ana\tRita"` — tab é caractere branco permitido.
+- `c` deve listar o nome exatamente como registado.

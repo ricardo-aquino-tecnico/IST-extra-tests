@@ -1,0 +1,6 @@
+Objetivo:
+Validar comportamento de `f` quando o cesto está vazio.
+
+O que testa:
+- Facturar com cesto vazio — deve emitir fatura com 0 items e 0.00.
+- Verificar que `c` lista a fatura vazia.

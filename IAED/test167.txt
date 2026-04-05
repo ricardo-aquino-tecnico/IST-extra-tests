@@ -1,0 +1,6 @@
+Objetivo:
+Validar ordenação alfabética de clientes no `c` sem args.
+
+O que testa:
+- Clientes com nomes iniciados por maiúsculas e minúsculas.
+- Ordem: A < Z < a < z (ASCII).

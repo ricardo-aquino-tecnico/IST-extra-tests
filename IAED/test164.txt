@@ -1,0 +1,6 @@
+Objetivo:
+Validar listagem do cesto (comando `a` sem args).
+
+O que testa:
+- Produtos no cesto listados por EAN crescente.
+- Produtos com quantidade zero no cesto não aparecem.

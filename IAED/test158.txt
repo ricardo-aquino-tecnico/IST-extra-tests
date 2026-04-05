@@ -1,0 +1,6 @@
+Objetivo:
+Validar resumo global com diferentes classes IVA.
+
+O que testa:
+- Cálculo correto do valor total facturado com IVA diferente.
+- Tabela de IVA listada por ordem alfabética.

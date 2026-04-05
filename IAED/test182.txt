@@ -1,0 +1,6 @@
+Objetivo:
+Validar `r <ean>` quando produto existe mas nunca foi vendido.
+
+O que testa:
+- Quantidade vendida deve ser 0.
+- Quantidade disponível é o stock original.

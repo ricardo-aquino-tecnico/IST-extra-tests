@@ -1,0 +1,6 @@
+Objetivo:
+Validar que ao apagar fatura os items não são repostos.
+
+O que testa:
+- Stock após venda e após `d` da fatura: continua reduzido.
+- `r` mostra totais actualizados (fatura removida).

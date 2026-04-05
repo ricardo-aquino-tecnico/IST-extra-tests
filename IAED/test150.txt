@@ -1,0 +1,7 @@
+Objetivo:
+Validar comportamento do nome `error` no `f`.
+
+O que testa:
+- `f error` devolve produtos ao stock e não emite fatura.
+- Stock é reposto corretamente.
+- Segunda facturação válida confirma contadores.

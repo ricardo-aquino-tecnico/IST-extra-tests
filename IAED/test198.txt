@@ -1,0 +1,6 @@
+Objetivo:
+Validar ordem cronológica das faturas do mesmo cliente.
+
+O que testa:
+- 4 faturas do mesmo cliente, intercaladas com f error.
+- `c Rui` lista apenas as faturas válidas, por ordem de emissão.

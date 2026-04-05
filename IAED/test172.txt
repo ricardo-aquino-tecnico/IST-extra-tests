@@ -1,0 +1,6 @@
+Objetivo:
+Validar arredondamento simétrico nos cêntimos (IVA).
+
+O que testa:
+- Preço que gera imposto de exatamente 0.005 → arredonda para cima.
+- Preço que gera imposto de 0.004999 → arredonda para baixo.

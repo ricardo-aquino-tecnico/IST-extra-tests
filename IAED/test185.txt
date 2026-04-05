@@ -1,0 +1,6 @@
+Objetivo:
+Validar wildcards combinados no `l`.
+
+O que testa:
+- `l ?2*8` deve encontrar EAN que começa com qualquer char, 2, e termina em 8.
+- `l *2?4*` testa combinação intermédia.

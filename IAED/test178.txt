@@ -1,0 +1,7 @@
+Objetivo:
+Validar que atualizar a classe IVA afeta futuras vendas.
+
+O que testa:
+- Criar com IVA D (23%), facturar.
+- Atualizar para IVA A (0%), facturar novamente.
+- Valores diferentes confirmam que IVA foi actualizado.

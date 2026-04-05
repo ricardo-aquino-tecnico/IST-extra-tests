@@ -1,0 +1,7 @@
+Objetivo:
+Validar nome inválido no comando `f`.
+
+O que testa:
+- Nome começando por número.
+- Nome começando por espaço (entre aspas).
+- Nome começando por caractere especial.

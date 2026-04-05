@@ -1,0 +1,6 @@
+Objetivo:
+Validar mensagem `invalid product` (não se testam 10000).
+
+O que testa:
+- Aceitar produtos normais.
+- Verificar que atualizar um produto existente não conta como novo.

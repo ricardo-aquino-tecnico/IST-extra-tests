@@ -1,0 +1,7 @@
+Objetivo:
+Validar `l` com argumentos mistos: EAN exatos e wildcards.
+
+O que testa:
+- Ordem de saída segue a ordem dos argumentos.
+- EAN exato que não existe dá erro.
+- Wildcard que não encontra nada dá erro.

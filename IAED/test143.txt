@@ -1,0 +1,6 @@
+Objetivo:
+Validar erro `product in use` ao alterar produto no cesto.
+
+O que testa:
+- Produto adicionado ao cesto não pode ter preço alterado.
+- Após facturar (cesto vazio), alteração deve funcionar.

@@ -1,0 +1,6 @@
+Objetivo:
+Validar `r <ean>` para produto específico.
+
+O que testa:
+- Quantidade disponível e quantidade vendida.
+- `r <ean>` com EAN inválido e produto inexistente.

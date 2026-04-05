@@ -1,0 +1,7 @@
+Objetivo:
+Validar actualização de produto existente com mesmo EAN.
+
+O que testa:
+- Stock é incrementado (não substituído).
+- Preço e classe IVA são actualizados.
+- Descrição é actualizada.

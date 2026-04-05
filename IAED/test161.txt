@@ -1,0 +1,6 @@
+Objetivo:
+Validar `f` com nome mas sem NIF.
+
+O que testa:
+- `f Rui` usa NIF 999999999.
+- `d` da fatura mostra NIF correto.

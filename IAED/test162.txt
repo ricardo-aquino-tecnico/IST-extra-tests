@@ -1,0 +1,6 @@
+Objetivo:
+Validar que `l` sem args só mostra produtos disponíveis.
+
+O que testa:
+- Produto com stock 0 (via `p` com qtd 0) não aparece em `l`.
+- Produto com stock esgotado por venda mas não removido não aparece.

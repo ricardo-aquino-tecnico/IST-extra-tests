@@ -1,0 +1,6 @@
+Objetivo:
+Validar que o programa termina corretamente com EOF (sem comando `q`).
+
+O que testa:
+- Input termina sem `q`.
+- O programa deve produzir output normal e libertar memória.

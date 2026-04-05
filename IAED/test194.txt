@@ -1,0 +1,7 @@
+Objetivo:
+Validar `f <nif> error` com dois argumentos.
+
+O que testa:
+- `f 123456789 error` com NIF e nome error.
+- Deve devolver produtos e não emitir fatura.
+- Stock reposto.

@@ -1,0 +1,6 @@
+Objetivo:
+Validar rejeição de descrição com mais de 50 bytes.
+
+O que testa:
+- Descrição com exatamente 51 bytes deve dar `invalid description`.
+- Descrição com 50 bytes deve ser aceite.

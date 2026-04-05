@@ -1,0 +1,6 @@
+Objetivo:
+Validar erro `no stock` ao adicionar produto sem quantidade.
+
+O que testa:
+- Produto com stock 0 — `a` deve dar `no stock`.
+- Após adicionar stock e comprar tudo, add novamente dá `no stock`.

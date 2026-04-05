@@ -1,0 +1,6 @@
+Objetivo:
+Validar `no such product` no `d` com EAN válido mas inexistente.
+
+O que testa:
+- `d <ean> <qtd>` com EAN válido que não foi registado.
+- Mensagem de erro correta.

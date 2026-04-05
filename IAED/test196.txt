@@ -1,0 +1,6 @@
+Objetivo:
+Validar que `l` com wildcard repetido repete a listagem.
+
+O que testa:
+- `l 96* 96*` deve listar o mesmo produto duas vezes.
+- Cada argumento gera uma listagem independente.

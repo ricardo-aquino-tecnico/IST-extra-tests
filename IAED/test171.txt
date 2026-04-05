@@ -1,0 +1,7 @@
+Objetivo:
+Validar descrição com exactamente 50 bytes incluindo UTF-8.
+
+O que testa:
+- Carácter acentuado ocupa 2 bytes em UTF-8.
+- 'Açúcar puro e fino da marca especial topo' = 47 chars, 50 bytes.
+- Deve ser aceite.

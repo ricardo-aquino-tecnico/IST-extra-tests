@@ -1,0 +1,6 @@
+Objetivo:
+Validar rejeição de preço zero e negativo.
+
+O que testa:
+- Preço 0.00 deve dar `invalid price`.
+- Preço -1.50 deve dar `invalid price`.

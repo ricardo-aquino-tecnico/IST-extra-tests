@@ -1,0 +1,7 @@
+Objetivo:
+Validar que `d <ean> <qtd>` com qtd == stock remove o produto.
+
+O que testa:
+- Produto é completamente removido do sistema.
+- `r <ean>` após remoção dá `no such product`.
+- `l` não mostra o produto.

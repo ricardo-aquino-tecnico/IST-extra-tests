@@ -1,0 +1,6 @@
+Objetivo:
+Validar nome de cliente com muitos caracteres.
+
+O que testa:
+- Nome entre aspas com espaços e mais de 50 bytes.
+- `c` lista corretamente o nome longo.

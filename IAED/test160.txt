@@ -1,0 +1,7 @@
+Objetivo:
+Validar nome de cliente com espaços delimitado por aspas.
+
+O que testa:
+- `f 123456789 "Ana Maria"` funciona.
+- `c "Ana Maria"` encontra o cliente.
+- `c` lista por ordem alfabética.

@@ -1,0 +1,7 @@
+Objetivo:
+Validar rejeição de EAN com comprimento diferente de 8 ou 13.
+
+O que testa:
+- EAN com 7 dígitos — `invalid ean`.
+- EAN com 9 dígitos — `invalid ean`.
+- EAN com 12 dígitos — `invalid ean`.

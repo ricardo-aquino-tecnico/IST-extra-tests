@@ -1,0 +1,7 @@
+Objetivo:
+Validar `invalid name` no `f` com 1 argumento (sem NIF).
+
+O que testa:
+- `f 1abc` — nome começa por número.
+- `f _test` — nome começa por underscore.
+- `f "2mundo"` — nome entre aspas começa por número.

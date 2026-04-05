@@ -1,0 +1,6 @@
+Objetivo:
+Validar remoção de itens do cesto com quantidade negativa.
+
+O que testa:
+- Adicionar 3, remover 2 — cesto fica com 1.
+- Remover mais do que existe no cesto — `invalid quantity`.

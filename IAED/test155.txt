@@ -1,0 +1,7 @@
+Objetivo:
+Validar redução de stock com `d <ean> <qtd>`.
+
+O que testa:
+- Reduzir parcialmente o stock.
+- Reduzir até 0 remove o produto.
+- Produto removido não aparece em `l`.

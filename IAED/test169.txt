@@ -1,0 +1,6 @@
+Objetivo:
+Validar prioridade de erros no `p`.
+
+O que testa:
+- EAN inválido + IVA inválido → imprime apenas `invalid ean`.
+- EAN válido + IVA inválido + preço inválido → `invalid iva`.

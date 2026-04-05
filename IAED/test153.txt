@@ -1,0 +1,7 @@
+Objetivo:
+Validar erros no comando `c`.
+
+O que testa:
+- `c 1abc` — nome inválido (não começa por letra).
+- `c Maria` — cliente inexistente (no such client).
+- `c` sem args quando existem facturas.

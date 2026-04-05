@@ -1,0 +1,6 @@
+Objetivo:
+Validar `a` sem argumentos quando o cesto está vazio.
+
+O que testa:
+- `a` com cesto vazio não imprime nada.
+- Após adicionar e facturar, `a` novamente não imprime nada.

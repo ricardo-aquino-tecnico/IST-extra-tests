@@ -1,0 +1,7 @@
+Objetivo:
+Validar erros no comando `d`.
+
+O que testa:
+- `d 99` — fatura inexistente.
+- `d 12345679 1` — EAN inválido.
+- `d` em produto no cesto — `product in use`.

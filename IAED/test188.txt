@@ -1,0 +1,6 @@
+Objetivo:
+Validar `no such product` para wildcard sem matches.
+
+O que testa:
+- Produto existe mas wildcard não corresponde.
+- Mensagem de erro com o wildcard exato.

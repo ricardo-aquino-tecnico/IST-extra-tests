@@ -1,0 +1,7 @@
+Objetivo:
+Validar que apagar todas as faturas zera os totais de `r`.
+
+O que testa:
+- Emitir 2 faturas, apagar ambas.
+- `r` mostra 0 items, 0 faturas, 0.00 valor.
+- Número de faturas emitidas continua correto em `c` (vazio).

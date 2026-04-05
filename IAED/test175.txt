@@ -1,0 +1,6 @@
+Objetivo:
+Validar acumulação de múltiplas adições ao cesto.
+
+O que testa:
+- 3 adições de 1 unidade: cesto mostra 3 unidades.
+- Preço total = 3 * preço * (1 + IVA).

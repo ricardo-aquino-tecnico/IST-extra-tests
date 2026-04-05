@@ -1,0 +1,7 @@
+Objetivo:
+Validar rejeição de descrição que não começa com maiúscula.
+
+O que testa:
+- Descrição a começar por minúscula — `invalid description`.
+- Descrição a começar por número — `invalid description`.
+- Descrição a começar por maiúscula — aceite.

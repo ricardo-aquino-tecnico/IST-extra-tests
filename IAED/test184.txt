@@ -1,0 +1,6 @@
+Objetivo:
+Validar EAN-8 válido com checksum correto.
+
+O que testa:
+- EAN-8 40170721 deve ser aceite.
+- Fluxo completo: criar, adicionar, facturar, resumo.

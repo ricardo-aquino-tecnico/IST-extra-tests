@@ -1,0 +1,6 @@
+Objetivo:
+Validar erro `product in use` ao tentar apagar produto no cesto.
+
+O que testa:
+- `d <ean> <qtd>` com produto no cesto.
+- Após facturar, `d` funciona.

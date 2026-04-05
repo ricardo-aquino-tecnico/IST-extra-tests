@@ -1,0 +1,7 @@
+Objetivo:
+Validar wildcard `*` em posição intermédia.
+
+O que testa:
+- `l 96*74` encontra 96385074.
+- `l 96*99` não encontra nada.
+- `l *074` encontra 96385074.
