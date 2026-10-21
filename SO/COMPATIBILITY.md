@@ -84,7 +84,8 @@ profiling com a ferramenta externa real. Os testes estão em `test_runner.py`,
 | — | `exercise1` | Alias da suite manual; mantém o uso anterior |
 | — | `exercise2` | Seleção, logs, exportação, repetição e skips; aplicações C reais verificam processos, cópias, limites e chamadas de CPU |
 | — | `exercise3` | Seleção, logs, exportação e repetição; controlos aceitam ambas as bases e distinguem execução paralela de serial |
-| — | `selftest` | 38 verificações automáticas, com subcasos para parâmetros e falhas |
+| — | `exercises` | Corre os três exercícios, continua após falhas, propaga MAX_THREADS e permite exportação; controlo positivo e negativo |
+| — | `selftest` | 39 verificações automáticas, com subcasos para parâmetros e falhas |
 
 ## Variáveis de IAED, uma a uma
 

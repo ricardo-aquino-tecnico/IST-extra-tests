@@ -80,6 +80,25 @@ class MakefileTests(unittest.TestCase):
             self.make("rerun", f"FAIL_LOG={logfile}")
             self.assertEqual(logfile.read_text(), "")
 
+    def test_exercises_runs_every_exercise_even_after_failure_and_exports(self):
+        for exercise in (2, 3):
+            for suffix in (".in", ".out", ".txt"):
+                shutil.copyfile(ROOT / ("testes/exercicio1-test004" + suffix),
+                                self.root / "testes" / (f"exercicio{exercise}-test004" + suffix))
+        self.exe.write_text(self.exe.read_text() + "assert len(sys.argv)==7 and sys.argv[6]=='1'\n")
+        result = self.make("exercises", "MAX_THREADS=1")
+        self.assertEqual(result.stdout.count(".in PASSED"), 3)
+        (self.root / "testes/exercicio1-test004.out").write_text("wrong expectation\n")
+        result = self.make("exercises", "MAX_THREADS=1", status=2)
+        self.assertIn("testes/exercicio1-test004.in FAILED", result.stdout)
+        for exercise in (2, 3):
+            self.assertIn(f"testes/exercicio{exercise}-test004.in PASSED", result.stdout)
+            self.assertEqual((self.root / f"testes/exercicio{exercise}-tests_failed.log").read_text(), "")
+        result = self.make("exercises", "export-zip", "MAX_THREADS=1")
+        self.assertEqual(result.stdout.count(".in PASSED"), 2)
+        with zipfile.ZipFile(next(self.root.glob("export_*.zip"))) as archive:
+            self.assertIn("export/testes/exercicio1-test004.status.json", archive.namelist())
+
     def test_each_zip_combination_creates_one_archive(self):
         (self.root / "tests_failed.log").write_text("testes/exercicio1-test004.in\n")
         for goals in (("export-zip", "zip"), ("export", "zip"), ("zip", "export"), ("zip", "export-zip"),

@@ -10,12 +10,18 @@ A [auditoria de compatibilidade com IAED](COMPATIBILITY.md) detalha cada alvo e
 cada opção, as adaptações ao enunciado de SO e o que foi efetivamente verificado.
 
 ```sh
+make exercises EXE=/caminho/cloudIST
 make exercise1 EXE=/caminho/cloudIST-ex1
 make exercise2 EXE=/caminho/cloudIST-ex2
 make exercise3 EXE=/caminho/cloudIST-ex3
 make exercise2 TESTS="testes/exercicio2-test001.in testes/exercicio2-test026.in"
 make exercise3 TESTS="testes/exercicio3-test011.in"
 ```
+
+`make exercises` executa os 179 casos, pela ordem dos exercícios 1, 2 e 3,
+continuando mesmo que um deles falhe. Os alvos separados permitem filtrar os
+casos durante o desenvolvimento. Não é necessário separar os executáveis se a
+tua versão suportar os comportamentos testados.
 
 Os nomes dos executáveis acima são exemplos; `EXE` aceita o nome real do teu
 programa. `make` e `make all` mantêm a seleção do exercício 1, para preservar o
@@ -29,6 +35,18 @@ e a do exercício 2. Não exige que a implementação de threads execute process
 de VMs. Cada caso indica o seu `MAX_THREADS` através de `# THREADS:`. Para testar
 os exercícios 1 ou 2 num binário que já exige esse argumento extra, usa
 `MAX_THREADS=1`; isso acrescenta o argumento depois de `INPUT_DIR`.
+Por exemplo, para correr tudo num executável que já exige esse argumento:
+
+```sh
+make exercises EXE=/caminho/cloudIST MAX_THREADS=1
+```
+
+O valor 1 mantém sequenciais os casos dos exercícios 1/2; os casos do exercício 3
+usam o número de threads indicado em cada teste. Uma implementação do exercício 3
+sobre a base do exercício 1 pode não implementar os processos exigidos pelo
+exercício 2. Correr todos permite ver esses resultados; não implica que uma única
+versão tenha de passar expectativas de todas as fases (incluindo a persistência
+das pastas das VMs no exercício 1 e a sua limpeza no exercício 2).
 
 ## Os 150 novos casos
 
@@ -130,6 +148,7 @@ ao domínio de SO:
 | `all` | Manual, stress, escala, fuzz e colisões, com resumo por suite e duração |
 | `quick` | As mesmas cinco suites, com limites reduzidos |
 | `python` | As quatro suites geradas, sem os testes manuais |
+| `exercises` | Os 179 casos manuais dos três exercícios; continua após falhas e mantém logs separados |
 | `stress` | Sequências aleatórias válidas de D/R/L/E, mais cópias com A; compara com `model.py` |
 | `scale` | Muitos tipos, reservas e ficheiros `.conf`, incluindo uma cópia recursiva |
 | `fuzz-parse` | Comandos inválidos, argumentos incompletos, overflows e identificadores longos |
