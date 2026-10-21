@@ -19,6 +19,7 @@ class RunnerTests(unittest.TestCase):
     def test_resolve_accepts_project_folder_and_caches_absolute_file(self):
         with tempfile.TemporaryDirectory(prefix="so-resolve-") as temp:
             root = Path(temp)
+            (root / "testes").mkdir(exist_ok=True)
             project = root / "project folder"
             project.mkdir()
             exe = project / "cloudIST"
@@ -40,82 +41,86 @@ class RunnerTests(unittest.TestCase):
     def test_make_uses_so_runner_and_checks_process(self):
         with tempfile.TemporaryDirectory(prefix="so-make-") as temp:
             root = Path(temp)
-            for name in ("Makefile", "run_tests.py", "tools.py", "model.py", "generated.py", "random_stress.py", "scale_limits.py", "fuzz_parse.py", "scale_collisions.py", "test004.in", "test004.out", "test004.txt"):
+            (root / "testes").mkdir(exist_ok=True)
+            for name in ("Makefile", "run_tests.py", "tools.py", "model.py", "generated.py", "random_stress.py", "scale_limits.py", "fuzz_parse.py", "scale_collisions.py", "testes/exercicio1-test004.in", "testes/exercicio1-test004.out", "testes/exercicio1-test004.txt"):
+                (root / name).parent.mkdir(parents=True, exist_ok=True)
                 shutil.copyfile(ROOT / name, root / name)
             exe = root / "fake cloudIST"
             for exitcode, stderr, expected_status in [(0, "", 0), (7, "", 2), (0, "problem", 2)]:
                 exe.write_text(f"#!{sys.executable}\nfrom pathlib import Path\nimport sys\n"
                                "assert len(sys.argv) == 6\n"
                                "assert (Path(sys.argv[5])/'10.conf').read_text() == 'L\\n'\n"
-                               f"print(Path({str(ROOT / 'test004.out')!r}).read_text(), end='')\n"
+                               f"print(Path({str(ROOT / 'testes/exercicio1-test004.out')!r}).read_text(), end='')\n"
                                f"sys.stderr.write({stderr!r})\nraise SystemExit({exitcode})\n")
                 exe.chmod(0o700)
-                result = subprocess.run(["make", "manual", "TESTS=test004.in", "NO_PROMPT=1", f"EXE={exe}"],
+                result = subprocess.run(["make", "manual", "TESTS=testes/exercicio1-test004.in", "NO_PROMPT=1", f"EXE={exe}"],
                                         cwd=root, capture_output=True, text=True, timeout=10)
                 with self.subTest(exitcode=exitcode, stderr=stderr):
                     self.assertEqual(result.returncode, expected_status, result.stdout + result.stderr)
-                    label = "\033[1;31mtest test004.in FAILED" if expected_status else "\033[1;32mtest test004.in PASSED"
+                    label = "\033[1;31mtest testes/exercicio1-test004.in FAILED" if expected_status else "\033[1;32mtest testes/exercicio1-test004.in PASSED"
                     self.assertIn(label, result.stdout)
                     self.assertIn("\033[0m", result.stdout)
-                    self.assertTrue((root / "test004.status.json").is_file())
-                    metadata = json.loads((root / "test004.status.json").read_text())
+                    self.assertTrue((root / "testes/exercicio1-test004.status.json").is_file())
+                    metadata = json.loads((root / "testes/exercicio1-test004.status.json").read_text())
                     self.assertEqual(metadata["returncode"], exitcode)
                     self.assertFalse(metadata["timed_out"])
             result = subprocess.run(["make", "count", "export-zip"], cwd=root, capture_output=True, text=True, timeout=10)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             with zipfile.ZipFile(next(root.glob("export_*.zip"))) as archive:
-                for name in ("test004.in", "test004.out", "test004.stdout", "test004.stderr", "test004.status.json",
+                for name in ("testes/exercicio1-test004.in", "testes/exercicio1-test004.out", "testes/exercicio1-test004.stdout", "testes/exercicio1-test004.stderr", "testes/exercicio1-test004.status.json",
                              "test_stats.txt", "Makefile", "run_tests.py", "tools.py"):
                     self.assertIn("export/" + name, archive.namelist())
-            self.assertEqual((root / "tests_failed.log").read_text(), "test004.in\n")
+            self.assertEqual((root / "tests_failed.log").read_text(), "testes/exercicio1-test004.in\n")
             result = subprocess.run(["make", "rerun"], cwd=root, capture_output=True, text=True, timeout=10)
             self.assertEqual(result.returncode, 2, result.stdout + result.stderr)
 
     def test_compare_includes_exit_code_and_stderr(self):
         with tempfile.TemporaryDirectory(prefix="so-compare-") as temp:
             root = Path(temp)
-            for name in ("Makefile", "run_tests.py", "tools.py", "model.py", "generated.py", "random_stress.py", "scale_limits.py", "fuzz_parse.py", "scale_collisions.py", "test004.in", "test004.out", "test004.txt"):
+            (root / "testes").mkdir(exist_ok=True)
+            for name in ("Makefile", "run_tests.py", "tools.py", "model.py", "generated.py", "random_stress.py", "scale_limits.py", "fuzz_parse.py", "scale_collisions.py", "testes/exercicio1-test004.in", "testes/exercicio1-test004.out", "testes/exercicio1-test004.txt"):
+                (root / name).parent.mkdir(parents=True, exist_ok=True)
                 shutil.copyfile(ROOT / name, root / name)
             reference, other = root / "reference", root / "other"
             code = (f"#!{sys.executable}\nfrom pathlib import Path\nimport sys\n"
-                    f"print(Path({str(ROOT / 'test004.out')!r}).read_text(), end='')\n")
+                    f"print(Path({str(ROOT / 'testes/exercicio1-test004.out')!r}).read_text(), end='')\n")
             reference.write_text(code)
             reference.chmod(0o700)
             for extra, expected in [("", 0), ("raise SystemExit(7)\n", 2), ("sys.stderr.write('problem')\n", 2),
                                     ("print('extra stdout outside L')\n", 2)]:
                 other.write_text(code + extra)
                 other.chmod(0o700)
-                result = subprocess.run(["make", "compare", "TESTS=test004.in", f"EXE={reference}", f"EXE2={other}"],
+                result = subprocess.run(["make", "compare", "TESTS=testes/exercicio1-test004.in", f"EXE={reference}", f"EXE2={other}"],
                                         cwd=root, capture_output=True, text=True, timeout=10)
                 self.assertEqual(result.returncode, expected, result.stdout + result.stderr)
-                self.assertIn("test test004.in " + ("DIFFERS" if expected else "IDENTICAL"), result.stdout)
-                self.assertEqual((root / "test004.cmpdiff").exists(), bool(expected))
-            result = subprocess.run(["make", "compare", "TESTS=test004.in", "COMPARE_STDOUT=0", f"EXE={reference}", f"EXE2={other}"],
+                self.assertIn("test testes/exercicio1-test004.in " + ("DIFFERS" if expected else "IDENTICAL"), result.stdout)
+                self.assertEqual((root / "testes/exercicio1-test004.cmpdiff").exists(), bool(expected))
+            result = subprocess.run(["make", "compare", "TESTS=testes/exercicio1-test004.in", "COMPARE_STDOUT=0", f"EXE={reference}", f"EXE2={other}"],
                                     cwd=root, capture_output=True, text=True, timeout=10)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             reference.write_text(code + "raise SystemExit(7)\n")
             other.write_text(code + "raise SystemExit(7)\n")
-            result = subprocess.run(["make", "compare", "TESTS=test004.in", f"EXE={reference}", f"EXE2={other}"],
+            result = subprocess.run(["make", "compare", "TESTS=testes/exercicio1-test004.in", f"EXE={reference}", f"EXE2={other}"],
                                     cwd=root, capture_output=True, text=True, timeout=10)
             self.assertEqual(result.returncode, 2)
-            self.assertIn("Ambos os executáveis falharam", (root / "test004.cmpdiff").read_text())
+            self.assertIn("Ambos os executáveis falharam", (root / "testes/exercicio1-test004.cmpdiff").read_text())
             result = subprocess.run(["make", "export-zip", "NO_PROMPT=1"], cwd=root, capture_output=True, text=True, timeout=10)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             with zipfile.ZipFile(next(root.glob("export_*.zip"))) as archive:
-                self.assertIn("export/compare/test004.cmpdiff", archive.namelist())
+                self.assertIn("export/compare/testes/exercicio1-test004.cmpdiff", archive.namelist())
                 self.assertIn("export/compare/compare_failed.log", archive.namelist())
             from run_tests import main
-            sample = run_case(root / "test004.in", reference, 3)
+            sample = run_case(root / "testes/exercicio1-test004.in", reference, 3)
             skipped = dict(sample, returncode=None, reasons=[], comparison="", stdout="", actual="",
                            skipped="requisito indisponível na segunda execução")
             skipped.pop("comparison_stdout")
             with patch("run_tests.ROOT", root.resolve()), patch("run_tests.run_case", side_effect=[sample, skipped]), \
-                 patch("sys.argv", ["run_tests.py", "--exe", str(reference), "--exe2", str(other), "test004.in"]):
+                 patch("sys.argv", ["run_tests.py", "--exe", str(reference), "--exe2", str(other), "testes/exercicio1-test004.in"]):
                 self.assertEqual(main(), 1)
             reference.write_text(code)
-            sample = run_case(root / "test004.in", reference, 3)
+            sample = run_case(root / "testes/exercicio1-test004.in", reference, 3)
             with patch("run_tests.ROOT", root.resolve()), patch("run_tests.run_case", side_effect=[sample, skipped]), \
-                 patch("sys.argv", ["run_tests.py", "--exe", str(reference), "--exe2", str(other), "test004.in"]):
+                 patch("sys.argv", ["run_tests.py", "--exe", str(reference), "--exe2", str(other), "testes/exercicio1-test004.in"]):
                 self.assertEqual(main(), 0)
             summary = json.loads((root / "test_run.status.json").read_text())
             self.assertEqual((summary["passed"], summary["skipped"]), (0, 1))
@@ -143,13 +148,14 @@ class RunnerTests(unittest.TestCase):
         from tools import count_tests
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp).resolve()
-            for name in ("test001", "test002"):
+            (root / "testes").mkdir(exist_ok=True)
+            for name in ("testes/exercicio1-test001", "testes/exercicio1-test002"):
                 (root / (name + ".in")).write_text("L\n")
             command = root / "custom_d.txt"
-            command.write_text("# explicit selection\ntest002.in # deliberately lacks D\n")
+            command.write_text("# explicit selection\ntestes/exercicio1-test002.in # deliberately lacks D\n")
             with patch("run_tests.ROOT", root), patch("tools.ROOT", root):
-                self.assertEqual(select_command_cases("d", [root / "test001.in"], "custom_"), [root / "test002.in"])
-                count_tests(["test001.in", "test002.in"], root / "stats", "custom_")
+                self.assertEqual(select_command_cases("d", [root / "testes/exercicio1-test001.in"], "custom_"), [root / "testes/exercicio1-test002.in"])
+                count_tests(["testes/exercicio1-test001.in", "testes/exercicio1-test002.in"], root / "stats", "custom_")
                 self.assertRegex((root / "stats").read_text(), r"d\s+1 tests")
                 command.write_text("# empty list\n")
                 with self.assertRaisesRegex(ValueError, "No tests listed"):
@@ -158,6 +164,7 @@ class RunnerTests(unittest.TestCase):
     def test_source_resolution_prompts_again_and_remembers_project(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp).resolve()
+            (root / "testes").mkdir(exist_ok=True)
             project = root / "source project"
             project.mkdir()
             (project / "Makefile").touch()
@@ -170,32 +177,35 @@ class RunnerTests(unittest.TestCase):
         from tools import export_failures
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp).resolve()
-            (root / "test001.in").touch()
-            (root / "test001.out").touch()
-            (root / "tests_failed.log").write_text("test001.in\n")
+            (root / "testes").mkdir(exist_ok=True)
+            (root / "testes/exercicio1-test001.in").touch()
+            (root / "testes/exercicio1-test001.out").touch()
+            (root / "tests_failed.log").write_text("testes/exercicio1-test001.in\n")
             args = SimpleNamespace(fail_log="tests_failed.log", compare_log="compare_failed.log", stats="test_stats.txt", zip=False)
             with patch("tools.ROOT", root), patch("run_tests.ROOT", root), patch("tools.sys.stdin.isatty", return_value=True), \
                  patch.dict(os.environ, {"NO_PROMPT": "0", "AUTO_ZIP": "0"}), patch("builtins.input", side_effect=["y", "y"]):
                 export_failures(args)
             self.assertFalse((root / "export").exists())
-            self.assertEqual((root / "tests_failed.log").read_text(), "test001.in\n")
+            self.assertEqual((root / "tests_failed.log").read_text(), "testes/exercicio1-test001.in\n")
             with zipfile.ZipFile(next(root.glob("export_*.zip"))) as archive:
-                self.assertIn("export/test001.in", archive.namelist())
+                self.assertIn("export/testes/exercicio1-test001.in", archive.namelist())
 
     def test_show_diff_restores_command_context_and_manual_filter(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
+            (root / "testes").mkdir(exist_ok=True)
             for name in ("Makefile", "tools.py", "run_tests.py", "generated.py", "model.py"):
+                (root / name).parent.mkdir(parents=True, exist_ok=True)
                 shutil.copyfile(ROOT / name, root / name)
             generated = root / "stress-failures"
             generated.mkdir()
-            for base in (root / "test004", generated / "seed_42_case_000000"):
+            for base in (root / "testes/exercicio1-test004", generated / "seed_42_case_000000"):
                 base.with_suffix(".in").write_text("# FILE: first.conf\nE 0\nL\n")
                 base.with_suffix(".out").write_text("expected\n")
                 base.with_suffix(".myout").write_text("wrong\n")
                 base.with_suffix(".diff").write_text("difference\n")
                 base.with_suffix(".stderr").write_text("diagnostic\n")
-            (root / "tests_failed.log").write_text("test004.in\n")
+            (root / "tests_failed.log").write_text("testes/exercicio1-test004.in\n")
             (generated / "tests_failed.log").write_text("seed_42_case_000000.in\n")
             for only_manual in ("0", "1"):
                 result = subprocess.run(["make", "show-diff", f"ONLY_MANUAL={only_manual}", "NO_PROMPT=1"],
@@ -212,9 +222,10 @@ class RunnerTests(unittest.TestCase):
         source = (ROOT / "Makefile").read_text().split("define PRETTY_DIFF_PY\n", 1)[1].split("\nendef", 1)[0]
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
-            (root / "test004.diff").write_text("difference\n")
-            (root / "test004.out").write_text("expected\n")
-            (root / "test004.myout").write_text("wrong\n")
+            (root / "testes").mkdir(exist_ok=True)
+            (root / "testes/exercicio1-test004.diff").write_text("difference\n")
+            (root / "testes/exercicio1-test004.out").write_text("expected\n")
+            (root / "testes/exercicio1-test004.myout").write_text("wrong\n")
             previous = Path.cwd()
             try:
                 os.chdir(root)
@@ -225,7 +236,7 @@ class RunnerTests(unittest.TestCase):
                     sys.stdin.isatty = lambda: True
                     exec(compile(source, "PRETTY_DIFF_PY", "exec"), {})
                     self.assertEqual([call.args[0] for call in launch.call_args_list],
-                                     [["make", "-s", "profile", "TEST=test004.in"], ["make", "-s", "analyse", "TEST=test004.in"]])
+                                     [["make", "-s", "profile", "TEST=testes/exercicio1-test004.in"], ["make", "-s", "analyse", "TEST=testes/exercicio1-test004.in"]])
                     self.assertIn("Opção inválida", sys.stderr.getvalue())
             finally:
                 os.chdir(previous)
@@ -234,22 +245,24 @@ class RunnerTests(unittest.TestCase):
     def test_asan_builds_multiple_sources_without_touching_project(self):
         with tempfile.TemporaryDirectory(prefix="so-asan-") as temp:
             root = Path(temp)
+            (root / "testes").mkdir(exist_ok=True)
             suite = root / "suite"
             project = root / "source project"
             suite.mkdir()
             project.mkdir()
-            for name in ("Makefile", "run_tests.py", "tools.py", "model.py", "generated.py", "random_stress.py", "scale_limits.py", "fuzz_parse.py", "scale_collisions.py", "test004.in", "test004.out", "test004.txt"):
+            for name in ("Makefile", "run_tests.py", "tools.py", "model.py", "generated.py", "random_stress.py", "scale_limits.py", "fuzz_parse.py", "scale_collisions.py", "testes/exercicio1-test004.in", "testes/exercicio1-test004.out", "testes/exercicio1-test004.txt"):
+                (suite / name).parent.mkdir(parents=True, exist_ok=True)
                 shutil.copyfile(ROOT / name, suite / name)
             (project / "main.c").write_text('#include <stdio.h>\nvoid report(void);\nint main(void) { report(); return 0; }\n')
-            output = json.dumps((ROOT / "test004.out").read_text(), ensure_ascii=False)
+            output = json.dumps((ROOT / "testes/exercicio1-test004.out").read_text(), ensure_ascii=False)
             (project / "helper.c").write_text(f'#include <stdio.h>\nvoid report(void) {{ fputs({output}, stdout); }}\n')
             (project / "Makefile").write_text('cloudIST: main.o helper.o\n\t$(CC) $(CFLAGS) -o $@ $^\n')
-            result = subprocess.run(["make", "asan", "TESTS=test004.in", "ASAN_FUZZ_CASES=0", "ASAN_COLLISIONS_COUNT=0", f"PROJECT_DIR={project}"],
+            result = subprocess.run(["make", "asan", "TESTS=testes/exercicio1-test004.in", "ASAN_FUZZ_CASES=0", "ASAN_COLLISIONS_COUNT=0", f"PROJECT_DIR={project}"],
                                     cwd=suite, capture_output=True, text=True, timeout=30)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             self.assertIn("3/3 partes passaram",result.stdout)
             self.assertEqual(sorted(path.name for path in project.iterdir()), ["Makefile", "helper.c", "main.c"])
-            self.assertEqual(json.loads((suite / "test004.status.json").read_text())["returncode"], 0)
+            self.assertEqual(json.loads((suite / "testes/exercicio1-test004.status.json").read_text())["returncode"], 0)
             original = root / "original-cloudIST"
             original.write_text("#!/bin/sh\nexit 0\n")
             original.chmod(0o700)
@@ -262,7 +275,7 @@ class RunnerTests(unittest.TestCase):
             if shutil.which("gcov"):
                 (project / "tests").mkdir()
                 (project / "tests/unbuilt.c").write_text("#error This file must not be compiled\n")
-                result = subprocess.run(["make", "coverage", "TESTS=test004.in", "EXE=/usr/bin/true", f"PROJECT_DIR={project}"],
+                result = subprocess.run(["make", "coverage", "TESTS=testes/exercicio1-test004.in", "EXE=/usr/bin/true", f"PROJECT_DIR={project}"],
                                         cwd=suite, capture_output=True, text=True, timeout=30)
                 self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
                 self.assertTrue(list((suite / "coverage").glob("*.gcov")))
@@ -281,7 +294,7 @@ class RunnerTests(unittest.TestCase):
             debugger.chmod(0o700)
             env = dict(os.environ, PATH=str(bin_dir) + os.pathsep + os.environ["PATH"])
             for target, extra in (("valgrind", []), ("analyse", ["TEST=004"])):
-                result = subprocess.run(["make", target, "TESTS=test004.in", "EXE=/usr/bin/true", f"PROJECT_DIR={project}", *extra],
+                result = subprocess.run(["make", target, "TESTS=testes/exercicio1-test004.in", "EXE=/usr/bin/true", f"PROJECT_DIR={project}", *extra],
                                         cwd=suite, capture_output=True, text=True, timeout=30, env=env)
                 self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
                 self.assertTrue((suite / ".build" / target / "cloudIST").is_file())
@@ -289,6 +302,7 @@ class RunnerTests(unittest.TestCase):
     def test_debugger_receives_real_arguments_and_configuration(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
+            (root / "testes").mkdir(exist_ok=True)
             case = root / "test.in"
             case.write_text("# FILE: 10.conf\nL\n")
             case.with_suffix(".out").write_text("")
@@ -307,8 +321,11 @@ class RunnerTests(unittest.TestCase):
             self.assertTrue(all(not path.exists() for path in seen))
 
     def test_catalogue(self):
-        cases = sorted(ROOT.glob("test*.in"))
-        self.assertGreaterEqual(len(cases), 20)
+        cases = sorted((ROOT / "testes").glob("exercicio1-test*.in"))
+        self.assertEqual(len(cases), 79)
+        self.assertFalse(list(ROOT.glob("test[0-9]*.in")))
+        self.assertFalse((ROOT / "exercise2").exists())
+        self.assertFalse((ROOT / "exercise3").exists())
         for case in cases:
             with self.subTest(case=case.stem):
                 self.assertTrue(case.with_suffix(".out").is_file())
@@ -328,6 +345,7 @@ class RunnerTests(unittest.TestCase):
     def test_copy_checks_bytes_directories_and_links(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
+            (root / "testes").mkdir(exist_ok=True)
             source, dest = root / "source", root / "dest"
             source.mkdir()
             (source / "empty").mkdir()
@@ -354,6 +372,7 @@ class RunnerTests(unittest.TestCase):
     def test_process_exit_timeout_and_missing_listing_fail(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
+            (root / "testes").mkdir(exist_ok=True)
             case = root / "test.in"
             case.write_text("# FILE: 10.conf\nL\n")
             case.with_suffix(".out").write_text(STATUS + "\n" + END + "\n")
@@ -384,6 +403,7 @@ class RunnerTests(unittest.TestCase):
     def test_listing_accepts_equivalent_relative_paths(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
+            (root / "testes").mkdir(exist_ok=True)
             case = root / "test.in"
             case.write_text("# FILE: 10.conf\nD SMALL inputs app 1 1 1\nL\n")
             case.with_suffix(".out").write_text(STATUS + "\n├─ Executable : @EXE@\n└─ Input Dir : @INPUT@\n" + END + "\n")
@@ -397,6 +417,7 @@ class RunnerTests(unittest.TestCase):
     def test_copy_end_to_end_and_cleanup(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
+            (root / "testes").mkdir(exist_ok=True)
             case = root / "test.in"
             case.write_text("# FILE: 10.conf\nD TEST @INPUT@ @EXE@ 1 1 1\n"
                             "R @RESERVA@ TEST 1 1\nA @RESERVA@\n"

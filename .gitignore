@@ -10,12 +10,13 @@ SO/*.stdout
 SO/*.status.json
 SO/*.gmon
 SO/*.reason
-SO/exercise[23]/*.stdout
-SO/exercise[23]/*.status.json
-SO/exercise[23]/*.gmon
-SO/exercise[23]/*.reason
+SO/testes/*.stdout
+SO/testes/*.status.json
+SO/testes/*.gmon
+SO/testes/*.reason
 SO/test_stats.txt
 SO/profile_test*.txt
+SO/profile_exercicio*-test*.txt
 SO/coverage_report.txt
 SO/coverage/
 SO/test_summary.txt

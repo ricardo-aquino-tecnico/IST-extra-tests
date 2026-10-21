@@ -18,8 +18,8 @@ from run_tests import ROOT, END, STATUS, normalise, run_case, save_result, split
 
 class AdvancedTests(unittest.TestCase):
     def test_150_new_cases_have_distinct_inputs_and_complete_expectations(self):
-        groups = [[ROOT / f"test{i:03d}.in" for i in range(30,80)],
-                  sorted((ROOT/"exercise2").glob("test*.in")), sorted((ROOT/"exercise3").glob("test*.in"))]
+        groups = [[ROOT / "testes" / f"exercicio1-test{i:03d}.in" for i in range(30,80)],
+                  sorted((ROOT/"testes").glob("exercicio2-test*.in")), sorted((ROOT/"testes").glob("exercicio3-test*.in"))]
         fingerprints = set()
         for exercise,cases in enumerate(groups,1):
             self.assertEqual(len(cases),50)
@@ -75,10 +75,10 @@ subprocess.run(['cpulimit','-q','-f','-l',str(percent),'--',definition[3]],check
                 "for _ in range(int(sys.argv[1])): print('Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk')\n" +
                 f"print('[ RESERVATIONS ] (0 total)')\nprint({END!r})\n")
             exe.chmod(0o700)
-            names = ["test001","test036","test041"] + (["test050"] if shutil.which("cpulimit") else [])
-            for name in names:
-                case = ROOT/"exercise2"/(name+".in")
-                with self.subTest(case=name):
+            numbers = [1,36,41] + ([50] if shutil.which("cpulimit") else [])
+            for number in numbers:
+                case = ROOT/"testes"/f"exercicio2-test{number:03d}.in"
+                with self.subTest(case=case.name):
                     result = run_case(case,exe,6)
                     if result.get("skipped"):
                         self.assertIn("cpulimit",result["skipped"])
@@ -88,7 +88,7 @@ subprocess.run(['cpulimit','-q','-f','-l',str(percent),'--',definition[3]],check
                     self.assertEqual(result["cpu_calls"][0]["tag"],result["events"][0]["tag"])
                     self.assertTrue(result["events"][0]["ready"])
             exe.write_text(f"#!{sys.executable}\nimport sys\nsys.stderr.write('VM execution not implemented in base version.\\n')\n")
-            result = run_case(ROOT/"exercise2/test001.in",exe,1)
+            result = run_case(ROOT/"testes/exercicio2-test001.in",exe,1)
             self.assertTrue(result["reasons"])
 
     @unittest.skipUnless(shutil.which("cc"),"Requer compilador C")
@@ -115,12 +115,13 @@ for result in results:
 '''
             for base in (1,2):
                 exe.write_text(f'#!{sys.executable}\nRUN_VM={base==2}\n'+body);exe.chmod(0o700)
-                result=run_case(ROOT/'exercise3/test011.in',exe,3)
+                result=run_case(ROOT/'testes/exercicio3-test011.in',exe,3)
                 self.assertFalse(result['reasons'],result)
 
     def test_threads_check_accepts_parallel_and_rejects_serial_controls(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
+            (root / "testes").mkdir(exist_ok=True)
             case = root/"test.in"
             checks = [dict(kind="after",path=f"/tmp/CloudIST/@RESERV{i:06d}@/@RESERV{i:06d}@_1",min_ms=580) for i in range(2)]
             checks.append(dict(kind="duration",min_ms=580,max_ms=1100))
@@ -151,7 +152,7 @@ files=sorted(Path(sys.argv[5]).glob('*.conf'))
 
     def test_linux_only_case_is_reported_as_skipped_without_running(self):
         with patch('advanced.sys.platform','darwin'):
-            result=run_case(ROOT/'exercise2/test031.in',Path('/usr/bin/false'),1)
+            result=run_case(ROOT/'testes/exercicio2-test031.in',Path('/usr/bin/false'),1)
         self.assertIn('skipped',result)
         self.assertIsNone(result['returncode'])
         self.assertFalse(result['reasons'])
@@ -162,7 +163,7 @@ files=sorted(Path(sys.argv[5]).glob('*.conf'))
             tool.write_text('#!/bin/sh\nif [ "$1" = --help ]; then printf " -q, --quiet\\n -f, --foreground\\n"; exit 0; fi\necho "opendir: unavailable" >&2\nexit 2\n')
             tool.chmod(0o700)
             with patch.dict(os.environ, {"PATH": temp + os.pathsep + os.environ["PATH"]}):
-                result = run_case(ROOT / 'exercise2/test050.in', Path('/usr/bin/false'), 1)
+                result = run_case(ROOT / 'testes/exercicio2-test050.in', Path('/usr/bin/false'), 1)
             self.assertIn('opendir: unavailable', result['skipped'])
             self.assertIsNone(result['returncode'])
             self.assertFalse(result['reasons'])
@@ -170,6 +171,7 @@ files=sorted(Path(sys.argv[5]).glob('*.conf'))
     def test_timeout_stops_descendants_before_removing_fixture(self):
         with tempfile.TemporaryDirectory() as temp:
             root=Path(temp)
+            (root / "testes").mkdir(exist_ok=True)
             marker=root/'child-finished';started=root/'started'
             exe=root/'controller'
             exe.write_text('#!/bin/sh\n(sleep 1; printf done > '+shlex.quote(str(marker))+') &\nprintf ready > '+shlex.quote(str(started))+'\nwait\n')
@@ -183,22 +185,23 @@ files=sorted(Path(sys.argv[5]).glob('*.conf'))
             time.sleep(.6)
             self.assertFalse(marker.exists())
 
-    def test_make_export_and_rerun_support_exercise_directories(self):
+    def test_make_export_and_rerun_support_flat_exercise_names(self):
         with tempfile.TemporaryDirectory() as temp:
             root=Path(temp)
+            (root / "testes").mkdir(exist_ok=True)
             for name in ('Makefile','run_tests.py','tools.py','model.py','generated.py','advanced.py','vm_probe.c'):
                 shutil.copyfile(ROOT/name,root/name)
-            (root/'exercise3').mkdir()
             for suffix in ('.in','.out','.arg','.txt'):
-                shutil.copyfile(ROOT/'exercise3'/('test001'+suffix),root/'exercise3'/('test001'+suffix))
+                name='testes/exercicio3-test001'+suffix
+                shutil.copyfile(ROOT/name,root/name)
             result=subprocess.run(['make','exercise3','export-zip','EXE=/usr/bin/false','NO_PROMPT=1'],cwd=root,capture_output=True,text=True,timeout=10)
             self.assertEqual(result.returncode,0,result.stdout+result.stderr)
             with zipfile.ZipFile(next(root.glob('export_*.zip'))) as archive:
-                for name in ('exercise3/test001.status.json','exercise3/test001.in','advanced.py','vm_probe.c'):
+                for name in ('testes/exercicio3-test001.status.json','testes/exercicio3-test001.in','advanced.py','vm_probe.c'):
                     self.assertIn('export/'+name,archive.namelist())
             result=subprocess.run(['make','rerun','EXE=/usr/bin/false','NO_PROMPT=1'],cwd=root,capture_output=True,text=True,timeout=10)
             self.assertEqual(result.returncode,2,result.stdout+result.stderr)
-            self.assertIn('exercise3/test001.in FAILED',result.stdout)
+            self.assertIn('testes/exercicio3-test001.in FAILED',result.stdout)
 
 
 if __name__ == '__main__':

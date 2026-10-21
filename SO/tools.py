@@ -14,16 +14,15 @@ import tempfile
 import textwrap
 import time
 
-from run_tests import ROOT, colour, command_names, select_cases, select_command_cases
+from run_tests import ROOT, colour, command_names, exercise_status, select_cases, select_command_cases
 from generated import FAIL_DIRS
 
 
 SUITE_DIRS = dict(zip(("stress", "scale", "fuzz-parse", "scale-collisions"), FAIL_DIRS))
-CASE_DIRS = (*FAIL_DIRS, "exercise2", "exercise3")
 
 
 def failure_logs(manual_log, generated=True):
-    logs = [manual_log, *(os.environ.get(f"EXERCISE{i}_FAIL_LOG", f"exercise{i}/tests_failed.log") for i in (2, 3))]
+    logs = [manual_log, *(os.environ.get(f"EXERCISE{i}_FAIL_LOG", f"testes/exercicio{i}-tests_failed.log") for i in (2, 3))]
     if generated:
         logs += [str(Path(directory) / "tests_failed.log") for directory in FAIL_DIRS]
     return list(dict.fromkeys(Path(log) for log in logs))
@@ -73,8 +72,8 @@ def count_tests(names, stats, command_prefix="comando_"):
             meta = json.loads(status.read_text())
             lines.append(f"  {suite}: {meta['passed']} passaram, {meta['failed']} falharam, {meta['planned']} previstos")
     for exercise in (2,3):
-        directory = ROOT / f"exercise{exercise}"
-        lines.append(f"Exercício {exercise}: {len(list(directory.glob('test*.in')))} casos disponíveis")
+        amount = len(list((ROOT / "testes").glob(f"exercicio{exercise}-test*.in")))
+        lines.append(f"Exercício {exercise}: {amount} casos disponíveis")
     text = "\n".join(lines) + "\n"
     stats.parent.mkdir(parents=True, exist_ok=True)
     stats.write_text(text)
@@ -118,8 +117,9 @@ def export_failures(args):
                     target.parent.mkdir(parents=True, exist_ok=True)
                     shutil.copyfile(path, target)
         shutil.copyfile(compare_log, compare / compare_log.name)
-    helpers = ("Makefile", "run_tests.py", "advanced.py", "vm_probe.c", "tools.py", "model.py", "generated.py", "random_stress.py", "scale_limits.py", "fuzz_parse.py", "scale_collisions.py", "README.md")
-    for name in (*helpers, *logs, args.stats, "test_summary.txt", *(str(Path(d) / "suite.status.json") for d in CASE_DIRS)):
+    helpers = ("Makefile", "run_tests.py", "advanced.py", "vm_probe.c", "tools.py", "model.py", "generated.py", "random_stress.py", "scale_limits.py", "fuzz_parse.py", "scale_collisions.py", "README.md", "COMPATIBILITY.md")
+    for name in (*helpers, *logs, args.stats, "test_summary.txt", *(str(Path(d) / "suite.status.json") for d in FAIL_DIRS),
+                 *(f"testes/exercicio{i}-suite.status.json" for i in (2, 3))):
         path = ROOT / name
         if path.is_file():
             relative = path.resolve().relative_to(ROOT) if path.resolve().is_relative_to(ROOT) else Path(path.name)
@@ -223,8 +223,13 @@ def rerun(args):
             command.append("--fail")
         result = subprocess.run([*command, *names], cwd=ROOT)
         summary = ROOT / "test_run.status.json"
-        if names and (ROOT / names[0]).parent != ROOT and summary.is_file():
-            status = (ROOT / names[0]).parent / "suite.status.json"
+        case = ROOT / names[0]
+        status = exercise_status(case)
+        if status and not all(exercise_status(ROOT / name) == status for name in names):
+            status = None
+        elif case.parent.name in FAIL_DIRS:
+            status = case.parent / "suite.status.json"
+        if status and summary.is_file():
             metadata = json.loads(status.read_text()) if status.is_file() else {}
             metadata.update(json.loads(summary.read_text()))
             metadata["rerun"] = True
@@ -268,10 +273,10 @@ def run_tool(args):
             raise ValueError(f"Uso: make {args.mode} TEST=007")
         test = args.test
         if test.isdigit():
-            test = f"test{int(test):03d}.in"
+            test = f"testes/exercicio1-test{int(test):03d}.in"
         test = str(Path(test).with_suffix(".in"))
         if not (ROOT / test).is_file() and Path(test).parent == Path("."):
-            matches = sorted(ROOT.glob("*-failures/" + test))
+            matches = sorted(ROOT.glob("testes/" + test)) + sorted(ROOT.glob("*-failures/" + test))
             if matches:
                 test = str(matches[0].relative_to(ROOT))
         tests = [str(case.relative_to(ROOT)) for case in select_cases([test])]

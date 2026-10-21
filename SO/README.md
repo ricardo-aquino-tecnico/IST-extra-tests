@@ -3,6 +3,8 @@
 Suite da **1.ª parte**, com **179 testes manuais**: 79 do exercício 1 (29 anteriores
 e 50 novos), 50 do exercício 2 e 50 do exercício 3. Cada caso tem `.in`, `.out`,
 `.txt` e, nos novos casos, `.arg`. Mantém os geradores e funcionalidades de IAED.
+Todos os casos ficam na pasta `testes/`, com o exercício no nome:
+`exercicio1-test001.in`, `exercicio2-test001.in` e `exercicio3-test001.in`.
 
 A [auditoria de compatibilidade com IAED](COMPATIBILITY.md) detalha cada alvo e
 cada opção, as adaptações ao enunciado de SO e o que foi efetivamente verificado.
@@ -11,8 +13,8 @@ cada opção, as adaptações ao enunciado de SO e o que foi efetivamente verifi
 make exercise1 EXE=/caminho/cloudIST-ex1
 make exercise2 EXE=/caminho/cloudIST-ex2
 make exercise3 EXE=/caminho/cloudIST-ex3
-make exercise2 TESTS="exercise2/test001.in exercise2/test026.in"
-make exercise3 TESTS="exercise3/test011.in"
+make exercise2 TESTS="testes/exercicio2-test001.in testes/exercicio2-test026.in"
+make exercise3 TESTS="testes/exercicio3-test011.in"
 ```
 
 Os nomes dos executáveis acima são exemplos; `EXE` aceita o nome real do teu
@@ -32,20 +34,20 @@ os exercícios 1 ou 2 num binário que já exige esse argumento extra, usa
 
 | Exercício | Casos | Cobertura |
 | --- | --- | --- |
-| 1 | `test030`–`test039` | Nomes e ordem dos `.conf`, extensões ignoradas, comentários longos, linhas vazias e EOF sem newline |
-| 1 | `test040`–`test049` | CPU fracionária, capacidades exatas e distribuição por servidores |
-| 1 | `test050`–`test059` | Várias reservas, ordens de execução, reutilização de IDs e recursos, índices de VM |
-| 1 | `test060`–`test074` | Cópias completas, subárvores, origens relativas, ficheiros binários e pastas vazias |
-| 1 | `test075`–`test079` | Limites do código base: 128 tipos, 256 reservas, 32 pedidos, 128 VMs e IDs de 39 caracteres |
-| 2 | `exercise2/test001`–`test010` | Aplicações reais, processos distintos, cópias disponíveis antes de exec, saídas não zero e sinais |
-| 2 | `exercise2/test011`–`test020` | Sobreposição de VMs e continuação dos comandos enquanto uma VM está ativa |
-| 2 | `exercise2/test021`–`test030` | Recursos reutilizáveis, libertação individual, reservas pendentes e remoção de reservas terminadas |
-| 2 | `exercise2/test031`–`test040` | Observação de limites soft/hard de RAM e tamanho por ficheiro, sem consumir/escrever GB |
-| 2 | `exercise2/test041`–`test049` | Fórmula de CPU: `vCPU / CPU × SERVERS × 100` |
-| 2 | `exercise2/test050` | Regulação real de CPU, quando o cpulimit instalado é compatível |
-| 3 | `exercise3/test001`–`test030` | Um a quatro workers, vários números de ficheiros, ondas de processamento e esperas E |
-| 3 | `exercise3/test031`–`test040` | Mais workers que ficheiros, várias VMs, origens distintas, servidor partilhado e prefixos comuns |
-| 3 | `exercise3/test041`–`test050` | Ficheiros vazios/ignorados/ocultos, Unicode, espaços, EOF, esperas mistas e comentários |
+| 1 | `testes/exercicio1-test030`–`testes/exercicio1-test039` | Nomes e ordem dos `.conf`, extensões ignoradas, comentários longos, linhas vazias e EOF sem newline |
+| 1 | `testes/exercicio1-test040`–`testes/exercicio1-test049` | CPU fracionária, capacidades exatas e distribuição por servidores |
+| 1 | `testes/exercicio1-test050`–`testes/exercicio1-test059` | Várias reservas, ordens de execução, reutilização de IDs e recursos, índices de VM |
+| 1 | `testes/exercicio1-test060`–`testes/exercicio1-test074` | Cópias completas, subárvores, origens relativas, ficheiros binários e pastas vazias |
+| 1 | `testes/exercicio1-test075`–`testes/exercicio1-test079` | Limites do código base: 128 tipos, 256 reservas, 32 pedidos, 128 VMs e IDs de 39 caracteres |
+| 2 | `testes/exercicio2-test001`–`testes/exercicio2-test010` | Aplicações reais, processos distintos, cópias disponíveis antes de exec, saídas não zero e sinais |
+| 2 | `testes/exercicio2-test011`–`testes/exercicio2-test020` | Sobreposição de VMs e continuação dos comandos enquanto uma VM está ativa |
+| 2 | `testes/exercicio2-test021`–`testes/exercicio2-test030` | Recursos reutilizáveis, libertação individual, reservas pendentes e remoção de reservas terminadas |
+| 2 | `testes/exercicio2-test031`–`testes/exercicio2-test040` | Observação de limites soft/hard de RAM e tamanho por ficheiro, sem consumir/escrever GB |
+| 2 | `testes/exercicio2-test041`–`testes/exercicio2-test049` | Fórmula de CPU: `vCPU / CPU × SERVERS × 100` |
+| 2 | `testes/exercicio2-test050` | Regulação real de CPU, quando o cpulimit instalado é compatível |
+| 3 | `testes/exercicio3-test001`–`testes/exercicio3-test030` | Um a quatro workers, vários números de ficheiros, ondas de processamento e esperas E |
+| 3 | `testes/exercicio3-test031`–`testes/exercicio3-test040` | Mais workers que ficheiros, várias VMs, origens distintas, servidor partilhado e prefixos comuns |
+| 3 | `testes/exercicio3-test041`–`testes/exercicio3-test050` | Ficheiros vazios/ignorados/ocultos, Unicode, espaços, EOF, esperas mistas e comentários |
 
 ## Observações dos exercícios 2 e 3
 
@@ -85,7 +87,7 @@ Compila primeiro o teu projeto. Nesta pasta, executa:
 make help
 make EXE=/caminho/para/cloudIST
 make quick EXE=/caminho/para/cloudIST
-make TESTS="test007.in test024.in" EXE=/caminho/para/cloudIST
+make TESTS="testes/exercicio1-test007.in testes/exercicio1-test024.in" EXE=/caminho/para/cloudIST
 make a EXE=/caminho/para/cloudIST
 make rerun EXE=/caminho/para/cloudIST
 make show-diff
@@ -167,10 +169,10 @@ Os valores predefinidos de `all` são exigentes; começa por `quick`.
 
 ## Ficheiros de cada teste
 
-- `testNNN.in`: comandos e comentários, agrupados em ficheiros de configuração.
-- `testNNN.out`: listagens `L` esperadas e confirmações da cópia de ficheiros.
-- `testNNN.txt`: objetivo e condições verificadas.
-- `testNNN.arg`: opcional; quatro números `SERVERS RAM DISK CPU`.
+- `testes/exercicioN-testNNN.in`: comandos e comentários, agrupados em ficheiros de configuração.
+- `testes/exercicioN-testNNN.out`: listagens `L` esperadas e confirmações da cópia de ficheiros.
+- `testes/exercicioN-testNNN.txt`: objetivo e condições verificadas.
+- `testes/exercicioN-testNNN.arg`: opcional; quatro números `SERVERS RAM DISK CPU`.
   Por omissão usam-se `2 8 16 4`.
 
 Os `.out` são expectativas fixas, não são obtidos executando o projeto.
@@ -321,7 +323,7 @@ resumo por suite. Aceitam `ASAN_MANUAL_TESTS`, `ASAN_FUZZ_CASES`,
 uma das duas suites geradas de ASAN. Em macOS é desativada apenas a pesquisa de
 leaks não suportada por essa
 plataforma; mantêm-se os restantes diagnósticos. `profile` requer suporte a
-`-pg` e gprof, e guarda `profile_testNNN.txt`. `coverage` requer gcov compatível
+`-pg` e gprof, e guarda `profile_exercicioN-testNNN.txt`. `coverage` requer gcov compatível
 com o compilador e guarda `coverage_report.txt` e `coverage/*.gcov`.
 
 `make valgrind` compila com símbolos, sem ASAN, e trata erros de memória como

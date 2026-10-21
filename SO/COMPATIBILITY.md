@@ -1,6 +1,8 @@
 # Auditoria do Makefile de SO face a IAED
 
 Verificação efetuada em 21 de outubro de 2026, em macOS/Apple Silicon.
+Os 179 casos encontram-se em `testes/exercicioN-testNNN.*`; os caminhos desta
+matriz acompanham essa organização. Os alvos `exercise1/2/3` mantêm os nomes.
 Foram executados os dois `make help`, comparados todos os alvos públicos e
 variáveis, e exercitados percursos de sucesso, falha, repetição e exportação.
 
@@ -68,10 +70,10 @@ profiling com a ferramenta externa real. Os testes estão em `test_runner.py`,
 | `rerun` | `rerun` | Falhas manuais, geradas e dos exercícios 2/3; logs personalizados, limpeza de falhas corrigidas e `FAIL=1` |
 | `show-diff` | `show-diff` | Cores, contexto do input, lado a lado, descrições, stderr, estado do processo, geradores, comparação e assistente interativo |
 | `export` | `export` | Falhas, helpers, fixtures, estatísticas e diagnósticos; escolha interativa de ZIP e remoção da pasta |
-| `export-zip` | `export-zip` | Conteúdo do arquivo inspecionado; mantém diretórios dos exercícios e de comparação |
+| `export-zip` | `export-zip` | Conteúdo do arquivo inspecionado; mantém prefixos dos exercícios e de comparação |
 | `zip` | `zip` | Isolado e combinado com os outros dois alvos, antes/depois dos testes; um único ZIP por invocação |
 | `asan` | `asan` | Projeto: 92/92 (79 manuais + 12 fuzz + 1 identificadores), ASAN/UBSan; também compilação de vários fontes e dependências de build |
-| `analyse` | `analyse` | LLDB real: breakpoint em `main`, argumentos/configuração, execução de `test004` e saída 0; controlos de seleção e saída personalizada |
+| `analyse` | `analyse` | LLDB real: breakpoint em `main`, argumentos/configuração, execução de `testes/exercicio1-test004` e saída 0; controlos de seleção e saída personalizada |
 | `profile` | `profile` | Integração controlada: `-pg`, seleção do teste, `.gmon`, 25 linhas no terminal e relatório completo. Execução real bloqueada: `gprof` ausente |
 | `valgrind` | `valgrind` | Compilação real, deteção da falha local e saída não zero; controlo das opções, seleção e código de erro 42. Medição real bloqueada pela instalação local |
 | `lizard` | `lizard` | Execução real 1.24.1, vários fontes: duas advertências de complexidade, com código não zero propagado; controlo de sucesso |
@@ -100,7 +102,7 @@ quantidade de trabalho não elimina a funcionalidade correspondente.
 | `FAIL_LOG` | Mantida e estendida: caminhos personalizados usados em execução, visualização, repetição, exportação e limpeza |
 | `COMPARE_FAIL_LOG` | Mantida: log de diferenças independente, incluindo caminhos personalizados |
 | `STATS_FILE` | Mantida: conteúdo impresso, gravado, exportado e limpo; cria diretórios necessários |
-| `TESTS` | Mantida: seleção explícita; também aceita os diretórios dos novos exercícios e geradores |
+| `TESTS` | Mantida: seleção explícita; também aceita os ficheiros dos novos exercícios e geradores |
 | `COMPARE_TESTS` | Mantida: seleção da comparação independente de `TESTS` |
 | `ORIG_GOALS` | Mantida: cabeçalho da tabela, inclusive em chamadas recursivas |
 | `CMD_LIST_PREFIX` | Mantida: `<prefixo>d.txt`, etc.; mantém também `comando d.txt`; comentários e linhas vazias aceites |
@@ -176,8 +178,8 @@ selecionados; os logs delimitam as falhas da execução corrente.
   negativos para erros de saída, stderr, sanitizadores, cópias incompletas,
   serialização de threads, limites errados e timeouts.
 - O projeto restaurado implementa o exercício 1. Na amostra real do exercício 2,
-  `test001` falha por não executar a VM, e `test031`/`test050` são ignorados por
-  requisitos indisponíveis neste Mac. O caso real do exercício 3, `test011`,
+  `testes/exercicio2-test001` falha por não executar a VM, e `testes/exercicio2-test031`/`testes/exercicio2-test050` são ignorados por
+  requisitos indisponíveis neste Mac. O caso real do exercício 3, `testes/exercicio3-test011`,
   falha porque o programa ainda não aceita o argumento de threads. Não foram
   alterados os fontes do projeto para esconder estas falhas.
 - O LLDB e a cobertura foram usados realmente, incluindo a gravação interativa

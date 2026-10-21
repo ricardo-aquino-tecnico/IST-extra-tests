@@ -16,8 +16,10 @@ class GeneratedTests(unittest.TestCase):
     def test_quick_completes_all_five_suites_with_a_model_test_double(self):
         with tempfile.TemporaryDirectory(prefix="so-quick-") as temp:
             root = Path(temp)
+            (root / "testes").mkdir(exist_ok=True)
             for name in ("Makefile", "run_tests.py", "tools.py", "model.py", "generated.py", "random_stress.py",
-                         "scale_limits.py", "fuzz_parse.py", "scale_collisions.py", "test004.in", "test004.out", "test004.txt"):
+                         "scale_limits.py", "fuzz_parse.py", "scale_collisions.py", "testes/exercicio1-test004.in", "testes/exercicio1-test004.out", "testes/exercicio1-test004.txt"):
+                (root / name).parent.mkdir(parents=True, exist_ok=True)
                 shutil.copyfile(ROOT / name, root / name)
             exe = root / "model test double"
             exe.write_text(f"#!{sys.executable}\n" + '''from pathlib import Path
@@ -51,7 +53,7 @@ except (ValueError,KeyError,IndexError):
     raise SystemExit(1)
 ''')
             exe.chmod(0o700)
-            result = subprocess.run(["make", "quick", f"EXE={exe}", "TESTS=test004.in", "STRESS_SEED=42", "FUZZ_SEED=42"],
+            result = subprocess.run(["make", "quick", f"EXE={exe}", "TESTS=testes/exercicio1-test004.in", "STRESS_SEED=42", "FUZZ_SEED=42"],
                                     cwd=root, capture_output=True, text=True, timeout=30)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             self.assertIn("\033[1;32mPASS\033[0m", result.stdout)
@@ -108,11 +110,11 @@ except (ValueError,KeyError,IndexError):
 
     def test_model_matches_fixed_manual_expectations(self):
         model = Model(2, 8, 16, 4)
-        self.assertEqual(model.listing(), normalise((ROOT / "test004.out").read_text()))
+        self.assertEqual(model.listing(), normalise((ROOT / "testes/exercicio1-test004.out").read_text()))
         model.define("SMALL")
-        self.assertEqual(model.listing(), normalise((ROOT / "test005.out").read_text()))
+        self.assertEqual(model.listing(), normalise((ROOT / "testes/exercicio1-test005.out").read_text()))
         model.reserve("@RESERVA@", [("SMALL", 1, 1)])
-        self.assertEqual(model.listing(), normalise((ROOT / "test010.out").read_text()))
+        self.assertEqual(model.listing(), normalise((ROOT / "testes/exercicio1-test010.out").read_text()))
         before = model.listing()
         with self.assertRaises(ValueError):
             model.reserve("@RESERVB@", [("SMALL", 1, 2), ("SMALL", 100, 1)])
@@ -139,6 +141,7 @@ except (ValueError,KeyError,IndexError):
     def test_fuzz_policy_accepts_rejection_but_rejects_crashes_and_sanitizers(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
+            (root / "testes").mkdir(exist_ok=True)
             base = root / "case"
             fuzz_case(42, 10).write(base, "fuzz test")
             exe = root / "fake"
@@ -154,10 +157,12 @@ except (ValueError,KeyError,IndexError):
     def test_all_runs_every_suite_and_exports_generated_failures(self):
         with tempfile.TemporaryDirectory(prefix="so-all-") as temp:
             root = Path(temp)
+            (root / "testes").mkdir(exist_ok=True)
             for name in ("Makefile", "run_tests.py", "tools.py", "model.py", "generated.py", "random_stress.py",
-                         "scale_limits.py", "fuzz_parse.py", "scale_collisions.py", "test004.in", "test004.out", "test004.txt"):
+                         "scale_limits.py", "fuzz_parse.py", "scale_collisions.py", "testes/exercicio1-test004.in", "testes/exercicio1-test004.out", "testes/exercicio1-test004.txt"):
+                (root / name).parent.mkdir(parents=True, exist_ok=True)
                 shutil.copyfile(ROOT / name, root / name)
-            args = ["EXE=/usr/bin/false", "TESTS=test004.in", "STRESS_RUNS=1", "STRESS_STEPS=4", "STRESS_SEED=42",
+            args = ["EXE=/usr/bin/false", "TESTS=testes/exercicio1-test004.in", "STRESS_RUNS=1", "STRESS_STEPS=4", "STRESS_SEED=42",
                     "SCALE_TYPES=2", "SCALE_FILES=2", "FUZZ_CASES=1", "FUZZ_LINES=4", "FUZZ_SEED=42", "COLLISIONS_COUNT=2"]
             result = subprocess.run(["make", "all", "count", "export-zip", *args], cwd=root, capture_output=True, text=True, timeout=30)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)

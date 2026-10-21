@@ -291,11 +291,18 @@ def save_result(case, result, tag=""):
 
 
 def select_cases(names):
-    allowed = {ROOT, *(ROOT / name for name in ("exercise2", "exercise3", "stress-failures", "scale-failures", "fuzz-failures", "collisions-failures"))}
+    allowed = {ROOT, *(ROOT / name for name in ("testes", "stress-failures", "scale-failures", "fuzz-failures", "collisions-failures"))}
     cases = [(ROOT / Path(name).with_suffix(".in")).resolve() for name in names]
     if any(case.parent not in allowed or not case.is_file() for case in cases):
-        raise ValueError("Seleciona testes existentes na raiz de SO, exercise2/, exercise3/ ou *-failures/")
+        raise ValueError("Seleciona testes existentes em testes/ ou *-failures/")
     return cases
+
+
+def exercise_status(case):
+    for exercise in (2, 3):
+        if case.parent == ROOT / "testes" and case.name.startswith(f"exercicio{exercise}-"):
+            return case.parent / f"exercicio{exercise}-suite.status.json"
+    return None
 
 
 def command_names(command, prefix):
@@ -347,7 +354,7 @@ def main():
             print("Não há testes falhados para repetir.")
             return 0
     try:
-        cases = select_cases(names) if names else sorted(ROOT.glob("test*.in"))
+        cases = select_cases(names) if names else sorted((ROOT / "testes").glob("exercicio1-test*.in"))
     except ValueError as error:
         parser.error(str(error))
     if args.command:
@@ -360,7 +367,7 @@ def main():
         parser.error("Nenhum teste selecionado")
     if args.debugger:
         if len(cases) != 1:
-            parser.error("analyse requer exatamente um teste (TEST=test007.in)")
+            parser.error("analyse requer exatamente um teste (TEST=testes/exercicio1-test007.in)")
         result = run_case(cases[0], exe, args.timeout, debugger=args.debugger)
         if result:
             print("; ".join(result["reasons"]), file=sys.stderr)
@@ -419,9 +426,9 @@ def main():
     summary = json.dumps({"planned": len(cases), "passed": count-len(failed)-skipped, "skipped": skipped,
                           "failed": len(failed), "elapsed": time.monotonic()-start}) + "\n"
     (ROOT / "test_run.status.json").write_text(summary)
-    for directory in (ROOT / "exercise2", ROOT / "exercise3"):
-        if all(case.parent == directory for case in cases):
-            (directory / "suite.status.json").write_text(summary)
+    status = exercise_status(cases[0])
+    if status and all(exercise_status(case) == status for case in cases):
+        status.write_text(summary)
     passed = count - len(failed) - skipped
     if skipped:
         print(f"\n{skipped} testes ignorados por requisitos da plataforma; não contam como passaram.")

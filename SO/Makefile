@@ -15,11 +15,11 @@ SRC_CACHE_FILE ?= .resolved_src
 FAIL_LOG ?= tests_failed.log
 COMPARE_FAIL_LOG ?= compare_failed.log
 STATS_FILE ?= test_stats.txt
-TESTS ?= $(sort $(wildcard test*.in))
-EXERCISE2_TESTS ?= $(if $(filter-out file,$(origin TESTS)),$(TESTS),$(sort $(wildcard exercise2/test*.in)))
-EXERCISE3_TESTS ?= $(if $(filter-out file,$(origin TESTS)),$(TESTS),$(sort $(wildcard exercise3/test*.in)))
-EXERCISE2_FAIL_LOG ?= exercise2/tests_failed.log
-EXERCISE3_FAIL_LOG ?= exercise3/tests_failed.log
+TESTS ?= $(sort $(wildcard testes/exercicio1-test*.in))
+EXERCISE2_TESTS ?= $(if $(filter-out file,$(origin TESTS)),$(TESTS),$(sort $(wildcard testes/exercicio2-test*.in)))
+EXERCISE3_TESTS ?= $(if $(filter-out file,$(origin TESTS)),$(TESTS),$(sort $(wildcard testes/exercicio3-test*.in)))
+EXERCISE2_FAIL_LOG ?= testes/exercicio2-tests_failed.log
+EXERCISE3_FAIL_LOG ?= testes/exercicio3-tests_failed.log
 MAX_THREADS ?=
 ORIG_GOALS ?= $(if $(MAKECMDGOALS),$(MAKECMDGOALS),$(.DEFAULT_GOAL))
 COMPARE_TESTS ?= $(TESTS)
@@ -160,7 +160,7 @@ clean:
 	rm -f *.diff *.myout *.stdout *.stderr *.expected *.status.json *.cmpdiff *.reason *.gmon profile_*.txt coverage_report.txt coverage_report.gcov test_summary.txt *.gcno *.gcda *.gcov "$(FAIL_LOG)" "$(COMPARE_FAIL_LOG)" "$(STATS_FILE)"
 	rm -rf coverage stress-failures scale-failures fuzz-failures collisions-failures .build
 	rm -f "$(EXERCISE2_FAIL_LOG)" "$(EXERCISE3_FAIL_LOG)"
-	@for directory in exercise2 exercise3; do if [ -d "$$directory" ]; then \
+	@for directory in testes; do if [ -d "$$directory" ]; then \
 		find "$$directory" -type f \( -name '*.diff' -o -name '*.myout' -o -name '*.stdout' -o -name '*.stderr' -o -name '*.expected' -o -name '*.status.json' -o -name '*.cmpdiff' -o -name '*.reason' -o -name '*.gmon' -o -name '*.log' \) -delete; \
 	fi; done
 
@@ -267,7 +267,7 @@ if os.path.isfile(fail_log):
     with open(fail_log) as f: bases = [line.strip().removesuffix(".in") for line in f if line.strip()]
     diff_files = [base + ".diff" for base in bases if os.path.isfile(base + ".diff")]
 else:
-    diff_files = [f for f in sorted(glob.glob("test*.diff")) if f.count(".") == 1]
+    diff_files = [f for f in sorted(glob.glob("testes/exercicio*-test*.diff")) if os.path.basename(f).count(".") == 1]
 for logfile in failure_logs(fail_log, generated=False):
     for name in logged_names(logfile):
         path = name.removesuffix(".in") + ".diff"
@@ -309,7 +309,7 @@ compare_log = os.environ.get("COMPARE_FAIL_LOG", "compare_failed.log")
 if os.path.isfile(compare_log):
     with open(compare_log) as f: compare_files = [line.strip().removesuffix(".in") + ".cmpdiff" for line in f if line.strip()]
 else:
-    compare_files = sorted(glob.glob("test*.cmpdiff"))
+    compare_files = sorted(glob.glob("testes/exercicio*-test*.cmpdiff"))
 for df in ([] if only_manual else compare_files):
     if not os.path.isfile(df): continue
     found = True
@@ -330,7 +330,7 @@ else:
 
             if not test or test.lower() in ("q", "n", "sair", "exit"): break
             real_id = test
-            if test.isdigit(): real_id = f"test{int(test):03d}.in"
+            if test.isdigit(): real_id = f"testes/exercicio1-test{int(test):03d}.in"
             elif not test.endswith(".in"): real_id = f"{test}.in"
 
             while True:
@@ -411,7 +411,7 @@ help:
 	  'Variáveis úteis:' \
 	  'EXE=path / EXE2=path          Executável ou pasta de cloudIST (memorizados)' \
 	  'PROJECT_DIR=path              Fontes; ASAN_SRC e SRC_CACHE_FILE também aceites' \
-	  'TESTS="test004.in test007.in"  Seleção de casos, incluindo *-failures/*.in' \
+	  'TESTS="testes/exercicio1-test004.in"  Seleção de casos; aceita também *-failures/*.in' \
 	  'FAIL=1 / TIMEOUT=5            Para na primeira falha / limite por teste' \
 	  'STRESS_RUNS / STRESS_STEPS / STRESS_SEED / STRESS_TIMEOUT / STRESS_PROGRESS_EVERY' \
 	  'SCALE_TYPES=96 / SCALE_FILES=200 (máximos do código base: 128 / 256)' \
