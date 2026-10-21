@@ -10,7 +10,9 @@ A [auditoria de compatibilidade com IAED](COMPATIBILITY.md) detalha cada alvo e
 cada opção, as adaptações ao enunciado de SO e o que foi efetivamente verificado.
 
 ```sh
-make exercises EXE=/caminho/cloudIST
+make
+make exercise3
+make EXE=/caminho/cloudIST
 make exercise1 EXE=/caminho/cloudIST-ex1
 make exercise2 EXE=/caminho/cloudIST-ex2
 make exercise3 EXE=/caminho/cloudIST-ex3
@@ -18,14 +20,19 @@ make exercise2 TESTS="testes/exercicio2-test001.in testes/exercicio2-test026.in"
 make exercise3 TESTS="testes/exercicio3-test011.in"
 ```
 
-`make exercises` executa os 179 casos, pela ordem dos exercícios 1, 2 e 3,
+`make` (ou `make exercises`) executa os 179 casos, pela ordem dos exercícios 1, 2 e 3,
 continuando mesmo que um deles falhe. Os alvos separados permitem filtrar os
 casos durante o desenvolvimento. Não é necessário separar os executáveis se a
 tua versão suportar os comportamentos testados.
 
 Os nomes dos executáveis acima são exemplos; `EXE` aceita o nome real do teu
-programa. `make` e `make all` mantêm a seleção do exercício 1, para preservar o
-uso anterior. Os novos alvos aceitam `TESTS`, `FAIL=1`, `TIMEOUT`, exportação,
+programa. Os casos são descobertos automaticamente em `testes/`: não é necessário
+indicar `TESTS`. `make exercise3`, por exemplo, seleciona os 50 casos desse exercício.
+Se indicares `TESTS="..."` com `make`, apenas esses casos são executados, uma vez
+cada, mesmo que pertençam a exercícios diferentes.
+O executável pode ser indicado uma vez com `EXE=...`; o caminho fica memorizado.
+`make manual` e `make manual-tests` mantêm a seleção do exercício 1; `make all`
+mantém essa suite mais os quatro geradores. Os alvos aceitam `TESTS`, `FAIL=1`, `TIMEOUT`, exportação,
 comparação, debugger e repetição. `make rerun`, `make show-diff` e `make export`
 incluem os três exercícios; os exercícios 2 e 3 guardam logs próprios para que
 uma seleção não apague as falhas da outra.
@@ -103,7 +110,7 @@ Compila primeiro o teu projeto. Nesta pasta, executa:
 
 ```sh
 make help
-make EXE=/caminho/para/cloudIST
+make manual EXE=/caminho/para/cloudIST
 make quick EXE=/caminho/para/cloudIST
 make TESTS="testes/exercicio1-test007.in testes/exercicio1-test024.in" EXE=/caminho/para/cloudIST
 make a EXE=/caminho/para/cloudIST
@@ -119,7 +126,8 @@ Se o caminho tiver espaços, coloca o argumento inteiro entre aspas:
 make EXE="/caminho/com espaços/cloudIST"
 ```
 
-`make` corre os testes manuais; `make all` corre também as quatro suites geradas.
+`make` corre os três exercícios manuais; `make manual` corre apenas o exercício 1.
+`make all` corre o exercício 1 e as quatro suites geradas.
 `make quick` corre as cinco suites com limites reduzidos. `FAIL=1` para na
 primeira falha de uma seleção manual; os geradores param na primeira falha da
 respetiva suite e preservam o caso que a reproduz.

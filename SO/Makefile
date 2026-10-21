@@ -1,6 +1,6 @@
 MAKEFLAGS += --no-print-directory
 SHELL := /bin/bash
-.DEFAULT_GOAL := manual-tests
+.DEFAULT_GOAL := exercises
 .NOTPARALLEL:
 .PHONY: all quick manual manual-tests exercises exercise1 exercise2 exercise3 resolve-exe resolve-exe2 resolve-src python selftest d r a l e export export-zip zip compare count rerun show-diff asan valgrind analyse profile lizard coverage clean help stress scale fuzz-parse scale-collisions
 
@@ -76,9 +76,15 @@ manual-tests: manual
 exercise1: manual
 
 exercises:
-	@status=0; for exercise in exercise1 exercise2 exercise3; do \
-		$(MAKE) $$exercise NO_PROMPT=1 EXPORTING= || status=1; \
-	done; \
+	@status=0; \
+	if [ "$(origin TESTS)" != file ]; then \
+		if [ -z "$(strip $(TESTS))" ]; then echo "Nenhum teste selecionado" >&2; status=1; \
+		else $(MAKE) manual NO_PROMPT=1 EXPORTING= || status=1; fi; \
+	else \
+		for exercise in exercise1 exercise2 exercise3; do \
+			$(MAKE) $$exercise NO_PROMPT=1 EXPORTING= || status=1; \
+		done; \
+	fi; \
 	if [ -n "$(EXPORTING)" ]; then exit 0; else exit $$status; fi
 
 exercise2 exercise3: resolve-exe
@@ -375,13 +381,13 @@ help:
 	  '  ============================' \
 	  '' \
 	  'Comandos principais:' \
-	  'make / make manual-tests      Testes manuais' \
-	  'make exercises                Os 179 casos dos três exercícios, mesmo se houver falhas' \
+	  'make / make exercises         Os 179 casos dos três exercícios, mesmo se houver falhas' \
+	  'make manual / manual-tests    Apenas os testes manuais do exercício 1' \
 	  'make exercise1                Exercício 1: 79 casos (50 novos)' \
 	  'make exercise2                Exercício 2: 50 casos de processos e limites' \
 	  'make exercise3                Exercício 3: 50 casos de ficheiros concorrentes' \
-	  'make all                      Manual + stress + escala + fuzz + colisões' \
-	  'make quick                    Todas as suites com limites reduzidos' \
+	  'make all                      Exercício 1 + stress + escala + fuzz + colisões' \
+	  'make quick                    Exercício 1 + geradores com limites reduzidos' \
 	  'make python                   Apenas stress + escala + fuzz + colisões' \
 	  'make asan                    ASAN/UBSan: manual + fuzz + colisões' \
 	  '' \

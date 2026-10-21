@@ -85,6 +85,23 @@ class MakefileTests(unittest.TestCase):
             for suffix in (".in", ".out", ".txt"):
                 shutil.copyfile(ROOT / ("testes/exercicio1-test004" + suffix),
                                 self.root / "testes" / (f"exercicio{exercise}-test004" + suffix))
+        self.make("resolve-exe")
+        for goals, expected in ((["exercise3"], 1), ([], 3)):
+            result = subprocess.run(["make", *goals], cwd=self.root, stdin=subprocess.DEVNULL,
+                                    capture_output=True, text=True, timeout=10)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertEqual(result.stdout.count(".in PASSED"), expected)
+            self.assertIn("testes/exercicio3-test004.in PASSED", result.stdout)
+            if goals:
+                self.assertNotIn("testes/exercicio1-test004.in", result.stdout)
+                self.assertNotIn("testes/exercicio2-test004.in", result.stdout)
+        for selected, expected in (("testes/exercicio3-test004.in", 1),
+                                   ("testes/exercicio1-test004.in testes/exercicio3-test004.in", 2)):
+            result = self.make("TESTS=" + selected)
+            self.assertEqual(result.stdout.count(".in PASSED"), expected)
+            self.assertNotIn("testes/exercicio2-test004.in", result.stdout)
+        result = self.make("TESTS=", status=2)
+        self.assertIn("Nenhum teste selecionado", result.stderr)
         self.exe.write_text(self.exe.read_text() + "assert len(sys.argv)==7 and sys.argv[6]=='1'\n")
         result = self.make("exercises", "MAX_THREADS=1")
         self.assertEqual(result.stdout.count(".in PASSED"), 3)

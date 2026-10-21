@@ -45,7 +45,7 @@ profiling com a ferramenta externa real. Os testes estão em `test_runner.py`,
 
 | IAED | SO | Verificação |
 | --- | --- | --- |
-| alvo por omissão | `manual-tests` | Mantém testes manuais; verificado também pelo alias e por `quick` |
+| alvo por omissão | `exercises` | Por opção do utilizador, `make` descobre e corre os três exercícios; `manual-tests` mantém a suite do exercício 1 |
 | `manual-tests` | `manual-tests` | Alias de `manual`; sucesso e falha com `FAIL=0/1` |
 | `manual` | `manual` | 79/79 no projeto; `.arg`, códigos de saída, stderr, timeout e remoção de diagnósticos de casos que passam |
 | `all` | `all` | Executa as cinco suites mesmo se uma falhar; resumo, tempos, argumentos e exportação após falhas, com controlo negativo |
@@ -84,7 +84,7 @@ profiling com a ferramenta externa real. Os testes estão em `test_runner.py`,
 | — | `exercise1` | Alias da suite manual; mantém o uso anterior |
 | — | `exercise2` | Seleção, logs, exportação, repetição e skips; aplicações C reais verificam processos, cópias, limites e chamadas de CPU |
 | — | `exercise3` | Seleção, logs, exportação e repetição; controlos aceitam ambas as bases e distinguem execução paralela de serial |
-| — | `exercises` | Corre os três exercícios, continua após falhas, propaga MAX_THREADS e permite exportação; controlo positivo e negativo |
+| — | `exercises` | Alvo por omissão: corre os três exercícios, continua após falhas, propaga MAX_THREADS e permite exportação; controlo positivo e negativo, incluindo `make` e `make exercise3` sem argumentos e com executável memorizado |
 | — | `selftest` | 39 verificações automáticas, com subcasos para parâmetros e falhas |
 
 ## Variáveis de IAED, uma a uma
