@@ -11,3 +11,5 @@ Estes testes foram criados para verificar se o projeto passa nestes casos espec�
 Se encontrarem algum teste incorreto, sintam-se à vontade para o modificar ou avisar. Como os testes refletem sempre a lógica e o projeto de quem os criou, ao detetarem e reportarem erros, estão a ajudar-nos a melhorar a qualidade do repositório para todos.
 
 Caso existam cenários em que o vosso código não passe, analisem o que está a ser testado para perceber se a falha faz sentido.
+
+Este repositório está licenciado sob a GNU General Public License, versão 3 (GPL-3.0-only). Consulta o ficheiro [LICENSE](LICENSE) para o texto completo.
