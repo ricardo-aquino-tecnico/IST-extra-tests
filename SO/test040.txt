@@ -1,0 +1,8 @@
+Objetivo:
+CPU fracionária acumulada.
+
+O que testa:
+Oito VMs de 0.125 vCPU ocupam exatamente 1 vCPU.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

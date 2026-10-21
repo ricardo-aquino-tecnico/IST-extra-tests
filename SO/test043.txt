@@ -1,0 +1,8 @@
+Objetivo:
+Capacidade exata de CPU.
+
+O que testa:
+Preenche os cores usando VMs de tamanhos diferentes.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

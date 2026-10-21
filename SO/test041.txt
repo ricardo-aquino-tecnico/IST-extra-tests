@@ -1,0 +1,8 @@
+Objetivo:
+Capacidade exata de RAM.
+
+O que testa:
+Preenche a RAM sem esgotar disco nem CPU.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

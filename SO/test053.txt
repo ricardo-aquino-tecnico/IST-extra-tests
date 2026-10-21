@@ -1,0 +1,8 @@
+Objetivo:
+Executar só a reserva do meio.
+
+O que testa:
+A remove apenas a reserva selecionada, mantendo as outras pendentes.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

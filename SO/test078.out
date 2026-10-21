@@ -1,0 +1,294 @@
+=================================== DATA CENTER STATUS ===================================
+[ PHYSICAL SERVERS ] (4 total)
+------------------------------------------------------------------------------------------
+Server #1
+├─ Resources Total : 128.00 vCPUs | 256 GB RAM | 512 GB Disk
+├─ Resources Used : 32.00 vCPUs | 128 GB RAM | 128 GB Disk
+├─ Resources Available : 96.00 vCPUs | 128 GB RAM | 384 GB Disk
+└─ Hosted VMs (128):
+├── VM ID : @RESERV000000@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_2 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_3 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_4 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_5 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_6 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_7 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_8 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_9 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_10 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_11 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_12 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_13 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_14 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_15 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_16 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_17 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_18 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_19 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_20 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_21 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_22 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_23 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_24 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_25 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_26 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_27 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_28 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_29 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_30 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_31 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_32 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_33 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_34 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_35 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_36 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_37 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_38 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_39 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_40 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_41 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_42 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_43 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_44 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_45 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_46 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_47 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_48 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_49 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_50 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_51 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_52 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_53 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_54 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_55 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_56 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_57 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_58 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_59 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_60 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_61 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_62 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_63 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_64 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_65 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_66 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_67 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_68 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_69 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_70 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_71 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_72 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_73 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_74 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_75 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_76 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_77 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_78 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_79 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_80 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_81 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_82 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_83 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_84 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_85 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_86 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_87 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_88 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_89 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_90 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_91 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_92 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_93 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_94 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_95 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_96 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_97 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_98 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_99 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_100 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_101 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_102 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_103 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_104 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_105 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_106 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_107 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_108 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_109 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_110 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_111 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_112 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_113 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_114 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_115 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_116 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_117 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_118 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_119 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_120 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_121 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_122 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_123 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_124 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_125 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_126 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_127 | Type: T | State: RESERVED
+└── VM ID : @RESERV000000@_128 | Type: T | State: RESERVED
+Server #2
+├─ Resources Total : 128.00 vCPUs | 256 GB RAM | 512 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 128.00 vCPUs | 256 GB RAM | 512 GB Disk
+└─ Hosted VMs (0):
+(None)
+Server #3
+├─ Resources Total : 128.00 vCPUs | 256 GB RAM | 512 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 128.00 vCPUs | 256 GB RAM | 512 GB Disk
+└─ Hosted VMs (0):
+(None)
+Server #4
+├─ Resources Total : 128.00 vCPUs | 256 GB RAM | 512 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 128.00 vCPUs | 256 GB RAM | 512 GB Disk
+└─ Hosted VMs (0):
+(None)
+[ DEFINED VM TYPES ] (1 registered)
+------------------------------------------------------------------------------------------
+* Type ID: T | Requirements: 0.25 vCPU, 1 GB RAM, 1 GB Disk
+├─ Executable : @EXE@
+└─ Input Dir : @INPUT@
+[ RESERVATIONS ] (1 total)
+------------------------------------------------------------------------------------------
+* Reservation ID: @RESERV000000@ | State: PENDING | Total VMs: 128
+├─ Requested Pairs:
+│ • T : 128 unit(s)
+└─ Allocated VMs:
+├── ID: @RESERV000000@_1 | Host Server: #1
+├── ID: @RESERV000000@_2 | Host Server: #1
+├── ID: @RESERV000000@_3 | Host Server: #1
+├── ID: @RESERV000000@_4 | Host Server: #1
+├── ID: @RESERV000000@_5 | Host Server: #1
+├── ID: @RESERV000000@_6 | Host Server: #1
+├── ID: @RESERV000000@_7 | Host Server: #1
+├── ID: @RESERV000000@_8 | Host Server: #1
+├── ID: @RESERV000000@_9 | Host Server: #1
+├── ID: @RESERV000000@_10 | Host Server: #1
+├── ID: @RESERV000000@_11 | Host Server: #1
+├── ID: @RESERV000000@_12 | Host Server: #1
+├── ID: @RESERV000000@_13 | Host Server: #1
+├── ID: @RESERV000000@_14 | Host Server: #1
+├── ID: @RESERV000000@_15 | Host Server: #1
+├── ID: @RESERV000000@_16 | Host Server: #1
+├── ID: @RESERV000000@_17 | Host Server: #1
+├── ID: @RESERV000000@_18 | Host Server: #1
+├── ID: @RESERV000000@_19 | Host Server: #1
+├── ID: @RESERV000000@_20 | Host Server: #1
+├── ID: @RESERV000000@_21 | Host Server: #1
+├── ID: @RESERV000000@_22 | Host Server: #1
+├── ID: @RESERV000000@_23 | Host Server: #1
+├── ID: @RESERV000000@_24 | Host Server: #1
+├── ID: @RESERV000000@_25 | Host Server: #1
+├── ID: @RESERV000000@_26 | Host Server: #1
+├── ID: @RESERV000000@_27 | Host Server: #1
+├── ID: @RESERV000000@_28 | Host Server: #1
+├── ID: @RESERV000000@_29 | Host Server: #1
+├── ID: @RESERV000000@_30 | Host Server: #1
+├── ID: @RESERV000000@_31 | Host Server: #1
+├── ID: @RESERV000000@_32 | Host Server: #1
+├── ID: @RESERV000000@_33 | Host Server: #1
+├── ID: @RESERV000000@_34 | Host Server: #1
+├── ID: @RESERV000000@_35 | Host Server: #1
+├── ID: @RESERV000000@_36 | Host Server: #1
+├── ID: @RESERV000000@_37 | Host Server: #1
+├── ID: @RESERV000000@_38 | Host Server: #1
+├── ID: @RESERV000000@_39 | Host Server: #1
+├── ID: @RESERV000000@_40 | Host Server: #1
+├── ID: @RESERV000000@_41 | Host Server: #1
+├── ID: @RESERV000000@_42 | Host Server: #1
+├── ID: @RESERV000000@_43 | Host Server: #1
+├── ID: @RESERV000000@_44 | Host Server: #1
+├── ID: @RESERV000000@_45 | Host Server: #1
+├── ID: @RESERV000000@_46 | Host Server: #1
+├── ID: @RESERV000000@_47 | Host Server: #1
+├── ID: @RESERV000000@_48 | Host Server: #1
+├── ID: @RESERV000000@_49 | Host Server: #1
+├── ID: @RESERV000000@_50 | Host Server: #1
+├── ID: @RESERV000000@_51 | Host Server: #1
+├── ID: @RESERV000000@_52 | Host Server: #1
+├── ID: @RESERV000000@_53 | Host Server: #1
+├── ID: @RESERV000000@_54 | Host Server: #1
+├── ID: @RESERV000000@_55 | Host Server: #1
+├── ID: @RESERV000000@_56 | Host Server: #1
+├── ID: @RESERV000000@_57 | Host Server: #1
+├── ID: @RESERV000000@_58 | Host Server: #1
+├── ID: @RESERV000000@_59 | Host Server: #1
+├── ID: @RESERV000000@_60 | Host Server: #1
+├── ID: @RESERV000000@_61 | Host Server: #1
+├── ID: @RESERV000000@_62 | Host Server: #1
+├── ID: @RESERV000000@_63 | Host Server: #1
+├── ID: @RESERV000000@_64 | Host Server: #1
+├── ID: @RESERV000000@_65 | Host Server: #1
+├── ID: @RESERV000000@_66 | Host Server: #1
+├── ID: @RESERV000000@_67 | Host Server: #1
+├── ID: @RESERV000000@_68 | Host Server: #1
+├── ID: @RESERV000000@_69 | Host Server: #1
+├── ID: @RESERV000000@_70 | Host Server: #1
+├── ID: @RESERV000000@_71 | Host Server: #1
+├── ID: @RESERV000000@_72 | Host Server: #1
+├── ID: @RESERV000000@_73 | Host Server: #1
+├── ID: @RESERV000000@_74 | Host Server: #1
+├── ID: @RESERV000000@_75 | Host Server: #1
+├── ID: @RESERV000000@_76 | Host Server: #1
+├── ID: @RESERV000000@_77 | Host Server: #1
+├── ID: @RESERV000000@_78 | Host Server: #1
+├── ID: @RESERV000000@_79 | Host Server: #1
+├── ID: @RESERV000000@_80 | Host Server: #1
+├── ID: @RESERV000000@_81 | Host Server: #1
+├── ID: @RESERV000000@_82 | Host Server: #1
+├── ID: @RESERV000000@_83 | Host Server: #1
+├── ID: @RESERV000000@_84 | Host Server: #1
+├── ID: @RESERV000000@_85 | Host Server: #1
+├── ID: @RESERV000000@_86 | Host Server: #1
+├── ID: @RESERV000000@_87 | Host Server: #1
+├── ID: @RESERV000000@_88 | Host Server: #1
+├── ID: @RESERV000000@_89 | Host Server: #1
+├── ID: @RESERV000000@_90 | Host Server: #1
+├── ID: @RESERV000000@_91 | Host Server: #1
+├── ID: @RESERV000000@_92 | Host Server: #1
+├── ID: @RESERV000000@_93 | Host Server: #1
+├── ID: @RESERV000000@_94 | Host Server: #1
+├── ID: @RESERV000000@_95 | Host Server: #1
+├── ID: @RESERV000000@_96 | Host Server: #1
+├── ID: @RESERV000000@_97 | Host Server: #1
+├── ID: @RESERV000000@_98 | Host Server: #1
+├── ID: @RESERV000000@_99 | Host Server: #1
+├── ID: @RESERV000000@_100 | Host Server: #1
+├── ID: @RESERV000000@_101 | Host Server: #1
+├── ID: @RESERV000000@_102 | Host Server: #1
+├── ID: @RESERV000000@_103 | Host Server: #1
+├── ID: @RESERV000000@_104 | Host Server: #1
+├── ID: @RESERV000000@_105 | Host Server: #1
+├── ID: @RESERV000000@_106 | Host Server: #1
+├── ID: @RESERV000000@_107 | Host Server: #1
+├── ID: @RESERV000000@_108 | Host Server: #1
+├── ID: @RESERV000000@_109 | Host Server: #1
+├── ID: @RESERV000000@_110 | Host Server: #1
+├── ID: @RESERV000000@_111 | Host Server: #1
+├── ID: @RESERV000000@_112 | Host Server: #1
+├── ID: @RESERV000000@_113 | Host Server: #1
+├── ID: @RESERV000000@_114 | Host Server: #1
+├── ID: @RESERV000000@_115 | Host Server: #1
+├── ID: @RESERV000000@_116 | Host Server: #1
+├── ID: @RESERV000000@_117 | Host Server: #1
+├── ID: @RESERV000000@_118 | Host Server: #1
+├── ID: @RESERV000000@_119 | Host Server: #1
+├── ID: @RESERV000000@_120 | Host Server: #1
+├── ID: @RESERV000000@_121 | Host Server: #1
+├── ID: @RESERV000000@_122 | Host Server: #1
+├── ID: @RESERV000000@_123 | Host Server: #1
+├── ID: @RESERV000000@_124 | Host Server: #1
+├── ID: @RESERV000000@_125 | Host Server: #1
+├── ID: @RESERV000000@_126 | Host Server: #1
+├── ID: @RESERV000000@_127 | Host Server: #1
+└── ID: @RESERV000000@_128 | Host Server: #1
+================================================================--------------------------

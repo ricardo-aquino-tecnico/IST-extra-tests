@@ -1,0 +1,8 @@
+Objetivo:
+Numeração reiniciada por reserva.
+
+O que testa:
+Cada reserva começa em _1 mesmo depois de uma reserva de quinze VMs.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

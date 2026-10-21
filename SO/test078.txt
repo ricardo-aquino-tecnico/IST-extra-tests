@@ -1,0 +1,8 @@
+Objetivo:
+128 VMs no mesmo servidor.
+
+O que testa:
+Preenche o limite de VMs de um servidor e de uma reserva.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

@@ -1,0 +1,8 @@
+Objetivo:
+Percentagem CPU: 1/4 × 3 × 100 = 75.
+
+O que testa:
+Um cpulimit instrumentado em PATH regista -l e executa a aplicação. Verifica a fórmula, não a regulação real de CPU.
+
+Âmbito:
+1.ª parte, exercício 2. Inputs válidos; no máximo um R por ficheiro .conf.

@@ -1,0 +1,8 @@
+Objetivo:
+Recursos reutilizados: RAM=1, disco=8, CPU=1.
+
+O que testa:
+A segunda reserva exige todos os recursos do servidor; só é válida se a primeira VM já tiver sido removida.
+
+Âmbito:
+1.ª parte, exercício 2. Inputs válidos; no máximo um R por ficheiro .conf.

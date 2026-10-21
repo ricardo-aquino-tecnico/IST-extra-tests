@@ -1,0 +1,8 @@
+Objetivo:
+Recursos distintos por servidor.
+
+O que testa:
+O servidor cheio não altera os recursos disponíveis noutro servidor.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

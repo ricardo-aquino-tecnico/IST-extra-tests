@@ -1,0 +1,44 @@
+=================================== DATA CENTER STATUS ===================================
+[ PHYSICAL SERVERS ] (3 total)
+------------------------------------------------------------------------------------------
+Server #1
+├─ Resources Total : 2.00 vCPUs | 4 GB RAM | 8 GB Disk
+├─ Resources Used : 1.00 vCPUs | 2 GB RAM | 4 GB Disk
+├─ Resources Available : 1.00 vCPUs | 2 GB RAM | 4 GB Disk
+└─ Hosted VMs (2):
+├── VM ID : @RESERV000000@_1 | Type: F | State: RESERVED
+└── VM ID : @RESERV000000@_2 | Type: F | State: RESERVED
+Server #2
+├─ Resources Total : 2.00 vCPUs | 4 GB RAM | 8 GB Disk
+├─ Resources Used : 1.00 vCPUs | 2 GB RAM | 4 GB Disk
+├─ Resources Available : 1.00 vCPUs | 2 GB RAM | 4 GB Disk
+└─ Hosted VMs (2):
+├── VM ID : @RESERV000000@_3 | Type: F | State: RESERVED
+└── VM ID : @RESERV000000@_4 | Type: F | State: RESERVED
+Server #3
+├─ Resources Total : 2.00 vCPUs | 4 GB RAM | 8 GB Disk
+├─ Resources Used : 1.00 vCPUs | 2 GB RAM | 4 GB Disk
+├─ Resources Available : 1.00 vCPUs | 2 GB RAM | 4 GB Disk
+└─ Hosted VMs (2):
+├── VM ID : @RESERV000000@_5 | Type: F | State: RESERVED
+└── VM ID : @RESERV000000@_6 | Type: F | State: RESERVED
+[ DEFINED VM TYPES ] (1 registered)
+------------------------------------------------------------------------------------------
+* Type ID: F | Requirements: 0.50 vCPU, 1 GB RAM, 2 GB Disk
+├─ Executable : @EXE@
+└─ Input Dir : @INPUT@
+[ RESERVATIONS ] (1 total)
+------------------------------------------------------------------------------------------
+* Reservation ID: @RESERV000000@ | State: PENDING | Total VMs: 6
+├─ Requested Pairs:
+│ • F : 2 unit(s)
+│ • F : 2 unit(s)
+│ • F : 2 unit(s)
+└─ Allocated VMs:
+├── ID: @RESERV000000@_1 | Host Server: #1
+├── ID: @RESERV000000@_2 | Host Server: #1
+├── ID: @RESERV000000@_3 | Host Server: #2
+├── ID: @RESERV000000@_4 | Host Server: #2
+├── ID: @RESERV000000@_5 | Host Server: #3
+└── ID: @RESERV000000@_6 | Host Server: #3
+================================================================--------------------------

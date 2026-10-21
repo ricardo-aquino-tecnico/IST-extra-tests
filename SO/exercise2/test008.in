@@ -1,0 +1,17 @@
+# EXERCISE: 2
+# APP: {"name": "FAILS", "content": true, "copy": "/tmp/CloudIST/@RESERV000000@/@RESERV000000@_1", "signal": 15, "sleep_ms": 80}
+# ASSERT: {"kind": "executions", "counts": {"FAILS": 1}}
+# ASSERT: {"kind": "processes"}
+# ASSERT: {"kind": "before_exec"}
+# ASSERT: {"kind": "snapshot", "used": [[0, 0, 0], [0, 0, 0]], "reservations": 0}
+# ALLOW_EXIT: [0, 1, 143]
+# COPY: @INPUT@ -> @RESERV000000@/@RESERV000000@_1
+# FILE: 00000000.conf
+D FAILS @INPUT@ @APP_FAILS@ 1 1 1
+# FILE: 00000001.conf
+R @RESERV000000@ FAILS 1 1
+# FILE: 00000002.conf
+A @RESERV000000@
+# FILE: 00000003.conf
+E 500
+L

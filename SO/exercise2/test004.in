@@ -1,0 +1,18 @@
+# EXERCISE: 2
+# APP: {"name": "SAME", "content": true, "copy": "/tmp/CloudIST/@RESERV000000@/@RESERV000000@_1|/tmp/CloudIST/@RESERV000000@/@RESERV000000@_2|/tmp/CloudIST/@RESERV000000@/@RESERV000000@_3", "sleep_ms": 80}
+# ASSERT: {"kind": "executions", "counts": {"SAME": 3}}
+# ASSERT: {"kind": "processes"}
+# ASSERT: {"kind": "before_exec"}
+# ASSERT: {"kind": "snapshot", "used": [[0, 0, 0], [0, 0, 0]], "reservations": 0}
+# COPY: @INPUT@ -> @RESERV000000@/@RESERV000000@_1
+# COPY: @INPUT@ -> @RESERV000000@/@RESERV000000@_2
+# COPY: @INPUT@ -> @RESERV000000@/@RESERV000000@_3
+# FILE: 00000000.conf
+D SAME @INPUT@ @APP_SAME@ 1 1 1
+# FILE: 00000001.conf
+R @RESERV000000@ SAME 3 1
+# FILE: 00000002.conf
+A @RESERV000000@
+# FILE: 00000003.conf
+E 500
+L

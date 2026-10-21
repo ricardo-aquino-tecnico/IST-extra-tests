@@ -1,0 +1,8 @@
+Objetivo:
+Comentário maior que o buffer de cópia.
+
+O que testa:
+Um comentário de 20000 caracteres não pode truncar o comando L seguinte.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

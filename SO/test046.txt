@@ -1,0 +1,8 @@
+Objetivo:
+Último servidor válido.
+
+O que testa:
+Uma reserva pode usar o último servidor de um centro com nove servidores.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

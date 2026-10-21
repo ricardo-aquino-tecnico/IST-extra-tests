@@ -1,0 +1,6 @@
+# FILE: Z.conf
+D CASE @INPUT@ @EXE@ 1 1 1
+# FILE: aa.conf
+R @RESERV000000@ CASE 1 1
+# FILE: b.conf
+L

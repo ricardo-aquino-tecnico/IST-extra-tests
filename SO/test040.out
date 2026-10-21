@@ -1,0 +1,36 @@
+=================================== DATA CENTER STATUS ===================================
+[ PHYSICAL SERVERS ] (1 total)
+------------------------------------------------------------------------------------------
+Server #1
+├─ Resources Total : 1.00 vCPUs | 8 GB RAM | 8 GB Disk
+├─ Resources Used : 1.00 vCPUs | 8 GB RAM | 8 GB Disk
+├─ Resources Available : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+└─ Hosted VMs (8):
+├── VM ID : @RESERV000000@_1 | Type: FRACTION | State: RESERVED
+├── VM ID : @RESERV000000@_2 | Type: FRACTION | State: RESERVED
+├── VM ID : @RESERV000000@_3 | Type: FRACTION | State: RESERVED
+├── VM ID : @RESERV000000@_4 | Type: FRACTION | State: RESERVED
+├── VM ID : @RESERV000000@_5 | Type: FRACTION | State: RESERVED
+├── VM ID : @RESERV000000@_6 | Type: FRACTION | State: RESERVED
+├── VM ID : @RESERV000000@_7 | Type: FRACTION | State: RESERVED
+└── VM ID : @RESERV000000@_8 | Type: FRACTION | State: RESERVED
+[ DEFINED VM TYPES ] (1 registered)
+------------------------------------------------------------------------------------------
+* Type ID: FRACTION | Requirements: 0.12 vCPU, 1 GB RAM, 1 GB Disk
+├─ Executable : @EXE@
+└─ Input Dir : @INPUT@
+[ RESERVATIONS ] (1 total)
+------------------------------------------------------------------------------------------
+* Reservation ID: @RESERV000000@ | State: PENDING | Total VMs: 8
+├─ Requested Pairs:
+│ • FRACTION : 8 unit(s)
+└─ Allocated VMs:
+├── ID: @RESERV000000@_1 | Host Server: #1
+├── ID: @RESERV000000@_2 | Host Server: #1
+├── ID: @RESERV000000@_3 | Host Server: #1
+├── ID: @RESERV000000@_4 | Host Server: #1
+├── ID: @RESERV000000@_5 | Host Server: #1
+├── ID: @RESERV000000@_6 | Host Server: #1
+├── ID: @RESERV000000@_7 | Host Server: #1
+└── ID: @RESERV000000@_8 | Host Server: #1
+================================================================--------------------------

@@ -1,0 +1,130 @@
+=================================== DATA CENTER STATUS ===================================
+[ PHYSICAL SERVERS ] (4 total)
+------------------------------------------------------------------------------------------
+Server #1
+├─ Resources Total : 128.00 vCPUs | 256 GB RAM | 512 GB Disk
+├─ Resources Used : 2.00 vCPUs | 8 GB RAM | 8 GB Disk
+├─ Resources Available : 126.00 vCPUs | 248 GB RAM | 504 GB Disk
+└─ Hosted VMs (8):
+├── VM ID : @RESERV000000@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_5 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_9 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_13 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_17 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_21 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_25 | Type: T | State: RESERVED
+└── VM ID : @RESERV000000@_29 | Type: T | State: RESERVED
+Server #2
+├─ Resources Total : 128.00 vCPUs | 256 GB RAM | 512 GB Disk
+├─ Resources Used : 2.00 vCPUs | 8 GB RAM | 8 GB Disk
+├─ Resources Available : 126.00 vCPUs | 248 GB RAM | 504 GB Disk
+└─ Hosted VMs (8):
+├── VM ID : @RESERV000000@_2 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_6 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_10 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_14 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_18 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_22 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_26 | Type: T | State: RESERVED
+└── VM ID : @RESERV000000@_30 | Type: T | State: RESERVED
+Server #3
+├─ Resources Total : 128.00 vCPUs | 256 GB RAM | 512 GB Disk
+├─ Resources Used : 2.00 vCPUs | 8 GB RAM | 8 GB Disk
+├─ Resources Available : 126.00 vCPUs | 248 GB RAM | 504 GB Disk
+└─ Hosted VMs (8):
+├── VM ID : @RESERV000000@_3 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_7 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_11 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_15 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_19 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_23 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_27 | Type: T | State: RESERVED
+└── VM ID : @RESERV000000@_31 | Type: T | State: RESERVED
+Server #4
+├─ Resources Total : 128.00 vCPUs | 256 GB RAM | 512 GB Disk
+├─ Resources Used : 2.00 vCPUs | 8 GB RAM | 8 GB Disk
+├─ Resources Available : 126.00 vCPUs | 248 GB RAM | 504 GB Disk
+└─ Hosted VMs (8):
+├── VM ID : @RESERV000000@_4 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_8 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_12 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_16 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_20 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_24 | Type: T | State: RESERVED
+├── VM ID : @RESERV000000@_28 | Type: T | State: RESERVED
+└── VM ID : @RESERV000000@_32 | Type: T | State: RESERVED
+[ DEFINED VM TYPES ] (1 registered)
+------------------------------------------------------------------------------------------
+* Type ID: T | Requirements: 0.25 vCPU, 1 GB RAM, 1 GB Disk
+├─ Executable : @EXE@
+└─ Input Dir : @INPUT@
+[ RESERVATIONS ] (1 total)
+------------------------------------------------------------------------------------------
+* Reservation ID: @RESERV000000@ | State: PENDING | Total VMs: 32
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+│ • T : 1 unit(s)
+│ • T : 1 unit(s)
+│ • T : 1 unit(s)
+│ • T : 1 unit(s)
+│ • T : 1 unit(s)
+│ • T : 1 unit(s)
+│ • T : 1 unit(s)
+│ • T : 1 unit(s)
+│ • T : 1 unit(s)
+│ • T : 1 unit(s)
+│ • T : 1 unit(s)
+│ • T : 1 unit(s)
+│ • T : 1 unit(s)
+│ • T : 1 unit(s)
+│ • T : 1 unit(s)
+│ • T : 1 unit(s)
+│ • T : 1 unit(s)
+│ • T : 1 unit(s)
+│ • T : 1 unit(s)
+│ • T : 1 unit(s)
+│ • T : 1 unit(s)
+│ • T : 1 unit(s)
+│ • T : 1 unit(s)
+│ • T : 1 unit(s)
+│ • T : 1 unit(s)
+│ • T : 1 unit(s)
+│ • T : 1 unit(s)
+│ • T : 1 unit(s)
+│ • T : 1 unit(s)
+│ • T : 1 unit(s)
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+├── ID: @RESERV000000@_1 | Host Server: #1
+├── ID: @RESERV000000@_2 | Host Server: #2
+├── ID: @RESERV000000@_3 | Host Server: #3
+├── ID: @RESERV000000@_4 | Host Server: #4
+├── ID: @RESERV000000@_5 | Host Server: #1
+├── ID: @RESERV000000@_6 | Host Server: #2
+├── ID: @RESERV000000@_7 | Host Server: #3
+├── ID: @RESERV000000@_8 | Host Server: #4
+├── ID: @RESERV000000@_9 | Host Server: #1
+├── ID: @RESERV000000@_10 | Host Server: #2
+├── ID: @RESERV000000@_11 | Host Server: #3
+├── ID: @RESERV000000@_12 | Host Server: #4
+├── ID: @RESERV000000@_13 | Host Server: #1
+├── ID: @RESERV000000@_14 | Host Server: #2
+├── ID: @RESERV000000@_15 | Host Server: #3
+├── ID: @RESERV000000@_16 | Host Server: #4
+├── ID: @RESERV000000@_17 | Host Server: #1
+├── ID: @RESERV000000@_18 | Host Server: #2
+├── ID: @RESERV000000@_19 | Host Server: #3
+├── ID: @RESERV000000@_20 | Host Server: #4
+├── ID: @RESERV000000@_21 | Host Server: #1
+├── ID: @RESERV000000@_22 | Host Server: #2
+├── ID: @RESERV000000@_23 | Host Server: #3
+├── ID: @RESERV000000@_24 | Host Server: #4
+├── ID: @RESERV000000@_25 | Host Server: #1
+├── ID: @RESERV000000@_26 | Host Server: #2
+├── ID: @RESERV000000@_27 | Host Server: #3
+├── ID: @RESERV000000@_28 | Host Server: #4
+├── ID: @RESERV000000@_29 | Host Server: #1
+├── ID: @RESERV000000@_30 | Host Server: #2
+├── ID: @RESERV000000@_31 | Host Server: #3
+└── ID: @RESERV000000@_32 | Host Server: #4
+================================================================--------------------------

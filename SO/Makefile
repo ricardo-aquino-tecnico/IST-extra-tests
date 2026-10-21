@@ -2,7 +2,7 @@ MAKEFLAGS += --no-print-directory
 SHELL := /bin/bash
 .DEFAULT_GOAL := manual-tests
 .NOTPARALLEL:
-.PHONY: all quick manual manual-tests resolve-exe resolve-exe2 resolve-src python selftest d r a l e export export-zip zip compare count rerun show-diff asan valgrind analyse profile lizard coverage clean help stress scale fuzz-parse scale-collisions
+.PHONY: all quick manual manual-tests exercise1 exercise2 exercise3 resolve-exe resolve-exe2 resolve-src python selftest d r a l e export export-zip zip compare count rerun show-diff asan valgrind analyse profile lizard coverage clean help stress scale fuzz-parse scale-collisions
 
 PYTHON ?= python3
 FAIL ?= 0
@@ -16,6 +16,11 @@ FAIL_LOG ?= tests_failed.log
 COMPARE_FAIL_LOG ?= compare_failed.log
 STATS_FILE ?= test_stats.txt
 TESTS ?= $(sort $(wildcard test*.in))
+EXERCISE2_TESTS ?= $(if $(filter-out file,$(origin TESTS)),$(TESTS),$(sort $(wildcard exercise2/test*.in)))
+EXERCISE3_TESTS ?= $(if $(filter-out file,$(origin TESTS)),$(TESTS),$(sort $(wildcard exercise3/test*.in)))
+EXERCISE2_FAIL_LOG ?= exercise2/tests_failed.log
+EXERCISE3_FAIL_LOG ?= exercise3/tests_failed.log
+MAX_THREADS ?=
 ORIG_GOALS ?= $(if $(MAKECMDGOALS),$(MAKECMDGOALS),$(.DEFAULT_GOAL))
 COMPARE_TESTS ?= $(TESTS)
 CMD_LIST_PREFIX ?= comando_
@@ -55,6 +60,7 @@ export FAIL_LOG COMPARE_FAIL_LOG CC AUTO_ZIP NO_PROMPT ASAN_FUZZ_CASES ASAN_FUZZ
 export ORIG_GOALS STRESS_RUNS STRESS_STEPS STRESS_SEED STRESS_PROGRESS_EVERY STRESS_TIMEOUT
 export SCALE_TYPES SCALE_FILES SCALE_PROGRESS_EVERY FUZZ_CASES FUZZ_LINES FUZZ_SEED FUZZ_PROGRESS_EVERY
 export COLLISIONS_COUNT COLLISIONS_START COLLISIONS_PROGRESS_EVERY TIMEOUT
+export MAX_THREADS
 
 EXPORTING := $(filter export export-zip zip,$(MAKECMDGOALS))
 export EXPORTING
@@ -64,6 +70,15 @@ TOOL_TESTS = $(if $(filter asan,$@),$(ASAN_MANUAL_TESTS),$(if $(filter valgrind,
 TOOL_OUTPUT = $(if $(filter asan,$@),$(ASAN_EXE),$(if $(filter valgrind,$@),$(VALGRIND_EXE),$(if $(filter analyse,$@),$(ANALYSE_EXE),$(if $(filter profile,$@),$(PROFILE_EXE),$(if $(filter coverage,$@),$(COVERAGE_EXE))))))
 
 manual-tests: manual
+
+exercise1: manual
+
+exercise2 exercise3: resolve-exe
+	@status=0; $(RUN) --fail-log "$(if $(filter exercise2,$@),$(EXERCISE2_FAIL_LOG),$(EXERCISE3_FAIL_LOG))" $(if $(filter exercise2,$@),$(EXERCISE2_TESTS),$(EXERCISE3_TESTS)) || status=$$?; \
+	if [ $$status -ne 0 ] && [ -z "$(EXPORTING)" ] && [ "$(NO_PROMPT)" != 1 ] && [ -t 0 ]; then \
+		read -r -p "Executar 'make show-diff' para ver as diferenças? (Y/n) " ans; [[ "$$ans" = [nN] ]] || $(MAKE) show-diff ONLY_MANUAL=1; \
+	fi; \
+	if [ -n "$(EXPORTING)" ]; then exit 0; else exit $$status; fi
 
 all: resolve-exe
 	@status=0; $(TOOLS) suites --exe "$$(cat "$(EXE_CACHE_FILE)")" --tests $(TESTS) || status=$$?; \
@@ -139,7 +154,7 @@ zip:
 	@$(if $(filter export,$(MAKECMDGOALS)),:,$(TOOLS) export --fail-log "$(FAIL_LOG)" --compare-log "$(COMPARE_FAIL_LOG)" --stats "$(STATS_FILE)" --zip)
 
 selftest:
-	@$(PYTHON) -m unittest -v test_runner test_generated
+	@$(PYTHON) -m unittest -v test_runner test_generated test_advanced
 
 asan valgrind analyse profile lizard coverage: resolve-src
 	@status=0; $(TOOLS) $@ --exe "$(EXE)" --cache "$(EXE_CACHE_FILE)" --project "$(PROJECT_DIR)" --src-cache "$(SRC_CACHE_FILE)" --output "$(TOOL_OUTPUT)" --test "$(TEST)" --timeout "$(TIMEOUT)" --fail-log "$(FAIL_LOG)" $(if $(filter 1,$(FAIL)),--fail) --tests $(TOOL_TESTS) || status=$$?; \
@@ -148,6 +163,9 @@ asan valgrind analyse profile lizard coverage: resolve-src
 clean:
 	rm -f *.diff *.myout *.stdout *.stderr *.expected *.status.json *.cmpdiff *.reason *.gmon profile_*.txt coverage_report.txt coverage_report.gcov test_summary.txt *.gcno *.gcda *.gcov "$(FAIL_LOG)" "$(COMPARE_FAIL_LOG)" "$(STATS_FILE)"
 	rm -rf coverage stress-failures scale-failures fuzz-failures collisions-failures .build
+	@for directory in exercise2 exercise3; do if [ -d "$$directory" ]; then \
+		find "$$directory" -type f \( -name '*.diff' -o -name '*.myout' -o -name '*.stdout' -o -name '*.stderr' -o -name '*.expected' -o -name '*.status.json' -o -name '*.cmpdiff' -o -name '*.reason' -o -name '*.gmon' -o -name '*.log' \) -delete; \
+	fi; done
 
 define PRETTY_DIFF_PY
 import sys, os, glob, shutil, json, subprocess
@@ -252,6 +270,14 @@ if os.path.isfile(fail_log):
     diff_files = [base + ".diff" for base in bases if os.path.isfile(base + ".diff")]
 else:
     diff_files = [f for f in sorted(glob.glob("test*.diff")) if f.count(".") == 1]
+for directory in ("exercise2", "exercise3"):
+    logfile = os.path.join(directory,"tests_failed.log")
+    if os.path.isfile(logfile):
+        with open(logfile) as f: names = [line.strip() for line in f if line.strip()]
+        for name in names:
+            base = os.path.join(directory,name) if not os.path.dirname(name) else name
+            path = base.removesuffix(".in") + ".diff"
+            if os.path.isfile(path) and path not in diff_files: diff_files.append(path)
 python_diffs = []
 for directory in (() if only_manual else ("stress-failures", "scale-failures", "fuzz-failures", "collisions-failures")):
     logfile = os.path.join(directory, "tests_failed.log")
@@ -350,6 +376,9 @@ help:
 	  '' \
 	  'Comandos principais:' \
 	  'make / make manual-tests      Testes manuais' \
+	  'make exercise1                Exercício 1: 79 casos (50 novos)' \
+	  'make exercise2                Exercício 2: 50 casos de processos e limites' \
+	  'make exercise3                Exercício 3: 50 casos de ficheiros concorrentes' \
 	  'make all                      Manual + stress + escala + fuzz + colisões' \
 	  'make quick                    Todas as suites com limites reduzidos' \
 	  'make python                   Apenas stress + escala + fuzz + colisões' \
@@ -398,4 +427,6 @@ help:
 	  'ASAN_MANUAL_TESTS / ASAN_FUZZ_CASES / ASAN_FUZZ_LINES / ASAN_COLLISIONS_COUNT' \
 	  'VALGRIND_TESTS / COVERAGE_TESTS / CMD_LIST_PREFIX / AUTO_ZIP / NO_PROMPT' \
 	  'ONLY_MANUAL=1                Mostra apenas diferenças manuais em show-diff' \
+	  'MAX_THREADS=N               Acrescenta o argumento de threads aos casos dos exercícios 1/2' \
+	  'EXERCISE2_TESTS / EXERCISE3_TESTS  Seleção dos casos dos novos alvos' \
 	  'ASAN_EXE / VALGRIND_EXE / ANALYSE_EXE / PROFILE_EXE / COVERAGE_EXE'

@@ -1,0 +1,8 @@
+Objetivo:
+Nome de configuração com acentos.
+
+O que testa:
+Processa uma configuração cujo nome contém caracteres UTF-8.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

@@ -1,0 +1,8 @@
+Objetivo:
+RLIMIT_AS soft e hard de 8 GB.
+
+O que testa:
+A aplicação consulta os limites herdados depois de exec; não tenta consumir GB de memória. Requer Linux/Sigma.
+
+Âmbito:
+1.ª parte, exercício 2. Inputs válidos; no máximo um R por ficheiro .conf.

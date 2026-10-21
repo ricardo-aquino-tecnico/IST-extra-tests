@@ -1,0 +1,105 @@
+# EXERCISE: 3
+# APP: {"name": "THREAD", "content": false, "copy": "/tmp/CloudIST/@RESERV000000@/@RESERV000000@_1|/tmp/CloudIST/@RESERV000001@/@RESERV000001@_1|/tmp/CloudIST/@RESERV000002@/@RESERV000002@_1|/tmp/CloudIST/@RESERV000003@/@RESERV000003@_1|/tmp/CloudIST/@RESERV000004@/@RESERV000004@_1|/tmp/CloudIST/@RESERV000005@/@RESERV000005@_1", "sleep_ms": 350}
+# THREADS: 3
+# ASSERT: {"kind": "after", "path": "/tmp/CloudIST/@RESERV000000@/@RESERV000000@_1", "min_ms": 180}
+# ASSERT: {"kind": "after", "path": "/tmp/CloudIST/@RESERV000001@/@RESERV000001@_1", "min_ms": 180}
+# ASSERT: {"kind": "after", "path": "/tmp/CloudIST/@RESERV000002@/@RESERV000002@_1", "min_ms": 180}
+# ASSERT: {"kind": "after", "path": "/tmp/CloudIST/@RESERV000003@/@RESERV000003@_1", "min_ms": 180}
+# ASSERT: {"kind": "after", "path": "/tmp/CloudIST/@RESERV000004@/@RESERV000004@_1", "min_ms": 180}
+# ASSERT: {"kind": "after", "path": "/tmp/CloudIST/@RESERV000005@/@RESERV000005@_1", "min_ms": 180}
+# ASSERT: {"kind": "duration", "min_ms": 380, "max_ms": 800}
+# COPY: @INPUT@ -> @RESERV000000@/@RESERV000000@_1
+# COPY: @INPUT@ -> @RESERV000001@/@RESERV000001@_1
+# COPY: @INPUT@ -> @RESERV000002@/@RESERV000002@_1
+# COPY: @INPUT@ -> @RESERV000003@/@RESERV000003@_1
+# COPY: @INPUT@ -> @RESERV000004@/@RESERV000004@_1
+# COPY: @INPUT@ -> @RESERV000005@/@RESERV000005@_1
+# FILE: worker_000.conf
+# início
+
+D T000 @INPUT@ @APP_THREAD@ 1 1 1
+# comentário entre comandos
+
+R @RESERV000000@ T000 1 1
+# comentário entre comandos
+
+E 200
+# comentário entre comandos
+
+A @RESERV000000@
+# comentário entre comandos
+
+# FILE: worker_001.conf
+# início
+
+D T001 @INPUT@ @APP_THREAD@ 1 1 1
+# comentário entre comandos
+
+R @RESERV000001@ T001 1 2
+# comentário entre comandos
+
+E 200
+# comentário entre comandos
+
+A @RESERV000001@
+# comentário entre comandos
+
+# FILE: worker_002.conf
+# início
+
+D T002 @INPUT@ @APP_THREAD@ 1 1 1
+# comentário entre comandos
+
+R @RESERV000002@ T002 1 3
+# comentário entre comandos
+
+E 200
+# comentário entre comandos
+
+A @RESERV000002@
+# comentário entre comandos
+
+# FILE: worker_003.conf
+# início
+
+D T003 @INPUT@ @APP_THREAD@ 1 1 1
+# comentário entre comandos
+
+R @RESERV000003@ T003 1 4
+# comentário entre comandos
+
+E 200
+# comentário entre comandos
+
+A @RESERV000003@
+# comentário entre comandos
+
+# FILE: worker_004.conf
+# início
+
+D T004 @INPUT@ @APP_THREAD@ 1 1 1
+# comentário entre comandos
+
+R @RESERV000004@ T004 1 5
+# comentário entre comandos
+
+E 200
+# comentário entre comandos
+
+A @RESERV000004@
+# comentário entre comandos
+
+# FILE: worker_005.conf
+# início
+
+D T005 @INPUT@ @APP_THREAD@ 1 1 1
+# comentário entre comandos
+
+R @RESERV000005@ T005 1 6
+# comentário entre comandos
+
+E 200
+# comentário entre comandos
+
+A @RESERV000005@
+# comentário entre comandos

@@ -1,0 +1,8 @@
+Objetivo:
+IDs com prefixo comum de 38 caracteres.
+
+O que testa:
+Distingue tipos de 39 caracteres cujo último carácter difere.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

@@ -1,0 +1,6 @@
+# FILE: 1.conf
+D LEX @INPUT@ @EXE@ 1 1 1
+# FILE: 10.conf
+R @RESERV000000@ LEX 1 1
+# FILE: 2.conf
+L

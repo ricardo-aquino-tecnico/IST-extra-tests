@@ -1,0 +1,8 @@
+Objetivo:
+128 tipos definidos.
+
+O que testa:
+Preenche exatamente a capacidade de tipos do código base sem ultrapassá-la.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

@@ -1,0 +1,18 @@
+# EXERCISE: 2
+# APP: {"name": "SLOW", "content": true, "copy": "/tmp/CloudIST/@RESERV000000@/@RESERV000000@_1|/tmp/CloudIST/@RESERV000000@/@RESERV000000@_2", "sleep_ms": 350}
+# ASSERT: {"kind": "executions", "counts": {"SLOW": 2}}
+# ASSERT: {"kind": "processes"}
+# ASSERT: {"kind": "before_exec"}
+# ASSERT: {"kind": "snapshot", "used": [[0, 0, 0], [0, 0, 0]], "reservations": 0}
+# ASSERT: {"kind": "overlap", "tags": ["SLOW"]}
+# COPY: @INPUT@ -> @RESERV000000@/@RESERV000000@_1
+# COPY: @INPUT@ -> @RESERV000000@/@RESERV000000@_2
+# FILE: 00000000.conf
+D SLOW @INPUT@ @APP_SLOW@ 1 1 0.5
+# FILE: 00000001.conf
+R @RESERV000000@ SLOW 2 1
+# FILE: 00000002.conf
+A @RESERV000000@
+# FILE: 00000003.conf
+E 650
+L

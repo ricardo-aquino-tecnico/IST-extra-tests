@@ -1,0 +1,8 @@
+Objetivo:
+Nome de configuração com espaços.
+
+O que testa:
+O nome de ficheiro pode conter espaços, embora os argumentos de comandos sejam tokens.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

@@ -1,0 +1,4 @@
+# FILE: a b.conf
+D SPACEFILE @INPUT@ @EXE@ 1 1 1
+# FILE: z.conf
+L

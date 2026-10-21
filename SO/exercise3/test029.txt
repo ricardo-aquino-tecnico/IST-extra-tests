@@ -1,0 +1,8 @@
+Objetivo:
+4 workers, 13 ficheiros.
+
+O que testa:
+13 ficheiros de trabalho, MAX_THREADS=4, esperas [180, 180, 180, 180, 180, 180, 180, 180, 180, 180, 180, 180, 180] ms. Confere todas as cópias, E e uma janela temporal [700, 1120] ms. Compatível com a base do exercício 1 ou 2; não exige arranque real das VMs. Executar sem carga pesada na máquina.
+
+Âmbito:
+1.ª parte, exercício 3. Inputs válidos; no máximo um R por ficheiro .conf.

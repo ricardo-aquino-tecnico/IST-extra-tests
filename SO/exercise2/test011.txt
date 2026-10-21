@@ -1,0 +1,8 @@
+Objetivo:
+2 VMs simultâneas na mesma reserva.
+
+O que testa:
+O último início deve ocorrer antes do primeiro fim; deteta fork/wait serial por VM.
+
+Âmbito:
+1.ª parte, exercício 2. Inputs válidos; no máximo um R por ficheiro .conf.

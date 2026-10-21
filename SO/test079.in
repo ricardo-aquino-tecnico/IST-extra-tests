@@ -1,0 +1,12 @@
+# FILE: 00000000.conf
+D xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxA @INPUT@ @EXE@ 1 1 0.25
+# FILE: 00000001.conf
+D xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxB @INPUT@ @EXE@ 1 1 0.25
+# FILE: 00000002.conf
+D xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxC @INPUT@ @EXE@ 1 1 0.25
+# FILE: 00000003.conf
+D xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxD @INPUT@ @EXE@ 1 1 0.25
+# FILE: 00000004.conf
+R @RESERV000000@ xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxA 1 1 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxB 1 2 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxC 1 3 xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxD 1 4
+# FILE: 00000005.conf
+L

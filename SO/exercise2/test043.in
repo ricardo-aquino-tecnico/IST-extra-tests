@@ -1,0 +1,17 @@
+# EXERCISE: 2
+# APP: {"name": "CPU", "content": true, "copy": "/tmp/CloudIST/@RESERV000000@/@RESERV000000@_1", "sleep_ms": 80}
+# ASSERT: {"kind": "executions", "counts": {"CPU": 1}}
+# ASSERT: {"kind": "processes"}
+# ASSERT: {"kind": "before_exec"}
+# ASSERT: {"kind": "snapshot", "used": [[0, 0, 0], [0, 0, 0], [0, 0, 0]], "reservations": 0}
+# ASSERT: {"kind": "cpu", "tag": "CPU", "percent": 75.0}
+# COPY: @INPUT@ -> @RESERV000000@/@RESERV000000@_1
+# FILE: 00000000.conf
+D CPU @INPUT@ @APP_CPU@ 1 1 1
+# FILE: 00000001.conf
+R @RESERV000000@ CPU 1 3
+# FILE: 00000002.conf
+A @RESERV000000@
+# FILE: 00000003.conf
+E 350
+L

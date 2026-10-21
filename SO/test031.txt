@@ -1,0 +1,8 @@
+Objetivo:
+Maiúsculas antes de minúsculas nos nomes.
+
+O que testa:
+Z.conf define, aa.conf reserva e b.conf lista; os nomes não colidem em sistemas de ficheiros insensíveis a maiúsculas.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

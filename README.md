@@ -2,7 +2,7 @@
 Testes extra para as disciplinas de programação do IST
 
 - [IAED](IAED/Instructions-README.md)
-- [Sistemas Operativos — exercício 1](SO/README.md)
+- [Sistemas Operativos — exercícios 1, 2 e 3](SO/README.md)
 
 ---
 

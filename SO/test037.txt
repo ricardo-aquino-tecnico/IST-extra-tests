@@ -1,0 +1,8 @@
+Objetivo:
+Muitas linhas vazias entre comandos.
+
+O que testa:
+Um intervalo de 400 linhas vazias não termina o processamento.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

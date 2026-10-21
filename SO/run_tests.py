@@ -91,8 +91,44 @@ def check_copy(source, destination):
             raise ValueError(f"O ficheiro foi ligado em vez de copiado: {dst}")
 
 
+def prepare_inputs(work):
+    inputs = work / "inputs"
+    (inputs / "nested/deep/level3/level4/level5").mkdir(parents=True)
+    (inputs / "empty subfolder").mkdir()
+    (inputs / "nested/empty").mkdir()
+    (inputs / "text.txt").write_bytes(b"CloudIST\nsecond line\n")
+    (inputs / ".hidden").write_bytes(b"hidden\n")
+    (inputs / "empty.bin").touch()
+    (inputs / "nested/deep/level3/level4/level5/dados.bin").write_bytes(bytes(range(256)) * 81)
+    (inputs / "nested/espaços e acentos.txt").write_text("Olá, SO!\n")
+    (inputs / "ignored.conf").write_text("# Dados da VM, não configuração do centro\n")
+    empty = work / "empty"
+    empty.mkdir()
+    app = work / "app"
+    shutil.copyfile(shutil.which("true") or "/usr/bin/true", app)
+    app.chmod(0o700)
+    return {"@INPUT@": str(inputs), "@EMPTY@": str(empty), "@EXE@": str(app), "@WORK@": str(work)}
+
+
+def prepare_configs(template, replacements, work):
+    for old, new in replacements.items():
+        template = template.replace(old, new)
+    configs = work / "config files"
+    configs.mkdir()
+    for name, content in reversed(list(split_files(template).items())):
+        target = configs / name
+        target.parent.mkdir(parents=True, exist_ok=True)
+        if f"# NO_NEWLINE: {name}" in template.splitlines():
+            content = content.removesuffix("\n")
+        target.write_text(content)
+    return configs
+
+
 def run_case(case, exe, timeout, *, command_prefix=(), debugger=None, profile=False):
     template = case.read_text()
+    if re.search(r"^# EXERCISE: [23]$", template, re.M):
+        from advanced import run_advanced
+        return run_advanced(case, exe, timeout, command_prefix=command_prefix, debugger=debugger, profile=profile)
     robustness = "# ROBUSTNESS" in template.splitlines()
     expected_template = case.with_suffix(".out").read_text()
     expected = normalise(expected_template)
@@ -123,23 +159,8 @@ def run_case(case, exe, timeout, *, command_prefix=(), debugger=None, profile=Fa
             reservations[token] = name
         with tempfile.TemporaryDirectory(prefix="so-ex1-") as temp:
             work = Path(temp).resolve()
+            replacements = {**prepare_inputs(work), **reservations}
             inputs = work / "inputs"
-            (inputs / "nested/deep/level3/level4/level5").mkdir(parents=True)
-            (inputs / "empty subfolder").mkdir()
-            (inputs / "nested/empty").mkdir()
-            (inputs / "text.txt").write_bytes(b"CloudIST\nsecond line\n")
-            (inputs / ".hidden").write_bytes(b"hidden\n")
-            (inputs / "empty.bin").write_bytes(b"")
-            (inputs / "nested/deep/level3/level4/level5/dados.bin").write_bytes(bytes(range(256)) * 81)
-            (inputs / "nested/espaços e acentos.txt").write_text("Olá, SO!\n")
-            (inputs / "ignored.conf").write_text("# Dados da VM, não configuração do centro\n")
-            empty = work / "empty"
-            empty.mkdir()
-            app = work / "app"
-            shutil.copyfile(shutil.which("true") or "/usr/bin/true", app)
-            app.chmod(0o700)
-            replacements = {"@INPUT@": str(inputs), "@EMPTY@": str(empty), "@EXE@": str(app), **reservations}
-            replacements["@WORK@"] = str(work)
 
             def expand(text):
                 for old, new in replacements.items():
@@ -147,20 +168,18 @@ def run_case(case, exe, timeout, *, command_prefix=(), debugger=None, profile=Fa
                 return text
 
             expected = normalise(expand(expected_template))
-            configs = work / "config files"
-            configs.mkdir()
             # Criar em ordem inversa expõe implementações que usam a ordem de criação.
-            for name, content in reversed(list(split_files(expand(template)).items())):
-                target = configs / name
-                target.parent.mkdir(parents=True, exist_ok=True)
-                if f"# NO_NEWLINE: {name}" in template.splitlines():
-                    content = content.removesuffix("\n")
-                target.write_text(content)
+            configs = prepare_configs(template, replacements, work)
             argfile = case.with_suffix(".arg")
             args = argfile.read_text().split() if argfile.exists() else ["2", "8", "16", "4"]
             if len(args) != 4:
                 raise ValueError("O ficheiro .arg deve conter SERVERS RAM DISK CPU")
             command = [str(exe), *args, str(configs)]
+            if os.environ.get("MAX_THREADS"):
+                threads = int(os.environ["MAX_THREADS"])
+                if threads < 1:
+                    raise ValueError("MAX_THREADS deve ser positivo")
+                command.append(str(threads))
             if debugger:
                 if debugger == "lldb":
                     command = [debugger, "-o", "breakpoint set --name main", "--", *command]
@@ -206,7 +225,7 @@ def run_case(case, exe, timeout, *, command_prefix=(), debugger=None, profile=Fa
                     target = Path("/tmp/CloudIST") / relative
                     if target.parent not in owned or not re.fullmatch(re.escape(target.parent.name) + r"_[1-9]\d*", target.name):
                         raise ValueError(f"Destino de cópia fora da reserva do teste: {target}")
-                    check_copy(Path(source), target)
+                    check_copy((work / source).resolve(), target)
                     actual += f"COPY {relative} OK\n"
                 elif line.startswith("# WAIT: "):
                     minimum = int(line.removeprefix("# WAIT: ")) / 1000
@@ -252,6 +271,7 @@ def save_result(case, result, tag=""):
         return base.with_name(base.name + tag + suffix)
 
     metadata = {key: result[key] for key in ("returncode", "timed_out", "elapsed", "reasons")}
+    metadata.update({key: result[key] for key in ("events", "cpu_calls", "skipped") if key in result})
     path(".status.json").write_text(json.dumps(metadata, ensure_ascii=False, indent=2) + "\n")
     if result["reasons"]:
         path(".reason").write_text("\n".join(result["reasons"]) + "\n")
@@ -270,10 +290,10 @@ def save_result(case, result, tag=""):
 
 
 def select_cases(names):
-    allowed = {ROOT, *(ROOT / name for name in ("stress-failures", "scale-failures", "fuzz-failures", "collisions-failures"))}
+    allowed = {ROOT, *(ROOT / name for name in ("exercise2", "exercise3", "stress-failures", "scale-failures", "fuzz-failures", "collisions-failures"))}
     cases = [(ROOT / Path(name).with_suffix(".in")).resolve() for name in names]
     if any(case.parent not in allowed or not case.is_file() for case in cases):
-        raise ValueError("Seleciona testes existentes na raiz de SO ou nas pastas *-failures da suite")
+        raise ValueError("Seleciona testes existentes na raiz de SO, exercise2/, exercise3/ ou *-failures/")
     return cases
 
 
@@ -347,9 +367,16 @@ def main():
     prefix = ["valgrind", "--quiet", "--leak-check=full", "--error-exitcode=42"] if args.valgrind else []
     failed = []
     count = 0
+    skipped = 0
     start = time.monotonic()
     for case in cases:
         result = run_case(case, exe, args.timeout, command_prefix=prefix, profile=args.profile)
+        if result.get("skipped"):
+            save_result(case, result)
+            skipped += 1
+            count += 1
+            print(colour(f"test {case.relative_to(ROOT)} SKIPPED: {result['skipped']}", "1;33"), flush=True)
+            continue
         reasons = result["reasons"]
         if exe2:
             other = run_case(case, exe2, args.timeout)
@@ -379,9 +406,14 @@ def main():
         if reasons and args.fail:
             break
     log.write_text("".join(name + "\n" for name in failed))
-    (ROOT / "test_run.status.json").write_text(json.dumps({"planned": len(cases), "passed": count-len(failed),
-                                                          "failed": len(failed), "elapsed": time.monotonic()-start}) + "\n")
-    passed = count - len(failed)
+    summary = json.dumps({"planned": len(cases), "passed": count-len(failed)-skipped, "skipped": skipped,
+                          "failed": len(failed), "elapsed": time.monotonic()-start}) + "\n"
+    (ROOT / "test_run.status.json").write_text(summary)
+    if log.parent in (ROOT / "exercise2", ROOT / "exercise3"):
+        (log.parent / "suite.status.json").write_text(summary)
+    passed = count - len(failed) - skipped
+    if skipped:
+        print(f"\n{skipped} testes ignorados por requisitos da plataforma; não contam como passaram.")
     if exe2:
         print(f"\n{passed}/{count} identical, {len(failed)}/{count} differ")
         if failed:
@@ -390,7 +422,7 @@ def main():
         print(f"\n{passed}/{count} clean, {len(failed)}/{count} with leaks/errors")
     else:
         print(f"\n{passed} testes passaram, {len(failed)} testes falharam")
-        print(f"Suite manual FAILED: {len(failed)} teste(s) falharam." if failed else "Suite manual PASSED.")
+        print(f"Suite manual FAILED: {len(failed)} teste(s) falharam." if failed else "Suite manual SKIPPED." if skipped and not passed else "Suite manual PASSED.")
     return bool(failed)
 
 

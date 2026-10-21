@@ -1,0 +1,294 @@
+=================================== DATA CENTER STATUS ===================================
+[ PHYSICAL SERVERS ] (4 total)
+------------------------------------------------------------------------------------------
+Server #1
+├─ Resources Total : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+└─ Hosted VMs (0):
+(None)
+Server #2
+├─ Resources Total : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+└─ Hosted VMs (0):
+(None)
+Server #3
+├─ Resources Total : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+└─ Hosted VMs (0):
+(None)
+Server #4
+├─ Resources Total : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+└─ Hosted VMs (0):
+(None)
+[ DEFINED VM TYPES ] (1 registered)
+------------------------------------------------------------------------------------------
+* Type ID: UNIT | Requirements: 0.25 vCPU, 1 GB RAM, 1 GB Disk
+├─ Executable : @EXE@
+└─ Input Dir : @INPUT@
+[ RESERVATIONS ] (0 total)
+------------------------------------------------------------------------------------------
+(None)
+================================================================--------------------------
+=================================== DATA CENTER STATUS ===================================
+[ PHYSICAL SERVERS ] (4 total)
+------------------------------------------------------------------------------------------
+Server #1
+├─ Resources Total : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+├─ Resources Used : 1.00 vCPUs | 4 GB RAM | 4 GB Disk
+├─ Resources Available : 31.00 vCPUs | 124 GB RAM | 252 GB Disk
+└─ Hosted VMs (4):
+├── VM ID : @RESERV000000@_1 | Type: UNIT | State: RESERVED
+├── VM ID : @RESERV000000@_2 | Type: UNIT | State: RESERVED
+├── VM ID : @RESERV000000@_3 | Type: UNIT | State: RESERVED
+└── VM ID : @RESERV000000@_4 | Type: UNIT | State: RESERVED
+Server #2
+├─ Resources Total : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+└─ Hosted VMs (0):
+(None)
+Server #3
+├─ Resources Total : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+└─ Hosted VMs (0):
+(None)
+Server #4
+├─ Resources Total : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+└─ Hosted VMs (0):
+(None)
+[ DEFINED VM TYPES ] (1 registered)
+------------------------------------------------------------------------------------------
+* Type ID: UNIT | Requirements: 0.25 vCPU, 1 GB RAM, 1 GB Disk
+├─ Executable : @EXE@
+└─ Input Dir : @INPUT@
+[ RESERVATIONS ] (1 total)
+------------------------------------------------------------------------------------------
+* Reservation ID: @RESERV000000@ | State: PENDING | Total VMs: 4
+├─ Requested Pairs:
+│ • UNIT : 4 unit(s)
+└─ Allocated VMs:
+├── ID: @RESERV000000@_1 | Host Server: #1
+├── ID: @RESERV000000@_2 | Host Server: #1
+├── ID: @RESERV000000@_3 | Host Server: #1
+└── ID: @RESERV000000@_4 | Host Server: #1
+================================================================--------------------------
+=================================== DATA CENTER STATUS ===================================
+[ PHYSICAL SERVERS ] (4 total)
+------------------------------------------------------------------------------------------
+Server #1
+├─ Resources Total : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+└─ Hosted VMs (0):
+(None)
+Server #2
+├─ Resources Total : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+└─ Hosted VMs (0):
+(None)
+Server #3
+├─ Resources Total : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+└─ Hosted VMs (0):
+(None)
+Server #4
+├─ Resources Total : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+└─ Hosted VMs (0):
+(None)
+[ DEFINED VM TYPES ] (1 registered)
+------------------------------------------------------------------------------------------
+* Type ID: UNIT | Requirements: 0.25 vCPU, 1 GB RAM, 1 GB Disk
+├─ Executable : @EXE@
+└─ Input Dir : @INPUT@
+[ RESERVATIONS ] (0 total)
+------------------------------------------------------------------------------------------
+(None)
+================================================================--------------------------
+=================================== DATA CENTER STATUS ===================================
+[ PHYSICAL SERVERS ] (4 total)
+------------------------------------------------------------------------------------------
+Server #1
+├─ Resources Total : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+├─ Resources Used : 1.00 vCPUs | 4 GB RAM | 4 GB Disk
+├─ Resources Available : 31.00 vCPUs | 124 GB RAM | 252 GB Disk
+└─ Hosted VMs (4):
+├── VM ID : @RESERV000001@_1 | Type: UNIT | State: RESERVED
+├── VM ID : @RESERV000001@_2 | Type: UNIT | State: RESERVED
+├── VM ID : @RESERV000001@_3 | Type: UNIT | State: RESERVED
+└── VM ID : @RESERV000001@_4 | Type: UNIT | State: RESERVED
+Server #2
+├─ Resources Total : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+└─ Hosted VMs (0):
+(None)
+Server #3
+├─ Resources Total : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+└─ Hosted VMs (0):
+(None)
+Server #4
+├─ Resources Total : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+└─ Hosted VMs (0):
+(None)
+[ DEFINED VM TYPES ] (1 registered)
+------------------------------------------------------------------------------------------
+* Type ID: UNIT | Requirements: 0.25 vCPU, 1 GB RAM, 1 GB Disk
+├─ Executable : @EXE@
+└─ Input Dir : @INPUT@
+[ RESERVATIONS ] (1 total)
+------------------------------------------------------------------------------------------
+* Reservation ID: @RESERV000001@ | State: PENDING | Total VMs: 4
+├─ Requested Pairs:
+│ • UNIT : 4 unit(s)
+└─ Allocated VMs:
+├── ID: @RESERV000001@_1 | Host Server: #1
+├── ID: @RESERV000001@_2 | Host Server: #1
+├── ID: @RESERV000001@_3 | Host Server: #1
+└── ID: @RESERV000001@_4 | Host Server: #1
+================================================================--------------------------
+=================================== DATA CENTER STATUS ===================================
+[ PHYSICAL SERVERS ] (4 total)
+------------------------------------------------------------------------------------------
+Server #1
+├─ Resources Total : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+└─ Hosted VMs (0):
+(None)
+Server #2
+├─ Resources Total : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+└─ Hosted VMs (0):
+(None)
+Server #3
+├─ Resources Total : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+└─ Hosted VMs (0):
+(None)
+Server #4
+├─ Resources Total : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+└─ Hosted VMs (0):
+(None)
+[ DEFINED VM TYPES ] (1 registered)
+------------------------------------------------------------------------------------------
+* Type ID: UNIT | Requirements: 0.25 vCPU, 1 GB RAM, 1 GB Disk
+├─ Executable : @EXE@
+└─ Input Dir : @INPUT@
+[ RESERVATIONS ] (0 total)
+------------------------------------------------------------------------------------------
+(None)
+================================================================--------------------------
+=================================== DATA CENTER STATUS ===================================
+[ PHYSICAL SERVERS ] (4 total)
+------------------------------------------------------------------------------------------
+Server #1
+├─ Resources Total : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+├─ Resources Used : 1.00 vCPUs | 4 GB RAM | 4 GB Disk
+├─ Resources Available : 31.00 vCPUs | 124 GB RAM | 252 GB Disk
+└─ Hosted VMs (4):
+├── VM ID : @RESERV000002@_1 | Type: UNIT | State: RESERVED
+├── VM ID : @RESERV000002@_2 | Type: UNIT | State: RESERVED
+├── VM ID : @RESERV000002@_3 | Type: UNIT | State: RESERVED
+└── VM ID : @RESERV000002@_4 | Type: UNIT | State: RESERVED
+Server #2
+├─ Resources Total : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+└─ Hosted VMs (0):
+(None)
+Server #3
+├─ Resources Total : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+└─ Hosted VMs (0):
+(None)
+Server #4
+├─ Resources Total : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+└─ Hosted VMs (0):
+(None)
+[ DEFINED VM TYPES ] (1 registered)
+------------------------------------------------------------------------------------------
+* Type ID: UNIT | Requirements: 0.25 vCPU, 1 GB RAM, 1 GB Disk
+├─ Executable : @EXE@
+└─ Input Dir : @INPUT@
+[ RESERVATIONS ] (1 total)
+------------------------------------------------------------------------------------------
+* Reservation ID: @RESERV000002@ | State: PENDING | Total VMs: 4
+├─ Requested Pairs:
+│ • UNIT : 4 unit(s)
+└─ Allocated VMs:
+├── ID: @RESERV000002@_1 | Host Server: #1
+├── ID: @RESERV000002@_2 | Host Server: #1
+├── ID: @RESERV000002@_3 | Host Server: #1
+└── ID: @RESERV000002@_4 | Host Server: #1
+================================================================--------------------------
+=================================== DATA CENTER STATUS ===================================
+[ PHYSICAL SERVERS ] (4 total)
+------------------------------------------------------------------------------------------
+Server #1
+├─ Resources Total : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+└─ Hosted VMs (0):
+(None)
+Server #2
+├─ Resources Total : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+└─ Hosted VMs (0):
+(None)
+Server #3
+├─ Resources Total : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+└─ Hosted VMs (0):
+(None)
+Server #4
+├─ Resources Total : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+└─ Hosted VMs (0):
+(None)
+[ DEFINED VM TYPES ] (1 registered)
+------------------------------------------------------------------------------------------
+* Type ID: UNIT | Requirements: 0.25 vCPU, 1 GB RAM, 1 GB Disk
+├─ Executable : @EXE@
+└─ Input Dir : @INPUT@
+[ RESERVATIONS ] (0 total)
+------------------------------------------------------------------------------------------
+(None)
+================================================================--------------------------
+COPY @RESERV000000@/@RESERV000000@_1 OK
+COPY @RESERV000000@/@RESERV000000@_2 OK
+COPY @RESERV000000@/@RESERV000000@_3 OK
+COPY @RESERV000000@/@RESERV000000@_4 OK
+COPY @RESERV000001@/@RESERV000001@_1 OK
+COPY @RESERV000001@/@RESERV000001@_2 OK
+COPY @RESERV000001@/@RESERV000001@_3 OK
+COPY @RESERV000001@/@RESERV000001@_4 OK
+COPY @RESERV000002@/@RESERV000002@_1 OK
+COPY @RESERV000002@/@RESERV000002@_2 OK
+COPY @RESERV000002@/@RESERV000002@_3 OK
+COPY @RESERV000002@/@RESERV000002@_4 OK

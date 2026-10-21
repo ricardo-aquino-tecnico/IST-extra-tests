@@ -1,0 +1,8 @@
+Objetivo:
+RLIMIT_FSIZE soft e hard de 4 GB.
+
+O que testa:
+Consulta o limite máximo por ficheiro no processo da VM; não escreve ficheiros de vários GB.
+
+Âmbito:
+1.ª parte, exercício 2. Inputs válidos; no máximo um R por ficheiro .conf.

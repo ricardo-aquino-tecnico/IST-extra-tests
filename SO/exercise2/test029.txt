@@ -1,0 +1,8 @@
+Objetivo:
+Reservas terminam em ordem inversa.
+
+O que testa:
+A reserva lançada depois termina primeiro e ambas são removidas sem corromper a coleção.
+
+Âmbito:
+1.ª parte, exercício 2. Inputs válidos; no máximo um R por ficheiro .conf.

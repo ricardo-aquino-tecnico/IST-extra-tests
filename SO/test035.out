@@ -1,0 +1,34 @@
+=================================== DATA CENTER STATUS ===================================
+[ PHYSICAL SERVERS ] (4 total)
+------------------------------------------------------------------------------------------
+Server #1
+├─ Resources Total : 128.00 vCPUs | 256 GB RAM | 512 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 128.00 vCPUs | 256 GB RAM | 512 GB Disk
+└─ Hosted VMs (0):
+(None)
+Server #2
+├─ Resources Total : 128.00 vCPUs | 256 GB RAM | 512 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 128.00 vCPUs | 256 GB RAM | 512 GB Disk
+└─ Hosted VMs (0):
+(None)
+Server #3
+├─ Resources Total : 128.00 vCPUs | 256 GB RAM | 512 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 128.00 vCPUs | 256 GB RAM | 512 GB Disk
+└─ Hosted VMs (0):
+(None)
+Server #4
+├─ Resources Total : 128.00 vCPUs | 256 GB RAM | 512 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 128.00 vCPUs | 256 GB RAM | 512 GB Disk
+└─ Hosted VMs (0):
+(None)
+[ DEFINED VM TYPES ] (0 registered)
+------------------------------------------------------------------------------------------
+(None)
+[ RESERVATIONS ] (0 total)
+------------------------------------------------------------------------------------------
+(None)
+================================================================--------------------------

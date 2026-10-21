@@ -1,0 +1,38 @@
+=================================== DATA CENTER STATUS ===================================
+[ PHYSICAL SERVERS ] (2 total)
+------------------------------------------------------------------------------------------
+Server #1
+├─ Resources Total : 8.00 vCPUs | 16 GB RAM | 16 GB Disk
+├─ Resources Used : 2.00 vCPUs | 4 GB RAM | 4 GB Disk
+├─ Resources Available : 6.00 vCPUs | 12 GB RAM | 12 GB Disk
+└─ Hosted VMs (4):
+├── VM ID : @RESERV000000@_1 | Type: ALPHA | State: RESERVED
+├── VM ID : @RESERV000000@_2 | Type: ALPHA | State: RESERVED
+├── VM ID : @RESERV000000@_3 | Type: BETA | State: RESERVED
+└── VM ID : @RESERV000000@_4 | Type: BETA | State: RESERVED
+Server #2
+├─ Resources Total : 8.00 vCPUs | 16 GB RAM | 16 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 8.00 vCPUs | 16 GB RAM | 16 GB Disk
+└─ Hosted VMs (0):
+(None)
+[ DEFINED VM TYPES ] (2 registered)
+------------------------------------------------------------------------------------------
+* Type ID: ALPHA | Requirements: 0.50 vCPU, 1 GB RAM, 1 GB Disk
+├─ Executable : @EXE@
+└─ Input Dir : @INPUT@
+* Type ID: BETA | Requirements: 0.50 vCPU, 1 GB RAM, 1 GB Disk
+├─ Executable : @EXE@
+└─ Input Dir : @INPUT@
+[ RESERVATIONS ] (1 total)
+------------------------------------------------------------------------------------------
+* Reservation ID: @RESERV000000@ | State: PENDING | Total VMs: 4
+├─ Requested Pairs:
+│ • ALPHA : 2 unit(s)
+│ • BETA : 2 unit(s)
+└─ Allocated VMs:
+├── ID: @RESERV000000@_1 | Host Server: #1
+├── ID: @RESERV000000@_2 | Host Server: #1
+├── ID: @RESERV000000@_3 | Host Server: #1
+└── ID: @RESERV000000@_4 | Host Server: #1
+================================================================--------------------------

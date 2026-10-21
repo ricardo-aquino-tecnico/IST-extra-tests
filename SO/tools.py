@@ -19,6 +19,7 @@ from generated import FAIL_DIRS
 
 
 SUITE_DIRS = dict(zip(("stress", "scale", "fuzz-parse", "scale-collisions"), FAIL_DIRS))
+CASE_DIRS = (*FAIL_DIRS, "exercise2", "exercise3")
 
 
 def resolve_exe(value, cache, name, search=True):
@@ -56,6 +57,9 @@ def count_tests(names, stats, command_prefix="comando_"):
         if status.is_file():
             meta = json.loads(status.read_text())
             lines.append(f"  {suite}: {meta['passed']} passaram, {meta['failed']} falharam, {meta['planned']} previstos")
+    for exercise in (2,3):
+        directory = ROOT / f"exercise{exercise}"
+        lines.append(f"Exercício {exercise}: {len(list(directory.glob('test*.in')))} casos disponíveis")
     text = "\n".join(lines) + "\n"
     stats.write_text(text)
     print(text, end="")
@@ -64,7 +68,7 @@ def count_tests(names, stats, command_prefix="comando_"):
 def export_failures(args):
     destination = ROOT / "export"
     names = set()
-    logs = [args.fail_log, args.compare_log, *(str(Path(directory) / "tests_failed.log") for directory in FAIL_DIRS)]
+    logs = [args.fail_log, args.compare_log, *(str(Path(directory) / "tests_failed.log") for directory in CASE_DIRS)]
     for logfile in logs:
         path = ROOT / logfile
         if path.is_file():
@@ -101,8 +105,8 @@ def export_failures(args):
                     target.parent.mkdir(parents=True, exist_ok=True)
                     shutil.copyfile(path, target)
         shutil.copyfile(compare_log, compare / compare_log.name)
-    helpers = ("Makefile", "run_tests.py", "tools.py", "model.py", "generated.py", "random_stress.py", "scale_limits.py", "fuzz_parse.py", "scale_collisions.py", "README.md")
-    for name in (*helpers, *logs, args.stats, "test_summary.txt", *(str(Path(d) / "suite.status.json") for d in FAIL_DIRS)):
+    helpers = ("Makefile", "run_tests.py", "advanced.py", "vm_probe.c", "tools.py", "model.py", "generated.py", "random_stress.py", "scale_limits.py", "fuzz_parse.py", "scale_collisions.py", "README.md")
+    for name in (*helpers, *logs, args.stats, "test_summary.txt", *(str(Path(d) / "suite.status.json") for d in CASE_DIRS)):
         path = ROOT / name
         if path.is_file():
             target = destination / name
@@ -127,8 +131,9 @@ def status_table(results, goals):
     total_ms = sum(round(result["elapsed"] * 1000) for result in results)
     lines = [border, f"| {'Teste':<16} | {f'Status ({total_ms}ms)':<26} | {f'Argumentos ({goals})':<46} |", border]
     for result in results:
-        count = result.get("planned", 0)
-        label = "FAIL" if result["returncode"] else f"PASS ({count} {'test' if count == 1 else 'tests'})"
+        count = result.get("planned", 0) - result.get("skipped", 0)
+        state = "FAIL" if result["returncode"] else "SKIP" if result.get("skipped") and not count else "PASS"
+        label = state if state != "PASS" else f"PASS ({count} {'test' if count == 1 else 'tests'})"
         status = f"{label:<16} {round(result['elapsed'] * 1000)}ms"
         arguments = textwrap.wrap(result["arguments"], 46, break_long_words=True, break_on_hyphens=False) or ["-"]
         lines.append(f"| {result['suite']:<16} | {status:<26} | {arguments[0]:<46} |")
@@ -162,6 +167,7 @@ def run_suites(parts, exe, tests, env=None, overrides=None):
         arguments = " ".join(f"{flags[key.split('_', 1)[1]]} {config[key]}" for key in options.get(part, ()) if key in config) or "-"
         results.append({**metadata, "suite": part, "returncode": result.returncode, "elapsed": time.monotonic()-start, "arguments": arguments})
     failed = sum(bool(result["returncode"]) for result in results)
+    skipped_suites = sum(not result["returncode"] and bool(result.get("skipped")) and result["skipped"] == result.get("planned",-1) for result in results)
     suite = "ASAN" if env and "ASAN_OPTIONS" in env else "Python" if "manual" not in parts else "todos os testes"
     title = f"Resumo da suite {suite}:" if suite != "todos os testes" else "Resumo de todos os testes:"
     summary = "\n" + title + "\n" + status_table(results, config.get("ORIG_GOALS", "all"))
@@ -171,11 +177,14 @@ def run_suites(parts, exe, tests, env=None, overrides=None):
             summary += "\nTestes manuais falhados:\n" + fail_log.read_text()
         elif any(result["suite"] == "manual" and result["returncode"] for result in results):
             summary += "\nA suite manual falhou antes de correr os testes individuais\n"
-    summary += f"\n{len(results)-failed}/{len(results)} partes passaram, {failed}/{len(results)} partes falharam\n"
+    summary += f"\n{len(results)-failed-skipped_suites}/{len(results)} partes passaram, {failed}/{len(results)} partes falharam\n"
+    for result in results:
+        if result.get("skipped"):
+            summary += f"{result['suite']}: {result['skipped']} testes ignorados (não contam como passaram).\n"
     if suite in ("ASAN", "Python"):
         summary += f"{suite} suite {'FAILED' if failed else 'PASSED'}.\n"
     display = summary.replace(title, colour(title, "1"))
-    display = re.sub(r"\b(PASS|FAIL)\b", lambda match: colour(match[0], "1;31" if match[0] == "FAIL" else "1;32"), display)
+    display = re.sub(r"\b(PASS|FAIL|SKIP)\b", lambda match: colour(match[0], {"PASS":"1;32","FAIL":"1;31","SKIP":"1;33"}[match[0]]), display)
     print(display, end="", flush=True)
     (ROOT / "test_summary.txt").write_text(summary)
     (ROOT / "test_summary.status.json").write_text(json.dumps(results, ensure_ascii=False, indent=2) + "\n")
@@ -190,7 +199,7 @@ def run_suites(parts, exe, tests, env=None, overrides=None):
 def rerun(args):
     failed = False
     found = False
-    for logfile in (Path(args.fail_log), *(Path(d) / "tests_failed.log" for d in FAIL_DIRS)):
+    for logfile in dict.fromkeys((Path(args.fail_log), *(Path(d) / "tests_failed.log" for d in CASE_DIRS))):
         path = ROOT / logfile
         names = path.read_text().splitlines() if path.is_file() else []
         if not names:

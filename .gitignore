@@ -10,6 +10,10 @@ SO/*.stdout
 SO/*.status.json
 SO/*.gmon
 SO/*.reason
+SO/exercise[23]/*.stdout
+SO/exercise[23]/*.status.json
+SO/exercise[23]/*.gmon
+SO/exercise[23]/*.reason
 SO/test_stats.txt
 SO/profile_test*.txt
 SO/coverage_report.txt

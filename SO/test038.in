@@ -1,0 +1,7 @@
+# NO_NEWLINE: 00000002.conf
+# FILE: 00000000.conf
+D EOF_COMMENT @INPUT@ @EXE@ 1 1 1
+# FILE: 00000001.conf
+L
+# FILE: 00000002.conf
+# fim sem newline

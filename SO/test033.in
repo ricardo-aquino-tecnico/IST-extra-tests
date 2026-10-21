@@ -1,0 +1,4 @@
+# FILE: á.conf
+D UTF8FILE @INPUT@ @EXE@ 1 1 1
+# FILE: é.conf
+L

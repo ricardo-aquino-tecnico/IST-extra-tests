@@ -1,0 +1,8 @@
+Objetivo:
+Libertação individual antes do fim da reserva.
+
+O que testa:
+Ao fim de 300 ms FAST já terminou e devolveu os recursos; SLOW mantém a reserva e os seus próprios recursos.
+
+Âmbito:
+1.ª parte, exercício 2. Inputs válidos; no máximo um R por ficheiro .conf.

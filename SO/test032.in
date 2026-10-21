@@ -1,0 +1,4 @@
+# FILE: .hidden.conf
+D HIDDEN @INPUT@ @EXE@ 1 1 1
+# FILE: z.conf
+L

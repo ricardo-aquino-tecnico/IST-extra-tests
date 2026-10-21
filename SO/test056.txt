@@ -1,0 +1,8 @@
+Objetivo:
+Reutilizar identificador removido.
+
+O que testa:
+Uma reserva terminada pode ser novamente criada com o mesmo ID.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

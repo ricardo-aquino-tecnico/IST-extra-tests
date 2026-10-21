@@ -1,0 +1,8 @@
+Objetivo:
+Comentário final sem newline.
+
+O que testa:
+O fim de ficheiro depois de um comentário sem newline não deve bloquear o leitor.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

@@ -1,0 +1,8 @@
+Objetivo:
+Ordenação lexical de nomes numéricos.
+
+O que testa:
+1.conf, 10.conf e 2.conf têm dependências que exigem ordenação lexical.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

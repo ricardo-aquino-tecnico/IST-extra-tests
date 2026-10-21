@@ -1,0 +1,19 @@
+# EXERCISE: 2
+# REQUIRE: "cpulimit"
+# APP: {"name": "BUSY", "content": true, "copy": "/tmp/CloudIST/@RESERV000000@/@RESERV000000@_1", "busy_ms": 400}
+# ASSERT: {"kind": "executions", "counts": {"BUSY": 1}}
+# ASSERT: {"kind": "processes"}
+# ASSERT: {"kind": "before_exec"}
+# ASSERT: {"kind": "snapshot", "used": [[0, 0, 0]], "reservations": 0}
+# ASSERT: {"kind": "cpu", "tag": "BUSY", "percent": 25}
+# ASSERT: {"kind": "real_cpu", "tag": "BUSY", "percent": 25}
+# COPY: @INPUT@ -> @RESERV000000@/@RESERV000000@_1
+# FILE: 00000000.conf
+D BUSY @INPUT@ @APP_BUSY@ 1 1 1
+# FILE: 00000001.conf
+R @RESERV000000@ BUSY 1 1
+# FILE: 00000002.conf
+A @RESERV000000@
+# FILE: 00000003.conf
+E 2400
+L

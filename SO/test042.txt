@@ -1,0 +1,8 @@
+Objetivo:
+Capacidade exata de disco.
+
+O que testa:
+Preenche o disco sem esgotar RAM nem CPU.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

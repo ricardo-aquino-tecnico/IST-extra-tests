@@ -1,0 +1,8 @@
+Objetivo:
+Reservas intercaladas por servidor.
+
+O que testa:
+As reservas alternam entre quatro servidores, sem perder a ordem de criação.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

@@ -1,0 +1,8 @@
+Objetivo:
+Uma conclusão preserva a reserva pendente.
+
+O que testa:
+O fim de RUN liberta apenas o servidor 1; PENDING continua reservada no servidor 2.
+
+Âmbito:
+1.ª parte, exercício 2. Inputs válidos; no máximo um R por ficheiro .conf.

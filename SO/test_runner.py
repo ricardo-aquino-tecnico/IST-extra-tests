@@ -221,6 +221,7 @@ class RunnerTests(unittest.TestCase):
             result = subprocess.run(["make", "asan", "TESTS=test004.in", "ASAN_FUZZ_CASES=0", "ASAN_COLLISIONS_COUNT=0", f"PROJECT_DIR={project}"],
                                     cwd=suite, capture_output=True, text=True, timeout=30)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn("3/3 partes passaram",result.stdout)
             self.assertEqual(sorted(path.name for path in project.iterdir()), ["Makefile", "helper.c", "main.c"])
             self.assertEqual(json.loads((suite / "test004.status.json").read_text())["returncode"], 0)
             original = root / "original-cloudIST"

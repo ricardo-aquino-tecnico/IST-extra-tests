@@ -1,0 +1,8 @@
+Objetivo:
+Reutilizar recursos após A.
+
+O que testa:
+Uma nova reserva ocupa toda a capacidade libertada pela anterior.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

@@ -1,0 +1,11 @@
+# EXERCISE: 3
+# APP: {"name": "THREAD", "content": false, "copy": "/tmp/CloudIST/@RESERV000000@/@RESERV000000@_1", "sleep_ms": 350}
+# THREADS: 4
+# ASSERT: {"kind": "after", "path": "/tmp/CloudIST/@RESERV000000@/@RESERV000000@_1", "min_ms": 160}
+# ASSERT: {"kind": "duration", "min_ms": 160, "max_ms": 1680}
+# COPY: @INPUT@ -> @RESERV000000@/@RESERV000000@_1
+# FILE: worker_000.conf
+D T000 @INPUT@ @APP_THREAD@ 1 1 1
+R @RESERV000000@ T000 1 1
+E 180
+A @RESERV000000@

@@ -1,0 +1,32 @@
+=================================== DATA CENTER STATUS ===================================
+[ PHYSICAL SERVERS ] (1 total)
+------------------------------------------------------------------------------------------
+Server #1
+├─ Resources Total : 6.00 vCPUs | 32 GB RAM | 32 GB Disk
+├─ Resources Used : 6.00 vCPUs | 4 GB RAM | 4 GB Disk
+├─ Resources Available : 0.00 vCPUs | 28 GB RAM | 28 GB Disk
+└─ Hosted VMs (4):
+├── VM ID : @RESERV000000@_1 | Type: SMALL | State: RESERVED
+├── VM ID : @RESERV000000@_2 | Type: SMALL | State: RESERVED
+├── VM ID : @RESERV000000@_3 | Type: BIG | State: RESERVED
+└── VM ID : @RESERV000000@_4 | Type: BIG | State: RESERVED
+[ DEFINED VM TYPES ] (2 registered)
+------------------------------------------------------------------------------------------
+* Type ID: SMALL | Requirements: 1.00 vCPU, 1 GB RAM, 1 GB Disk
+├─ Executable : @EXE@
+└─ Input Dir : @INPUT@
+* Type ID: BIG | Requirements: 2.00 vCPU, 1 GB RAM, 1 GB Disk
+├─ Executable : @EXE@
+└─ Input Dir : @INPUT@
+[ RESERVATIONS ] (1 total)
+------------------------------------------------------------------------------------------
+* Reservation ID: @RESERV000000@ | State: PENDING | Total VMs: 4
+├─ Requested Pairs:
+│ • SMALL : 2 unit(s)
+│ • BIG : 2 unit(s)
+└─ Allocated VMs:
+├── ID: @RESERV000000@_1 | Host Server: #1
+├── ID: @RESERV000000@_2 | Host Server: #1
+├── ID: @RESERV000000@_3 | Host Server: #1
+└── ID: @RESERV000000@_4 | Host Server: #1
+================================================================--------------------------

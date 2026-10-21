@@ -1,0 +1,8 @@
+Objetivo:
+Listar antes e depois de cada alteração.
+
+O que testa:
+Os instantâneos de D, R e A não podem conter estado antigo.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

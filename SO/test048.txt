@@ -1,0 +1,8 @@
+Objetivo:
+Um tipo em pedidos não adjacentes.
+
+O que testa:
+Repete o tipo no mesmo R com outro tipo entre pedidos.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

@@ -1,0 +1,8 @@
+Objetivo:
+Execução de reservas de tipos diferentes.
+
+O que testa:
+Confere a árvore completa, bytes, ausência de links e os recursos após A.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

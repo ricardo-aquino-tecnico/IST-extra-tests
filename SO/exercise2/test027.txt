@@ -1,0 +1,8 @@
+Objetivo:
+Reutilização do ID da reserva terminada.
+
+O que testa:
+A remoção total da reserva permite criar de novo o mesmo ID com outro tipo de VM.
+
+Âmbito:
+1.ª parte, exercício 2. Inputs válidos; no máximo um R por ficheiro .conf.

@@ -1,0 +1,8 @@
+Objetivo:
+Capacidade reutilizada depois de um sinal.
+
+O que testa:
+A terminação por SIGTERM devolve toda a capacidade para uma nova reserva.
+
+Âmbito:
+1.ª parte, exercício 2. Inputs válidos; no máximo um R por ficheiro .conf.

@@ -1,0 +1,8 @@
+Objetivo:
+Tipo fracionário em vários servidores.
+
+O que testa:
+As mesmas quantidades distribuem-se por três servidores.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

@@ -1,0 +1,8 @@
+Objetivo:
+Ficheiro .conf oculto.
+
+O que testa:
+Um ficheiro iniciado por ponto também tem a extensão .conf e não pode ser omitido.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

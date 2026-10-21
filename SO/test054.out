@@ -1,0 +1,95 @@
+=================================== DATA CENTER STATUS ===================================
+[ PHYSICAL SERVERS ] (4 total)
+------------------------------------------------------------------------------------------
+Server #1
+├─ Resources Total : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+├─ Resources Used : 0.25 vCPUs | 1 GB RAM | 1 GB Disk
+├─ Resources Available : 31.75 vCPUs | 127 GB RAM | 255 GB Disk
+└─ Hosted VMs (1):
+└── VM ID : @RESERV000000@_1 | Type: UNIT | State: RESERVED
+Server #2
+├─ Resources Total : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+├─ Resources Used : 0.25 vCPUs | 1 GB RAM | 1 GB Disk
+├─ Resources Available : 31.75 vCPUs | 127 GB RAM | 255 GB Disk
+└─ Hosted VMs (1):
+└── VM ID : @RESERV000001@_1 | Type: UNIT | State: RESERVED
+Server #3
+├─ Resources Total : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+├─ Resources Used : 0.25 vCPUs | 1 GB RAM | 1 GB Disk
+├─ Resources Available : 31.75 vCPUs | 127 GB RAM | 255 GB Disk
+└─ Hosted VMs (1):
+└── VM ID : @RESERV000002@_1 | Type: UNIT | State: RESERVED
+Server #4
+├─ Resources Total : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+├─ Resources Used : 0.25 vCPUs | 1 GB RAM | 1 GB Disk
+├─ Resources Available : 31.75 vCPUs | 127 GB RAM | 255 GB Disk
+└─ Hosted VMs (1):
+└── VM ID : @RESERV000003@_1 | Type: UNIT | State: RESERVED
+[ DEFINED VM TYPES ] (1 registered)
+------------------------------------------------------------------------------------------
+* Type ID: UNIT | Requirements: 0.25 vCPU, 1 GB RAM, 1 GB Disk
+├─ Executable : @EXE@
+└─ Input Dir : @INPUT@
+[ RESERVATIONS ] (4 total)
+------------------------------------------------------------------------------------------
+* Reservation ID: @RESERV000000@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • UNIT : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000000@_1 | Host Server: #1
+* Reservation ID: @RESERV000001@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • UNIT : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000001@_1 | Host Server: #2
+* Reservation ID: @RESERV000002@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • UNIT : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000002@_1 | Host Server: #3
+* Reservation ID: @RESERV000003@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • UNIT : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000003@_1 | Host Server: #4
+================================================================--------------------------
+=================================== DATA CENTER STATUS ===================================
+[ PHYSICAL SERVERS ] (4 total)
+------------------------------------------------------------------------------------------
+Server #1
+├─ Resources Total : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+└─ Hosted VMs (0):
+(None)
+Server #2
+├─ Resources Total : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+└─ Hosted VMs (0):
+(None)
+Server #3
+├─ Resources Total : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+└─ Hosted VMs (0):
+(None)
+Server #4
+├─ Resources Total : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+└─ Hosted VMs (0):
+(None)
+[ DEFINED VM TYPES ] (1 registered)
+------------------------------------------------------------------------------------------
+* Type ID: UNIT | Requirements: 0.25 vCPU, 1 GB RAM, 1 GB Disk
+├─ Executable : @EXE@
+└─ Input Dir : @INPUT@
+[ RESERVATIONS ] (0 total)
+------------------------------------------------------------------------------------------
+(None)
+================================================================--------------------------
+COPY @RESERV000003@/@RESERV000003@_1 OK
+COPY @RESERV000002@/@RESERV000002@_1 OK
+COPY @RESERV000001@/@RESERV000001@_1 OK
+COPY @RESERV000000@/@RESERV000000@_1 OK

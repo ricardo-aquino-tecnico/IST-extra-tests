@@ -1,0 +1,8 @@
+Objetivo:
+Executar reservas em ordem inversa.
+
+O que testa:
+A ordem de execução pode ser inversa à da criação.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

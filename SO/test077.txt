@@ -1,0 +1,8 @@
+Objetivo:
+32 pedidos no mesmo R.
+
+O que testa:
+Preenche o limite de pedidos de uma reserva sem repetir R no mesmo ficheiro.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

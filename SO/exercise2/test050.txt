@@ -1,0 +1,8 @@
+Objetivo:
+Limitação CPU real a 25%.
+
+O que testa:
+Delega no cpulimit instalado e mede CPU de processo versus tempo de parede, com tolerância de 50% mais 10 pontos percentuais. Sem cpulimit é SKIPPED.
+
+Âmbito:
+1.ª parte, exercício 2. Inputs válidos; no máximo um R por ficheiro .conf.

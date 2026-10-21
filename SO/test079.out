@@ -1,0 +1,55 @@
+=================================== DATA CENTER STATUS ===================================
+[ PHYSICAL SERVERS ] (4 total)
+------------------------------------------------------------------------------------------
+Server #1
+├─ Resources Total : 128.00 vCPUs | 256 GB RAM | 512 GB Disk
+├─ Resources Used : 0.25 vCPUs | 1 GB RAM | 1 GB Disk
+├─ Resources Available : 127.75 vCPUs | 255 GB RAM | 511 GB Disk
+└─ Hosted VMs (1):
+└── VM ID : @RESERV000000@_1 | Type: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxA | State: RESERVED
+Server #2
+├─ Resources Total : 128.00 vCPUs | 256 GB RAM | 512 GB Disk
+├─ Resources Used : 0.25 vCPUs | 1 GB RAM | 1 GB Disk
+├─ Resources Available : 127.75 vCPUs | 255 GB RAM | 511 GB Disk
+└─ Hosted VMs (1):
+└── VM ID : @RESERV000000@_2 | Type: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxB | State: RESERVED
+Server #3
+├─ Resources Total : 128.00 vCPUs | 256 GB RAM | 512 GB Disk
+├─ Resources Used : 0.25 vCPUs | 1 GB RAM | 1 GB Disk
+├─ Resources Available : 127.75 vCPUs | 255 GB RAM | 511 GB Disk
+└─ Hosted VMs (1):
+└── VM ID : @RESERV000000@_3 | Type: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxC | State: RESERVED
+Server #4
+├─ Resources Total : 128.00 vCPUs | 256 GB RAM | 512 GB Disk
+├─ Resources Used : 0.25 vCPUs | 1 GB RAM | 1 GB Disk
+├─ Resources Available : 127.75 vCPUs | 255 GB RAM | 511 GB Disk
+└─ Hosted VMs (1):
+└── VM ID : @RESERV000000@_4 | Type: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxD | State: RESERVED
+[ DEFINED VM TYPES ] (4 registered)
+------------------------------------------------------------------------------------------
+* Type ID: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxA | Requirements: 0.25 vCPU, 1 GB RAM, 1 GB Disk
+├─ Executable : @EXE@
+└─ Input Dir : @INPUT@
+* Type ID: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxB | Requirements: 0.25 vCPU, 1 GB RAM, 1 GB Disk
+├─ Executable : @EXE@
+└─ Input Dir : @INPUT@
+* Type ID: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxC | Requirements: 0.25 vCPU, 1 GB RAM, 1 GB Disk
+├─ Executable : @EXE@
+└─ Input Dir : @INPUT@
+* Type ID: xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxD | Requirements: 0.25 vCPU, 1 GB RAM, 1 GB Disk
+├─ Executable : @EXE@
+└─ Input Dir : @INPUT@
+[ RESERVATIONS ] (1 total)
+------------------------------------------------------------------------------------------
+* Reservation ID: @RESERV000000@ | State: PENDING | Total VMs: 4
+├─ Requested Pairs:
+│ • xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxA : 1 unit(s)
+│ • xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxB : 1 unit(s)
+│ • xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxC : 1 unit(s)
+│ • xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxD : 1 unit(s)
+└─ Allocated VMs:
+├── ID: @RESERV000000@_1 | Host Server: #1
+├── ID: @RESERV000000@_2 | Host Server: #2
+├── ID: @RESERV000000@_3 | Host Server: #3
+└── ID: @RESERV000000@_4 | Host Server: #4
+================================================================--------------------------

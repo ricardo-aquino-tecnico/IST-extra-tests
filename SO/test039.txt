@@ -1,0 +1,8 @@
+Objetivo:
+Comando R final sem newline.
+
+O que testa:
+A reserva no último ficheiro termina no EOF e deve constar da listagem de um ficheiro posterior.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

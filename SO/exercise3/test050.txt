@@ -1,0 +1,8 @@
+Objetivo:
+Ficheiros concorrentes: alternate.
+
+O que testa:
+6 ficheiros de trabalho, MAX_THREADS=3, esperas [200, 200, 200, 200, 200, 200] ms. Confere todas as cópias, E e uma janela temporal [380, 800] ms. Compatível com a base do exercício 1 ou 2; não exige arranque real das VMs. Executar sem carga pesada na máquina.
+
+Âmbito:
+1.ª parte, exercício 3. Inputs válidos; no máximo um R por ficheiro .conf.

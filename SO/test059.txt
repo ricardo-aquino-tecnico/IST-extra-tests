@@ -1,0 +1,8 @@
+Objetivo:
+Índices de VM até 100.
+
+O que testa:
+A numeração de cem VMs deve permanecer única ao atravessar _99 e _100.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

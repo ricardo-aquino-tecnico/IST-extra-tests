@@ -1,0 +1,8 @@
+Objetivo:
+Reserva com dezasseis pedidos.
+
+O que testa:
+Um R contém dezasseis pares distribuídos por quatro servidores.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

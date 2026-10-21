@@ -1,0 +1,103 @@
+=================================== DATA CENTER STATUS ===================================
+[ PHYSICAL SERVERS ] (4 total)
+------------------------------------------------------------------------------------------
+Server #1
+├─ Resources Total : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+├─ Resources Used : 0.75 vCPUs | 3 GB RAM | 3 GB Disk
+├─ Resources Available : 31.25 vCPUs | 125 GB RAM | 253 GB Disk
+└─ Hosted VMs (3):
+├── VM ID : @RESERV000000@_1 | Type: UNIT | State: RESERVED
+├── VM ID : @RESERV000004@_1 | Type: UNIT | State: RESERVED
+└── VM ID : @RESERV000008@_1 | Type: UNIT | State: RESERVED
+Server #2
+├─ Resources Total : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+├─ Resources Used : 0.75 vCPUs | 3 GB RAM | 3 GB Disk
+├─ Resources Available : 31.25 vCPUs | 125 GB RAM | 253 GB Disk
+└─ Hosted VMs (3):
+├── VM ID : @RESERV000001@_1 | Type: UNIT | State: RESERVED
+├── VM ID : @RESERV000005@_1 | Type: UNIT | State: RESERVED
+└── VM ID : @RESERV000009@_1 | Type: UNIT | State: RESERVED
+Server #3
+├─ Resources Total : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+├─ Resources Used : 0.75 vCPUs | 3 GB RAM | 3 GB Disk
+├─ Resources Available : 31.25 vCPUs | 125 GB RAM | 253 GB Disk
+└─ Hosted VMs (3):
+├── VM ID : @RESERV000002@_1 | Type: UNIT | State: RESERVED
+├── VM ID : @RESERV000006@_1 | Type: UNIT | State: RESERVED
+└── VM ID : @RESERV000010@_1 | Type: UNIT | State: RESERVED
+Server #4
+├─ Resources Total : 32.00 vCPUs | 128 GB RAM | 256 GB Disk
+├─ Resources Used : 0.75 vCPUs | 3 GB RAM | 3 GB Disk
+├─ Resources Available : 31.25 vCPUs | 125 GB RAM | 253 GB Disk
+└─ Hosted VMs (3):
+├── VM ID : @RESERV000003@_1 | Type: UNIT | State: RESERVED
+├── VM ID : @RESERV000007@_1 | Type: UNIT | State: RESERVED
+└── VM ID : @RESERV000011@_1 | Type: UNIT | State: RESERVED
+[ DEFINED VM TYPES ] (1 registered)
+------------------------------------------------------------------------------------------
+* Type ID: UNIT | Requirements: 0.25 vCPU, 1 GB RAM, 1 GB Disk
+├─ Executable : @EXE@
+└─ Input Dir : @INPUT@
+[ RESERVATIONS ] (12 total)
+------------------------------------------------------------------------------------------
+* Reservation ID: @RESERV000000@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • UNIT : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000000@_1 | Host Server: #1
+* Reservation ID: @RESERV000001@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • UNIT : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000001@_1 | Host Server: #2
+* Reservation ID: @RESERV000002@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • UNIT : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000002@_1 | Host Server: #3
+* Reservation ID: @RESERV000003@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • UNIT : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000003@_1 | Host Server: #4
+* Reservation ID: @RESERV000004@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • UNIT : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000004@_1 | Host Server: #1
+* Reservation ID: @RESERV000005@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • UNIT : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000005@_1 | Host Server: #2
+* Reservation ID: @RESERV000006@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • UNIT : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000006@_1 | Host Server: #3
+* Reservation ID: @RESERV000007@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • UNIT : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000007@_1 | Host Server: #4
+* Reservation ID: @RESERV000008@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • UNIT : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000008@_1 | Host Server: #1
+* Reservation ID: @RESERV000009@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • UNIT : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000009@_1 | Host Server: #2
+* Reservation ID: @RESERV000010@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • UNIT : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000010@_1 | Host Server: #3
+* Reservation ID: @RESERV000011@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • UNIT : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000011@_1 | Host Server: #4
+================================================================--------------------------

@@ -1,0 +1,70 @@
+=================================== DATA CENTER STATUS ===================================
+[ PHYSICAL SERVERS ] (9 total)
+------------------------------------------------------------------------------------------
+Server #1
+├─ Resources Total : 2.00 vCPUs | 4 GB RAM | 8 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 2.00 vCPUs | 4 GB RAM | 8 GB Disk
+└─ Hosted VMs (0):
+(None)
+Server #2
+├─ Resources Total : 2.00 vCPUs | 4 GB RAM | 8 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 2.00 vCPUs | 4 GB RAM | 8 GB Disk
+└─ Hosted VMs (0):
+(None)
+Server #3
+├─ Resources Total : 2.00 vCPUs | 4 GB RAM | 8 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 2.00 vCPUs | 4 GB RAM | 8 GB Disk
+└─ Hosted VMs (0):
+(None)
+Server #4
+├─ Resources Total : 2.00 vCPUs | 4 GB RAM | 8 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 2.00 vCPUs | 4 GB RAM | 8 GB Disk
+└─ Hosted VMs (0):
+(None)
+Server #5
+├─ Resources Total : 2.00 vCPUs | 4 GB RAM | 8 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 2.00 vCPUs | 4 GB RAM | 8 GB Disk
+└─ Hosted VMs (0):
+(None)
+Server #6
+├─ Resources Total : 2.00 vCPUs | 4 GB RAM | 8 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 2.00 vCPUs | 4 GB RAM | 8 GB Disk
+└─ Hosted VMs (0):
+(None)
+Server #7
+├─ Resources Total : 2.00 vCPUs | 4 GB RAM | 8 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 2.00 vCPUs | 4 GB RAM | 8 GB Disk
+└─ Hosted VMs (0):
+(None)
+Server #8
+├─ Resources Total : 2.00 vCPUs | 4 GB RAM | 8 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 2.00 vCPUs | 4 GB RAM | 8 GB Disk
+└─ Hosted VMs (0):
+(None)
+Server #9
+├─ Resources Total : 2.00 vCPUs | 4 GB RAM | 8 GB Disk
+├─ Resources Used : 0.25 vCPUs | 1 GB RAM | 1 GB Disk
+├─ Resources Available : 1.75 vCPUs | 3 GB RAM | 7 GB Disk
+└─ Hosted VMs (1):
+└── VM ID : @RESERV000000@_1 | Type: LAST | State: RESERVED
+[ DEFINED VM TYPES ] (1 registered)
+------------------------------------------------------------------------------------------
+* Type ID: LAST | Requirements: 0.25 vCPU, 1 GB RAM, 1 GB Disk
+├─ Executable : @EXE@
+└─ Input Dir : @INPUT@
+[ RESERVATIONS ] (1 total)
+------------------------------------------------------------------------------------------
+* Reservation ID: @RESERV000000@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • LAST : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000000@_1 | Host Server: #9
+================================================================--------------------------

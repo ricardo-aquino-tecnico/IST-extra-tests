@@ -1,0 +1,8 @@
+Objetivo:
+Extensões semelhantes ignoradas.
+
+O que testa:
+.conf.bak, .config, .CONF e nomes sem extensão não contêm comandos válidos e devem ser ignorados.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

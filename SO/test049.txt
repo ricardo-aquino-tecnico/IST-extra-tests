@@ -1,0 +1,8 @@
+Objetivo:
+RAM e disco assimétricos.
+
+O que testa:
+Distingue os campos RAM e disco em tipos com requisitos invertidos.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

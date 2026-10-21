@@ -1,8 +1,80 @@
-# Sistemas Operativos 2026/27 — exercício 1
+# Sistemas Operativos 2026/27 — 1.ª parte
 
-Suite da **1.ª parte, exercício 1 (sistema de ficheiros)**, com 29 testes manuais
-e geradores de stress, escala, fuzzing e identificadores semelhantes. Segue o
-formato de listagem do código base de CloudIST. Não cobre os exercícios 2 e 3.
+Suite da **1.ª parte**, com **179 testes manuais**: 79 do exercício 1 (29 anteriores
+e 50 novos), 50 do exercício 2 e 50 do exercício 3. Cada caso tem `.in`, `.out`,
+`.txt` e, nos novos casos, `.arg`. Mantém os geradores e funcionalidades de IAED.
+
+```sh
+make exercise1 EXE=/caminho/cloudIST-ex1
+make exercise2 EXE=/caminho/cloudIST-ex2
+make exercise3 EXE=/caminho/cloudIST-ex3
+make exercise2 TESTS="exercise2/test001.in exercise2/test026.in"
+make exercise3 TESTS="exercise3/test011.in"
+```
+
+Os nomes dos executáveis acima são exemplos; `EXE` aceita o nome real do teu
+programa. `make` e `make all` mantêm a seleção do exercício 1, para preservar o
+uso anterior. Os novos alvos aceitam `TESTS`, `FAIL=1`, `TIMEOUT`, exportação,
+comparação, debugger e repetição. `make rerun`, `make show-diff` e `make export`
+incluem os três exercícios; os exercícios 2 e 3 guardam logs próprios para que
+uma seleção não apague as falhas da outra.
+
+O exercício 3 é testado **sobre ambas as bases permitidas**: a do exercício 1
+e a do exercício 2. Não exige que a implementação de threads execute processos
+de VMs. Cada caso indica o seu `MAX_THREADS` através de `# THREADS:`. Para testar
+os exercícios 1 ou 2 num binário que já exige esse argumento extra, usa
+`MAX_THREADS=1`; isso acrescenta o argumento depois de `INPUT_DIR`.
+
+## Os 150 novos casos
+
+| Exercício | Casos | Cobertura |
+| --- | --- | --- |
+| 1 | `test030`–`test039` | Nomes e ordem dos `.conf`, extensões ignoradas, comentários longos, linhas vazias e EOF sem newline |
+| 1 | `test040`–`test049` | CPU fracionária, capacidades exatas e distribuição por servidores |
+| 1 | `test050`–`test059` | Várias reservas, ordens de execução, reutilização de IDs e recursos, índices de VM |
+| 1 | `test060`–`test074` | Cópias completas, subárvores, origens relativas, ficheiros binários e pastas vazias |
+| 1 | `test075`–`test079` | Limites do código base: 128 tipos, 256 reservas, 32 pedidos, 128 VMs e IDs de 39 caracteres |
+| 2 | `exercise2/test001`–`test010` | Aplicações reais, processos distintos, cópias disponíveis antes de exec, saídas não zero e sinais |
+| 2 | `exercise2/test011`–`test020` | Sobreposição de VMs e continuação dos comandos enquanto uma VM está ativa |
+| 2 | `exercise2/test021`–`test030` | Recursos reutilizáveis, libertação individual, reservas pendentes e remoção de reservas terminadas |
+| 2 | `exercise2/test031`–`test040` | Observação de limites soft/hard de RAM e tamanho por ficheiro, sem consumir/escrever GB |
+| 2 | `exercise2/test041`–`test049` | Fórmula de CPU: `vCPU / CPU × SERVERS × 100` |
+| 2 | `exercise2/test050` | Regulação real de CPU, quando o cpulimit instalado é compatível |
+| 3 | `exercise3/test001`–`test030` | Um a quatro workers, vários números de ficheiros, ondas de processamento e esperas E |
+| 3 | `exercise3/test031`–`test040` | Mais workers que ficheiros, várias VMs, origens distintas, servidor partilhado e prefixos comuns |
+| 3 | `exercise3/test041`–`test050` | Ficheiros vazios/ignorados/ocultos, Unicode, espaços, EOF, esperas mistas e comentários |
+
+## Observações dos exercícios 2 e 3
+
+`advanced.py` compila `vm_probe.c` em pastas temporárias. Esta aplicação de teste
+regista inícios/fins, PIDs, CPU e limites herdados depois de exec; não implementa
+o CloudIST. Não pressupõe que o processo mude de diretoria. Os eventos e chamadas
+de cpulimit ficam nos diagnósticos `.status.json`. As expectativas `.out` usam
+linhas `CHECK … OK` e `COPY … OK`, sem fixar PIDs, ordem de conclusão ou texto de
+diagnóstico que o enunciado não define. Saídas não zero/sinais das aplicações
+são intencionais em alguns casos; o CloudIST tem de continuar e libertar recursos.
+
+Os testes de CPU `041`–`049` usam um espião nativo de `cpulimit` em `PATH`: registam
+a percentagem e executam a aplicação sem regulação, para testar a fórmula sem
+depender da carga da máquina. Uma implementação que use um caminho absoluto
+para cpulimit precisa de ser adaptada para a instrumentação ou verificada à parte.
+O caso `050` delega no cpulimit real e mede CPU/tempo com tolerância. Se faltarem
+as opções `-q/-f` do enunciado, aparece `SKIPPED`, tal como nos cinco casos de
+`RLIMIT_AS` quando não se está em Linux. Casos ignorados nunca contam como passaram.
+
+Nos casos de threads, a sonda demora brevemente a terminar, para permitir
+observar e verificar cópias antes de uma eventual limpeza feita pela base do
+exercício 2. Não se exige que essa aplicação seja executada pela base do exercício 1.
+As janelas temporais medem as ondas de criação das pastas de VMs, excluindo
+o arranque do executável e a espera de filhos no EOF. São verificadas todas as
+cópias; uma VM terminada pode apagar a sua pasta depois de ter sido observada
+uma cópia completa. Usa uma máquina sem carga pesada para os testes temporais.
+Esta medição pressupõe que as pastas são preparadas em A, como no código base;
+uma solução que antecipe as cópias para R precisa de adaptar a instrumentação temporal.
+Estes testes não provam, por si, que foram usadas threads em vez de processos:
+essa exigência, tal como o uso das interfaces POSIX, exige inspeção do código.
+
+## Utilização habitual do exercício 1
 
 Compila primeiro o teu projeto. Nesta pasta, executa:
 

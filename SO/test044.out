@@ -1,0 +1,39 @@
+=================================== DATA CENTER STATUS ===================================
+[ PHYSICAL SERVERS ] (3 total)
+------------------------------------------------------------------------------------------
+Server #1
+├─ Resources Total : 4.00 vCPUs | 8 GB RAM | 16 GB Disk
+├─ Resources Used : 4.00 vCPUs | 8 GB RAM | 16 GB Disk
+├─ Resources Available : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+└─ Hosted VMs (1):
+└── VM ID : @RESERV000000@_1 | Type: FULL | State: RESERVED
+Server #2
+├─ Resources Total : 4.00 vCPUs | 8 GB RAM | 16 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 4.00 vCPUs | 8 GB RAM | 16 GB Disk
+└─ Hosted VMs (0):
+(None)
+Server #3
+├─ Resources Total : 4.00 vCPUs | 8 GB RAM | 16 GB Disk
+├─ Resources Used : 2.00 vCPUs | 4 GB RAM | 8 GB Disk
+├─ Resources Available : 2.00 vCPUs | 4 GB RAM | 8 GB Disk
+└─ Hosted VMs (1):
+└── VM ID : @RESERV000000@_2 | Type: HALF | State: RESERVED
+[ DEFINED VM TYPES ] (2 registered)
+------------------------------------------------------------------------------------------
+* Type ID: FULL | Requirements: 4.00 vCPU, 8 GB RAM, 16 GB Disk
+├─ Executable : @EXE@
+└─ Input Dir : @INPUT@
+* Type ID: HALF | Requirements: 2.00 vCPU, 4 GB RAM, 8 GB Disk
+├─ Executable : @EXE@
+└─ Input Dir : @INPUT@
+[ RESERVATIONS ] (1 total)
+------------------------------------------------------------------------------------------
+* Reservation ID: @RESERV000000@ | State: PENDING | Total VMs: 2
+├─ Requested Pairs:
+│ • FULL : 1 unit(s)
+│ • HALF : 1 unit(s)
+└─ Allocated VMs:
+├── ID: @RESERV000000@_1 | Host Server: #1
+└── ID: @RESERV000000@_2 | Host Server: #3
+================================================================--------------------------

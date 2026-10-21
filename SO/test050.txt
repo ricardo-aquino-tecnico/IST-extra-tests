@@ -1,0 +1,8 @@
+Objetivo:
+Dez reservas independentes.
+
+O que testa:
+A listagem conserva dez reservas com um único tipo.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

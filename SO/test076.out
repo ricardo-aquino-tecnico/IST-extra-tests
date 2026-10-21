@@ -1,0 +1,1567 @@
+=================================== DATA CENTER STATUS ===================================
+[ PHYSICAL SERVERS ] (4 total)
+------------------------------------------------------------------------------------------
+Server #1
+├─ Resources Total : 128.00 vCPUs | 256 GB RAM | 512 GB Disk
+├─ Resources Used : 16.00 vCPUs | 64 GB RAM | 64 GB Disk
+├─ Resources Available : 112.00 vCPUs | 192 GB RAM | 448 GB Disk
+└─ Hosted VMs (64):
+├── VM ID : @RESERV000000@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000004@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000008@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000012@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000016@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000020@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000024@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000028@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000032@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000036@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000040@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000044@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000048@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000052@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000056@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000060@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000064@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000068@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000072@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000076@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000080@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000084@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000088@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000092@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000096@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000100@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000104@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000108@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000112@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000116@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000120@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000124@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000128@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000132@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000136@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000140@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000144@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000148@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000152@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000156@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000160@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000164@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000168@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000172@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000176@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000180@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000184@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000188@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000192@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000196@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000200@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000204@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000208@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000212@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000216@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000220@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000224@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000228@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000232@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000236@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000240@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000244@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000248@_1 | Type: T | State: RESERVED
+└── VM ID : @RESERV000252@_1 | Type: T | State: RESERVED
+Server #2
+├─ Resources Total : 128.00 vCPUs | 256 GB RAM | 512 GB Disk
+├─ Resources Used : 16.00 vCPUs | 64 GB RAM | 64 GB Disk
+├─ Resources Available : 112.00 vCPUs | 192 GB RAM | 448 GB Disk
+└─ Hosted VMs (64):
+├── VM ID : @RESERV000001@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000005@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000009@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000013@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000017@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000021@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000025@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000029@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000033@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000037@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000041@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000045@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000049@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000053@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000057@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000061@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000065@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000069@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000073@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000077@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000081@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000085@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000089@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000093@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000097@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000101@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000105@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000109@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000113@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000117@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000121@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000125@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000129@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000133@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000137@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000141@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000145@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000149@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000153@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000157@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000161@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000165@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000169@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000173@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000177@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000181@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000185@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000189@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000193@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000197@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000201@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000205@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000209@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000213@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000217@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000221@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000225@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000229@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000233@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000237@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000241@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000245@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000249@_1 | Type: T | State: RESERVED
+└── VM ID : @RESERV000253@_1 | Type: T | State: RESERVED
+Server #3
+├─ Resources Total : 128.00 vCPUs | 256 GB RAM | 512 GB Disk
+├─ Resources Used : 16.00 vCPUs | 64 GB RAM | 64 GB Disk
+├─ Resources Available : 112.00 vCPUs | 192 GB RAM | 448 GB Disk
+└─ Hosted VMs (64):
+├── VM ID : @RESERV000002@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000006@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000010@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000014@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000018@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000022@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000026@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000030@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000034@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000038@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000042@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000046@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000050@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000054@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000058@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000062@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000066@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000070@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000074@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000078@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000082@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000086@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000090@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000094@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000098@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000102@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000106@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000110@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000114@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000118@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000122@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000126@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000130@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000134@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000138@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000142@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000146@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000150@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000154@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000158@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000162@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000166@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000170@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000174@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000178@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000182@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000186@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000190@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000194@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000198@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000202@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000206@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000210@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000214@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000218@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000222@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000226@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000230@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000234@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000238@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000242@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000246@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000250@_1 | Type: T | State: RESERVED
+└── VM ID : @RESERV000254@_1 | Type: T | State: RESERVED
+Server #4
+├─ Resources Total : 128.00 vCPUs | 256 GB RAM | 512 GB Disk
+├─ Resources Used : 16.00 vCPUs | 64 GB RAM | 64 GB Disk
+├─ Resources Available : 112.00 vCPUs | 192 GB RAM | 448 GB Disk
+└─ Hosted VMs (64):
+├── VM ID : @RESERV000003@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000007@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000011@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000015@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000019@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000023@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000027@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000031@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000035@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000039@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000043@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000047@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000051@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000055@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000059@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000063@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000067@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000071@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000075@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000079@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000083@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000087@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000091@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000095@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000099@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000103@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000107@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000111@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000115@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000119@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000123@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000127@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000131@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000135@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000139@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000143@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000147@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000151@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000155@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000159@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000163@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000167@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000171@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000175@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000179@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000183@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000187@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000191@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000195@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000199@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000203@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000207@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000211@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000215@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000219@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000223@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000227@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000231@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000235@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000239@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000243@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000247@_1 | Type: T | State: RESERVED
+├── VM ID : @RESERV000251@_1 | Type: T | State: RESERVED
+└── VM ID : @RESERV000255@_1 | Type: T | State: RESERVED
+[ DEFINED VM TYPES ] (1 registered)
+------------------------------------------------------------------------------------------
+* Type ID: T | Requirements: 0.25 vCPU, 1 GB RAM, 1 GB Disk
+├─ Executable : @EXE@
+└─ Input Dir : @INPUT@
+[ RESERVATIONS ] (256 total)
+------------------------------------------------------------------------------------------
+* Reservation ID: @RESERV000000@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000000@_1 | Host Server: #1
+* Reservation ID: @RESERV000001@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000001@_1 | Host Server: #2
+* Reservation ID: @RESERV000002@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000002@_1 | Host Server: #3
+* Reservation ID: @RESERV000003@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000003@_1 | Host Server: #4
+* Reservation ID: @RESERV000004@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000004@_1 | Host Server: #1
+* Reservation ID: @RESERV000005@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000005@_1 | Host Server: #2
+* Reservation ID: @RESERV000006@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000006@_1 | Host Server: #3
+* Reservation ID: @RESERV000007@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000007@_1 | Host Server: #4
+* Reservation ID: @RESERV000008@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000008@_1 | Host Server: #1
+* Reservation ID: @RESERV000009@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000009@_1 | Host Server: #2
+* Reservation ID: @RESERV000010@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000010@_1 | Host Server: #3
+* Reservation ID: @RESERV000011@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000011@_1 | Host Server: #4
+* Reservation ID: @RESERV000012@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000012@_1 | Host Server: #1
+* Reservation ID: @RESERV000013@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000013@_1 | Host Server: #2
+* Reservation ID: @RESERV000014@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000014@_1 | Host Server: #3
+* Reservation ID: @RESERV000015@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000015@_1 | Host Server: #4
+* Reservation ID: @RESERV000016@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000016@_1 | Host Server: #1
+* Reservation ID: @RESERV000017@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000017@_1 | Host Server: #2
+* Reservation ID: @RESERV000018@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000018@_1 | Host Server: #3
+* Reservation ID: @RESERV000019@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000019@_1 | Host Server: #4
+* Reservation ID: @RESERV000020@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000020@_1 | Host Server: #1
+* Reservation ID: @RESERV000021@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000021@_1 | Host Server: #2
+* Reservation ID: @RESERV000022@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000022@_1 | Host Server: #3
+* Reservation ID: @RESERV000023@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000023@_1 | Host Server: #4
+* Reservation ID: @RESERV000024@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000024@_1 | Host Server: #1
+* Reservation ID: @RESERV000025@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000025@_1 | Host Server: #2
+* Reservation ID: @RESERV000026@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000026@_1 | Host Server: #3
+* Reservation ID: @RESERV000027@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000027@_1 | Host Server: #4
+* Reservation ID: @RESERV000028@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000028@_1 | Host Server: #1
+* Reservation ID: @RESERV000029@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000029@_1 | Host Server: #2
+* Reservation ID: @RESERV000030@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000030@_1 | Host Server: #3
+* Reservation ID: @RESERV000031@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000031@_1 | Host Server: #4
+* Reservation ID: @RESERV000032@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000032@_1 | Host Server: #1
+* Reservation ID: @RESERV000033@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000033@_1 | Host Server: #2
+* Reservation ID: @RESERV000034@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000034@_1 | Host Server: #3
+* Reservation ID: @RESERV000035@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000035@_1 | Host Server: #4
+* Reservation ID: @RESERV000036@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000036@_1 | Host Server: #1
+* Reservation ID: @RESERV000037@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000037@_1 | Host Server: #2
+* Reservation ID: @RESERV000038@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000038@_1 | Host Server: #3
+* Reservation ID: @RESERV000039@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000039@_1 | Host Server: #4
+* Reservation ID: @RESERV000040@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000040@_1 | Host Server: #1
+* Reservation ID: @RESERV000041@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000041@_1 | Host Server: #2
+* Reservation ID: @RESERV000042@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000042@_1 | Host Server: #3
+* Reservation ID: @RESERV000043@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000043@_1 | Host Server: #4
+* Reservation ID: @RESERV000044@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000044@_1 | Host Server: #1
+* Reservation ID: @RESERV000045@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000045@_1 | Host Server: #2
+* Reservation ID: @RESERV000046@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000046@_1 | Host Server: #3
+* Reservation ID: @RESERV000047@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000047@_1 | Host Server: #4
+* Reservation ID: @RESERV000048@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000048@_1 | Host Server: #1
+* Reservation ID: @RESERV000049@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000049@_1 | Host Server: #2
+* Reservation ID: @RESERV000050@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000050@_1 | Host Server: #3
+* Reservation ID: @RESERV000051@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000051@_1 | Host Server: #4
+* Reservation ID: @RESERV000052@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000052@_1 | Host Server: #1
+* Reservation ID: @RESERV000053@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000053@_1 | Host Server: #2
+* Reservation ID: @RESERV000054@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000054@_1 | Host Server: #3
+* Reservation ID: @RESERV000055@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000055@_1 | Host Server: #4
+* Reservation ID: @RESERV000056@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000056@_1 | Host Server: #1
+* Reservation ID: @RESERV000057@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000057@_1 | Host Server: #2
+* Reservation ID: @RESERV000058@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000058@_1 | Host Server: #3
+* Reservation ID: @RESERV000059@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000059@_1 | Host Server: #4
+* Reservation ID: @RESERV000060@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000060@_1 | Host Server: #1
+* Reservation ID: @RESERV000061@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000061@_1 | Host Server: #2
+* Reservation ID: @RESERV000062@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000062@_1 | Host Server: #3
+* Reservation ID: @RESERV000063@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000063@_1 | Host Server: #4
+* Reservation ID: @RESERV000064@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000064@_1 | Host Server: #1
+* Reservation ID: @RESERV000065@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000065@_1 | Host Server: #2
+* Reservation ID: @RESERV000066@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000066@_1 | Host Server: #3
+* Reservation ID: @RESERV000067@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000067@_1 | Host Server: #4
+* Reservation ID: @RESERV000068@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000068@_1 | Host Server: #1
+* Reservation ID: @RESERV000069@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000069@_1 | Host Server: #2
+* Reservation ID: @RESERV000070@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000070@_1 | Host Server: #3
+* Reservation ID: @RESERV000071@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000071@_1 | Host Server: #4
+* Reservation ID: @RESERV000072@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000072@_1 | Host Server: #1
+* Reservation ID: @RESERV000073@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000073@_1 | Host Server: #2
+* Reservation ID: @RESERV000074@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000074@_1 | Host Server: #3
+* Reservation ID: @RESERV000075@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000075@_1 | Host Server: #4
+* Reservation ID: @RESERV000076@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000076@_1 | Host Server: #1
+* Reservation ID: @RESERV000077@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000077@_1 | Host Server: #2
+* Reservation ID: @RESERV000078@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000078@_1 | Host Server: #3
+* Reservation ID: @RESERV000079@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000079@_1 | Host Server: #4
+* Reservation ID: @RESERV000080@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000080@_1 | Host Server: #1
+* Reservation ID: @RESERV000081@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000081@_1 | Host Server: #2
+* Reservation ID: @RESERV000082@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000082@_1 | Host Server: #3
+* Reservation ID: @RESERV000083@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000083@_1 | Host Server: #4
+* Reservation ID: @RESERV000084@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000084@_1 | Host Server: #1
+* Reservation ID: @RESERV000085@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000085@_1 | Host Server: #2
+* Reservation ID: @RESERV000086@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000086@_1 | Host Server: #3
+* Reservation ID: @RESERV000087@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000087@_1 | Host Server: #4
+* Reservation ID: @RESERV000088@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000088@_1 | Host Server: #1
+* Reservation ID: @RESERV000089@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000089@_1 | Host Server: #2
+* Reservation ID: @RESERV000090@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000090@_1 | Host Server: #3
+* Reservation ID: @RESERV000091@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000091@_1 | Host Server: #4
+* Reservation ID: @RESERV000092@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000092@_1 | Host Server: #1
+* Reservation ID: @RESERV000093@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000093@_1 | Host Server: #2
+* Reservation ID: @RESERV000094@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000094@_1 | Host Server: #3
+* Reservation ID: @RESERV000095@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000095@_1 | Host Server: #4
+* Reservation ID: @RESERV000096@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000096@_1 | Host Server: #1
+* Reservation ID: @RESERV000097@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000097@_1 | Host Server: #2
+* Reservation ID: @RESERV000098@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000098@_1 | Host Server: #3
+* Reservation ID: @RESERV000099@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000099@_1 | Host Server: #4
+* Reservation ID: @RESERV000100@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000100@_1 | Host Server: #1
+* Reservation ID: @RESERV000101@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000101@_1 | Host Server: #2
+* Reservation ID: @RESERV000102@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000102@_1 | Host Server: #3
+* Reservation ID: @RESERV000103@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000103@_1 | Host Server: #4
+* Reservation ID: @RESERV000104@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000104@_1 | Host Server: #1
+* Reservation ID: @RESERV000105@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000105@_1 | Host Server: #2
+* Reservation ID: @RESERV000106@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000106@_1 | Host Server: #3
+* Reservation ID: @RESERV000107@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000107@_1 | Host Server: #4
+* Reservation ID: @RESERV000108@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000108@_1 | Host Server: #1
+* Reservation ID: @RESERV000109@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000109@_1 | Host Server: #2
+* Reservation ID: @RESERV000110@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000110@_1 | Host Server: #3
+* Reservation ID: @RESERV000111@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000111@_1 | Host Server: #4
+* Reservation ID: @RESERV000112@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000112@_1 | Host Server: #1
+* Reservation ID: @RESERV000113@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000113@_1 | Host Server: #2
+* Reservation ID: @RESERV000114@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000114@_1 | Host Server: #3
+* Reservation ID: @RESERV000115@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000115@_1 | Host Server: #4
+* Reservation ID: @RESERV000116@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000116@_1 | Host Server: #1
+* Reservation ID: @RESERV000117@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000117@_1 | Host Server: #2
+* Reservation ID: @RESERV000118@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000118@_1 | Host Server: #3
+* Reservation ID: @RESERV000119@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000119@_1 | Host Server: #4
+* Reservation ID: @RESERV000120@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000120@_1 | Host Server: #1
+* Reservation ID: @RESERV000121@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000121@_1 | Host Server: #2
+* Reservation ID: @RESERV000122@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000122@_1 | Host Server: #3
+* Reservation ID: @RESERV000123@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000123@_1 | Host Server: #4
+* Reservation ID: @RESERV000124@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000124@_1 | Host Server: #1
+* Reservation ID: @RESERV000125@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000125@_1 | Host Server: #2
+* Reservation ID: @RESERV000126@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000126@_1 | Host Server: #3
+* Reservation ID: @RESERV000127@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000127@_1 | Host Server: #4
+* Reservation ID: @RESERV000128@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000128@_1 | Host Server: #1
+* Reservation ID: @RESERV000129@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000129@_1 | Host Server: #2
+* Reservation ID: @RESERV000130@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000130@_1 | Host Server: #3
+* Reservation ID: @RESERV000131@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000131@_1 | Host Server: #4
+* Reservation ID: @RESERV000132@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000132@_1 | Host Server: #1
+* Reservation ID: @RESERV000133@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000133@_1 | Host Server: #2
+* Reservation ID: @RESERV000134@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000134@_1 | Host Server: #3
+* Reservation ID: @RESERV000135@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000135@_1 | Host Server: #4
+* Reservation ID: @RESERV000136@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000136@_1 | Host Server: #1
+* Reservation ID: @RESERV000137@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000137@_1 | Host Server: #2
+* Reservation ID: @RESERV000138@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000138@_1 | Host Server: #3
+* Reservation ID: @RESERV000139@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000139@_1 | Host Server: #4
+* Reservation ID: @RESERV000140@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000140@_1 | Host Server: #1
+* Reservation ID: @RESERV000141@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000141@_1 | Host Server: #2
+* Reservation ID: @RESERV000142@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000142@_1 | Host Server: #3
+* Reservation ID: @RESERV000143@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000143@_1 | Host Server: #4
+* Reservation ID: @RESERV000144@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000144@_1 | Host Server: #1
+* Reservation ID: @RESERV000145@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000145@_1 | Host Server: #2
+* Reservation ID: @RESERV000146@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000146@_1 | Host Server: #3
+* Reservation ID: @RESERV000147@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000147@_1 | Host Server: #4
+* Reservation ID: @RESERV000148@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000148@_1 | Host Server: #1
+* Reservation ID: @RESERV000149@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000149@_1 | Host Server: #2
+* Reservation ID: @RESERV000150@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000150@_1 | Host Server: #3
+* Reservation ID: @RESERV000151@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000151@_1 | Host Server: #4
+* Reservation ID: @RESERV000152@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000152@_1 | Host Server: #1
+* Reservation ID: @RESERV000153@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000153@_1 | Host Server: #2
+* Reservation ID: @RESERV000154@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000154@_1 | Host Server: #3
+* Reservation ID: @RESERV000155@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000155@_1 | Host Server: #4
+* Reservation ID: @RESERV000156@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000156@_1 | Host Server: #1
+* Reservation ID: @RESERV000157@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000157@_1 | Host Server: #2
+* Reservation ID: @RESERV000158@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000158@_1 | Host Server: #3
+* Reservation ID: @RESERV000159@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000159@_1 | Host Server: #4
+* Reservation ID: @RESERV000160@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000160@_1 | Host Server: #1
+* Reservation ID: @RESERV000161@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000161@_1 | Host Server: #2
+* Reservation ID: @RESERV000162@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000162@_1 | Host Server: #3
+* Reservation ID: @RESERV000163@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000163@_1 | Host Server: #4
+* Reservation ID: @RESERV000164@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000164@_1 | Host Server: #1
+* Reservation ID: @RESERV000165@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000165@_1 | Host Server: #2
+* Reservation ID: @RESERV000166@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000166@_1 | Host Server: #3
+* Reservation ID: @RESERV000167@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000167@_1 | Host Server: #4
+* Reservation ID: @RESERV000168@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000168@_1 | Host Server: #1
+* Reservation ID: @RESERV000169@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000169@_1 | Host Server: #2
+* Reservation ID: @RESERV000170@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000170@_1 | Host Server: #3
+* Reservation ID: @RESERV000171@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000171@_1 | Host Server: #4
+* Reservation ID: @RESERV000172@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000172@_1 | Host Server: #1
+* Reservation ID: @RESERV000173@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000173@_1 | Host Server: #2
+* Reservation ID: @RESERV000174@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000174@_1 | Host Server: #3
+* Reservation ID: @RESERV000175@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000175@_1 | Host Server: #4
+* Reservation ID: @RESERV000176@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000176@_1 | Host Server: #1
+* Reservation ID: @RESERV000177@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000177@_1 | Host Server: #2
+* Reservation ID: @RESERV000178@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000178@_1 | Host Server: #3
+* Reservation ID: @RESERV000179@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000179@_1 | Host Server: #4
+* Reservation ID: @RESERV000180@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000180@_1 | Host Server: #1
+* Reservation ID: @RESERV000181@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000181@_1 | Host Server: #2
+* Reservation ID: @RESERV000182@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000182@_1 | Host Server: #3
+* Reservation ID: @RESERV000183@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000183@_1 | Host Server: #4
+* Reservation ID: @RESERV000184@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000184@_1 | Host Server: #1
+* Reservation ID: @RESERV000185@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000185@_1 | Host Server: #2
+* Reservation ID: @RESERV000186@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000186@_1 | Host Server: #3
+* Reservation ID: @RESERV000187@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000187@_1 | Host Server: #4
+* Reservation ID: @RESERV000188@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000188@_1 | Host Server: #1
+* Reservation ID: @RESERV000189@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000189@_1 | Host Server: #2
+* Reservation ID: @RESERV000190@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000190@_1 | Host Server: #3
+* Reservation ID: @RESERV000191@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000191@_1 | Host Server: #4
+* Reservation ID: @RESERV000192@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000192@_1 | Host Server: #1
+* Reservation ID: @RESERV000193@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000193@_1 | Host Server: #2
+* Reservation ID: @RESERV000194@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000194@_1 | Host Server: #3
+* Reservation ID: @RESERV000195@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000195@_1 | Host Server: #4
+* Reservation ID: @RESERV000196@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000196@_1 | Host Server: #1
+* Reservation ID: @RESERV000197@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000197@_1 | Host Server: #2
+* Reservation ID: @RESERV000198@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000198@_1 | Host Server: #3
+* Reservation ID: @RESERV000199@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000199@_1 | Host Server: #4
+* Reservation ID: @RESERV000200@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000200@_1 | Host Server: #1
+* Reservation ID: @RESERV000201@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000201@_1 | Host Server: #2
+* Reservation ID: @RESERV000202@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000202@_1 | Host Server: #3
+* Reservation ID: @RESERV000203@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000203@_1 | Host Server: #4
+* Reservation ID: @RESERV000204@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000204@_1 | Host Server: #1
+* Reservation ID: @RESERV000205@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000205@_1 | Host Server: #2
+* Reservation ID: @RESERV000206@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000206@_1 | Host Server: #3
+* Reservation ID: @RESERV000207@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000207@_1 | Host Server: #4
+* Reservation ID: @RESERV000208@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000208@_1 | Host Server: #1
+* Reservation ID: @RESERV000209@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000209@_1 | Host Server: #2
+* Reservation ID: @RESERV000210@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000210@_1 | Host Server: #3
+* Reservation ID: @RESERV000211@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000211@_1 | Host Server: #4
+* Reservation ID: @RESERV000212@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000212@_1 | Host Server: #1
+* Reservation ID: @RESERV000213@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000213@_1 | Host Server: #2
+* Reservation ID: @RESERV000214@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000214@_1 | Host Server: #3
+* Reservation ID: @RESERV000215@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000215@_1 | Host Server: #4
+* Reservation ID: @RESERV000216@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000216@_1 | Host Server: #1
+* Reservation ID: @RESERV000217@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000217@_1 | Host Server: #2
+* Reservation ID: @RESERV000218@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000218@_1 | Host Server: #3
+* Reservation ID: @RESERV000219@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000219@_1 | Host Server: #4
+* Reservation ID: @RESERV000220@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000220@_1 | Host Server: #1
+* Reservation ID: @RESERV000221@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000221@_1 | Host Server: #2
+* Reservation ID: @RESERV000222@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000222@_1 | Host Server: #3
+* Reservation ID: @RESERV000223@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000223@_1 | Host Server: #4
+* Reservation ID: @RESERV000224@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000224@_1 | Host Server: #1
+* Reservation ID: @RESERV000225@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000225@_1 | Host Server: #2
+* Reservation ID: @RESERV000226@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000226@_1 | Host Server: #3
+* Reservation ID: @RESERV000227@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000227@_1 | Host Server: #4
+* Reservation ID: @RESERV000228@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000228@_1 | Host Server: #1
+* Reservation ID: @RESERV000229@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000229@_1 | Host Server: #2
+* Reservation ID: @RESERV000230@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000230@_1 | Host Server: #3
+* Reservation ID: @RESERV000231@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000231@_1 | Host Server: #4
+* Reservation ID: @RESERV000232@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000232@_1 | Host Server: #1
+* Reservation ID: @RESERV000233@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000233@_1 | Host Server: #2
+* Reservation ID: @RESERV000234@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000234@_1 | Host Server: #3
+* Reservation ID: @RESERV000235@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000235@_1 | Host Server: #4
+* Reservation ID: @RESERV000236@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000236@_1 | Host Server: #1
+* Reservation ID: @RESERV000237@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000237@_1 | Host Server: #2
+* Reservation ID: @RESERV000238@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000238@_1 | Host Server: #3
+* Reservation ID: @RESERV000239@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000239@_1 | Host Server: #4
+* Reservation ID: @RESERV000240@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000240@_1 | Host Server: #1
+* Reservation ID: @RESERV000241@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000241@_1 | Host Server: #2
+* Reservation ID: @RESERV000242@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000242@_1 | Host Server: #3
+* Reservation ID: @RESERV000243@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000243@_1 | Host Server: #4
+* Reservation ID: @RESERV000244@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000244@_1 | Host Server: #1
+* Reservation ID: @RESERV000245@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000245@_1 | Host Server: #2
+* Reservation ID: @RESERV000246@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000246@_1 | Host Server: #3
+* Reservation ID: @RESERV000247@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000247@_1 | Host Server: #4
+* Reservation ID: @RESERV000248@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000248@_1 | Host Server: #1
+* Reservation ID: @RESERV000249@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000249@_1 | Host Server: #2
+* Reservation ID: @RESERV000250@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000250@_1 | Host Server: #3
+* Reservation ID: @RESERV000251@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000251@_1 | Host Server: #4
+* Reservation ID: @RESERV000252@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000252@_1 | Host Server: #1
+* Reservation ID: @RESERV000253@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000253@_1 | Host Server: #2
+* Reservation ID: @RESERV000254@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000254@_1 | Host Server: #3
+* Reservation ID: @RESERV000255@ | State: PENDING | Total VMs: 1
+├─ Requested Pairs:
+│ • T : 1 unit(s)
+└─ Allocated VMs:
+└── ID: @RESERV000255@_1 | Host Server: #4
+================================================================--------------------------

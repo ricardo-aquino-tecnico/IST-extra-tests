@@ -1,0 +1,8 @@
+Objetivo:
+Comandos prosseguem durante A com E 80.
+
+O que testa:
+A VM NEXT arranca antes do fim de SLOW, mesmo estando em ficheiro posterior. Pausa intermédia: 80 ms.
+
+Âmbito:
+1.ª parte, exercício 2. Inputs válidos; no máximo um R por ficheiro .conf.
