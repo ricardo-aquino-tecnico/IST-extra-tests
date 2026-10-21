@@ -253,6 +253,10 @@ def save_result(case, result, tag=""):
 
     metadata = {key: result[key] for key in ("returncode", "timed_out", "elapsed", "reasons")}
     path(".status.json").write_text(json.dumps(metadata, ensure_ascii=False, indent=2) + "\n")
+    if result["reasons"]:
+        path(".reason").write_text("\n".join(result["reasons"]) + "\n")
+    else:
+        path(".reason").unlink(missing_ok=True)
     diff = "".join(difflib.unified_diff(result["expected"].splitlines(True), result["actual"].splitlines(True),
                                         fromfile=case.with_suffix(".out").name,
                                         tofile=case.with_suffix(".myout").name))
@@ -271,6 +275,23 @@ def select_cases(names):
     if any(case.parent not in allowed or not case.is_file() for case in cases):
         raise ValueError("Seleciona testes existentes na raiz de SO ou nas pastas *-failures da suite")
     return cases
+
+
+def command_names(command, prefix):
+    for filename in (f"{prefix}{command}.txt", f"comando {command}.txt"):
+        command_file = ROOT / filename
+        if command_file.is_file():
+            return [name for line in command_file.read_text().splitlines() for name in line.split("#", 1)[0].split()]
+    return None
+
+
+def select_command_cases(command, cases, prefix):
+    names = command_names(command, prefix)
+    if names is not None:
+        if not names:
+            raise ValueError(f"No tests listed for command '{command}'")
+        return select_cases(names)
+    return [case for case in cases if re.search(rf"^{command.upper()}(?: |$)", case.read_text(), re.M)]
 
 
 def main():
@@ -308,18 +329,11 @@ def main():
     except ValueError as error:
         parser.error(str(error))
     if args.command:
-        command_file = ROOT / f"{args.command_prefix}{args.command}.txt"
-        if not command_file.exists():
-            command_file = ROOT / f"comando {args.command}.txt"
-        if command_file.exists():
-            wanted = [name for line in command_file.read_text().splitlines() for name in line.split("#", 1)[0].split()]
-            try:
-                selected = select_cases(wanted)
-            except ValueError as error:
-                parser.error(str(error))
-            cases = [case for case in selected if case in cases]
-        else:
-            cases = [case for case in cases if re.search(rf"^{args.command.upper()}(?: |$)", case.read_text(), re.M)]
+        try:
+            cases = select_command_cases(args.command, cases, args.command_prefix)
+        except ValueError as error:
+            parser.error(str(error))
+        print(f"Running tests for command '{args.command}'")
     if not cases:
         parser.error("Nenhum teste selecionado")
     if args.debugger:
@@ -353,14 +367,30 @@ def main():
         count += 1
         if reasons:
             failed.append(str(case.relative_to(ROOT)))
-        line = f"{'FAIL' if reasons else 'PASS'} {case.stem}" + (": " + "; ".join(reasons) if reasons else "")
-        print(colour(line, "1;31" if reasons else "1;32"), flush=True)
+        if args.valgrind:
+            label = "LEAK/ERROR" if reasons else "CLEAN"
+        elif exe2:
+            label = "DIFFERS" if reasons else "IDENTICAL"
+        else:
+            label = "FAILED" if reasons else "PASSED"
+        print(colour(f"test {case.relative_to(ROOT)} {label}", "1;31" if reasons else "1;32"), flush=True)
+        if reasons:
+            print("  " + "; ".join(reasons), flush=True)
         if reasons and args.fail:
             break
     log.write_text("".join(name + "\n" for name in failed))
     (ROOT / "test_run.status.json").write_text(json.dumps({"planned": len(cases), "passed": count-len(failed),
                                                           "failed": len(failed), "elapsed": time.monotonic()-start}) + "\n")
-    print("\n" + colour(f"{count - len(failed)}/{count} passaram; {len(failed)} falharam.", "1;31" if failed else "1;32"))
+    passed = count - len(failed)
+    if exe2:
+        print(f"\n{passed}/{count} identical, {len(failed)}/{count} differ")
+        if failed:
+            print("Diff files saved as *.cmpdiff for differing tests.")
+    elif args.valgrind:
+        print(f"\n{passed}/{count} clean, {len(failed)}/{count} with leaks/errors")
+    else:
+        print(f"\n{passed} testes passaram, {len(failed)} testes falharam")
+        print(f"Suite manual FAILED: {len(failed)} teste(s) falharam." if failed else "Suite manual PASSED.")
     return bool(failed)
 
 

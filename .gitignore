@@ -6,9 +6,10 @@
 *.actual
 *.expected
 *.stderr
-SO/test*.stdout
-SO/test*.status.json
-SO/test*.gmon
+SO/*.stdout
+SO/*.status.json
+SO/*.gmon
+SO/*.reason
 SO/test_stats.txt
 SO/profile_test*.txt
 SO/coverage_report.txt

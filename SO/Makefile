@@ -16,6 +16,7 @@ FAIL_LOG ?= tests_failed.log
 COMPARE_FAIL_LOG ?= compare_failed.log
 STATS_FILE ?= test_stats.txt
 TESTS ?= $(sort $(wildcard test*.in))
+ORIG_GOALS ?= $(if $(MAKECMDGOALS),$(MAKECMDGOALS),$(.DEFAULT_GOAL))
 COMPARE_TESTS ?= $(TESTS)
 CMD_LIST_PREFIX ?= comando_
 TIMEOUT ?= 5
@@ -51,6 +52,9 @@ ANALYSE_EXE ?= .build/analyse/cloudIST
 PROFILE_EXE ?= .build/profile/cloudIST
 COVERAGE_EXE ?= .build/coverage/cloudIST
 export FAIL_LOG COMPARE_FAIL_LOG CC AUTO_ZIP NO_PROMPT ASAN_FUZZ_CASES ASAN_FUZZ_LINES ASAN_COLLISIONS_COUNT
+export ORIG_GOALS STRESS_RUNS STRESS_STEPS STRESS_SEED STRESS_PROGRESS_EVERY STRESS_TIMEOUT
+export SCALE_TYPES SCALE_FILES SCALE_PROGRESS_EVERY FUZZ_CASES FUZZ_LINES FUZZ_SEED FUZZ_PROGRESS_EVERY
+export COLLISIONS_COUNT COLLISIONS_START COLLISIONS_PROGRESS_EVERY TIMEOUT
 
 EXPORTING := $(filter export export-zip zip,$(MAKECMDGOALS))
 export EXPORTING
@@ -72,15 +76,15 @@ python: resolve-exe
 manual: resolve-exe
 	@status=0; $(RUN) $(TESTS) || status=$$?; \
 	if [ $$status -ne 0 ] && [ -z "$(EXPORTING)" ] && [ "$(NO_PROMPT)" != 1 ] && [ -t 0 ]; then \
-		read -r -p "Mostrar diferenças? [Y/n] " ans; [ "$$ans" = n ] || $(MAKE) show-diff; \
+		read -r -p "Executar 'make show-diff' para ver as diferenças? (Y/n) " ans; [[ "$$ans" = [nN] ]] || $(MAKE) show-diff ONLY_MANUAL=1; \
 	fi; \
 	if [ -n "$(EXPORTING)" ]; then exit 0; else exit $$status; fi
 
 quick:
-	@$(MAKE) all EXPORTING="$(EXPORTING)" NO_PROMPT=1 \
-		STRESS_RUNS=8 STRESS_STEPS=40 STRESS_PROGRESS_EVERY=2 \
-		SCALE_TYPES=8 SCALE_FILES=16 FUZZ_CASES=12 FUZZ_LINES=60 \
-		FUZZ_PROGRESS_EVERY=4 COLLISIONS_COUNT=16
+	@$(MAKE) all EXPORTING="$(EXPORTING)" ORIG_GOALS=quick \
+		STRESS_RUNS=8 STRESS_STEPS=120 STRESS_PROGRESS_EVERY=2 \
+		SCALE_TYPES=8 SCALE_FILES=16 SCALE_PROGRESS_EVERY=0 FUZZ_CASES=40 FUZZ_LINES=120 \
+		FUZZ_PROGRESS_EVERY=10 COLLISIONS_COUNT=20 COLLISIONS_PROGRESS_EVERY=0
 
 resolve-exe:
 	@$(TOOLS) resolve --exe "$(EXE)" --name "$(EXE_NAME)" --cache "$(EXE_CACHE_FILE)"
@@ -88,11 +92,14 @@ resolve-exe:
 resolve-exe2:
 	@$(TOOLS) resolve2 --exe "$(EXE2)" --name "$(EXE_NAME)" --cache "$(EXE2_CACHE_FILE)"
 
-resolve-src: resolve-exe
-	@$(TOOLS) resolve-src --exe "$$(cat "$(EXE_CACHE_FILE)")" --project "$(PROJECT_DIR)" --src-cache "$(SRC_CACHE_FILE)"
+resolve-src:
+	@$(TOOLS) resolve-src --exe "$(EXE)" --cache "$(EXE_CACHE_FILE)" --project "$(PROJECT_DIR)" --src-cache "$(SRC_CACHE_FILE)"
 
 d r a l e: resolve-exe
 	@status=0; $(RUN) --command $@ $(TESTS) || status=$$?; \
+	if [ $$status -ne 0 ] && [ -z "$(EXPORTING)" ] && [ "$(NO_PROMPT)" != 1 ] && [ -t 0 ]; then \
+		read -r -p "Executar 'make show-diff' para ver as diferenças? (Y/n) " ans; [[ "$$ans" = [nN] ]] || $(MAKE) show-diff ONLY_MANUAL=1; \
+	fi; \
 	if [ -n "$(EXPORTING)" ]; then exit 0; else exit $$status; fi
 
 rerun: resolve-exe
@@ -120,7 +127,7 @@ scale-collisions: resolve-exe
 	if [ -n "$(EXPORTING)" ]; then exit 0; else exit $$status; fi
 
 count:
-	@$(TOOLS) count --stats "$(STATS_FILE)" --tests $(TESTS)
+	@$(TOOLS) count --stats "$(STATS_FILE)" --command-prefix "$(CMD_LIST_PREFIX)" --tests $(TESTS)
 
 export:
 	@$(TOOLS) export --fail-log "$(FAIL_LOG)" --compare-log "$(COMPARE_FAIL_LOG)" --stats "$(STATS_FILE)" $(if $(filter zip,$(MAKECMDGOALS)),--zip)
@@ -134,12 +141,12 @@ zip:
 selftest:
 	@$(PYTHON) -m unittest -v test_runner test_generated
 
-asan valgrind analyse profile lizard coverage: resolve-exe
-	@status=0; $(TOOLS) $@ --exe "$$(cat "$(EXE_CACHE_FILE)")" --project "$(PROJECT_DIR)" --src-cache "$(SRC_CACHE_FILE)" --output "$(TOOL_OUTPUT)" --test "$(TEST)" --timeout "$(TIMEOUT)" --fail-log "$(FAIL_LOG)" $(if $(filter 1,$(FAIL)),--fail) --tests $(TOOL_TESTS) || status=$$?; \
+asan valgrind analyse profile lizard coverage: resolve-src
+	@status=0; $(TOOLS) $@ --exe "$(EXE)" --cache "$(EXE_CACHE_FILE)" --project "$(PROJECT_DIR)" --src-cache "$(SRC_CACHE_FILE)" --output "$(TOOL_OUTPUT)" --test "$(TEST)" --timeout "$(TIMEOUT)" --fail-log "$(FAIL_LOG)" $(if $(filter 1,$(FAIL)),--fail) --tests $(TOOL_TESTS) || status=$$?; \
 	if [ -n "$(EXPORTING)" ]; then exit 0; else exit $$status; fi
 
 clean:
-	rm -f test*.diff test*.myout test*.stdout test*.stderr test*.expected test*.status.json test*.cmpdiff test*.gmon profile_*.txt coverage_report.txt test_summary.txt "$(FAIL_LOG)" "$(COMPARE_FAIL_LOG)" "$(STATS_FILE)"
+	rm -f *.diff *.myout *.stdout *.stderr *.expected *.status.json *.cmpdiff *.reason *.gmon profile_*.txt coverage_report.txt coverage_report.gcov test_summary.txt *.gcno *.gcda *.gcov "$(FAIL_LOG)" "$(COMPARE_FAIL_LOG)" "$(STATS_FILE)"
 	rm -rf coverage stress-failures scale-failures fuzz-failures collisions-failures .build
 
 define PRETTY_DIFF_PY
@@ -171,7 +178,22 @@ def highlight_inline(a, b, w):
     if len(a)>w: ep.append(f"{DIM}…{R}")
     if len(b)>w: ap.append(f"{DIM}…{R}")
     return "".join(ep), "".join(ap)
-def sbs(exp_path, act_path):
+def show_input_context(in_path, first_diff_line, output_lines):
+    if not os.path.isfile(in_path): return
+    with open(in_path) as f: cmds = f.read().splitlines()
+    if not cmds: return
+    events = [i for i, line in enumerate(cmds) if line.strip() == "L" or line.startswith("# COPY:")]
+    outputs = [i for i, line in enumerate(output_lines) if "DATA CENTER STATUS" in line or line.startswith("COPY ")]
+    event = max(0, sum(i <= first_diff_line for i in outputs) - 1)
+    idx = events[min(event, len(events)-1)] if events else min(first_diff_line, len(cmds)-1)
+    end = min(len(cmds), idx+2)
+    print(f"\n  {YEL}{BLD}Comandos até à primeira diferença ({R}linha de output {first_diff_line+1}{YEL}{BLD}):{R}")
+    indexes = list(range(end)) if end <= 8 else [0, 1, 2, *range(max(3, idx-2), end)]
+    for position, i in enumerate(indexes):
+        if position == 3 and i > 3: print(f"  {DIM}       ... (mais {i-3} comandos) ...{R}")
+        if i == idx: print(f"  {BRED}▸ {i+1:>3}: {cmds[i]}{R}")
+        else: print(f"  {DIM}  {i+1:>3}: {cmds[i]}{R}")
+def sbs(exp_path, act_path, in_path=None):
     if not os.path.isfile(exp_path) or not os.path.isfile(act_path): return
     with open(exp_path) as f: el = f.read().splitlines()
     with open(act_path) as f: al = f.read().splitlines()
@@ -219,22 +241,34 @@ def sbs(exp_path, act_path):
         print(f"  {DIM}{'·':>{lw}} │ {'':^{cw}}  ·  ... {skip_count} linhas iguais ...{R}")
     print()
     if dc: print(f"  {BYLW}{dc}{R} linha(s) difere(m)  (esperado: {len(el)}, obtido: {len(al)})")
+    if first_diff is not None and in_path:
+        show_input_context(in_path, first_diff, el)
 found = False
+interactive = sys.stdin.isatty() and os.environ.get("NO_PROMPT") != "1"
+only_manual = os.environ.get("ONLY_MANUAL") == "1"
 fail_log = os.environ.get("FAIL_LOG", "tests_failed.log")
 if os.path.isfile(fail_log):
     with open(fail_log) as f: bases = [line.strip().removesuffix(".in") for line in f if line.strip()]
     diff_files = [base + ".diff" for base in bases if os.path.isfile(base + ".diff")]
 else:
     diff_files = [f for f in sorted(glob.glob("test*.diff")) if f.count(".") == 1]
-for directory in ("stress-failures", "scale-failures", "fuzz-failures", "collisions-failures"):
+python_diffs = []
+for directory in (() if only_manual else ("stress-failures", "scale-failures", "fuzz-failures", "collisions-failures")):
     logfile = os.path.join(directory, "tests_failed.log")
     if os.path.isfile(logfile):
         with open(logfile) as f: names = [line.strip() for line in f if line.strip()]
         for name in names:
             base = os.path.join(directory, name) if os.path.dirname(name) == "" else name
             path = base.removesuffix(".in") + ".diff"
-            if os.path.isfile(path): diff_files.append(path)
+            if os.path.isfile(path) and path not in diff_files: python_diffs.append(path)
+manual_count = len(diff_files)
+diff_files += python_diffs
 for n, df in enumerate(diff_files, 1):
+    if n == manual_count+1 and manual_count and python_diffs and interactive:
+        sys.stderr.write(f"\n  {BRED}Existem falhas nos testes em Python.{R} Ver as diferenças? (y/N) ")
+        try: answer = input().strip().lower()
+        except EOFError: answer = "n"
+        if answer != "y": break
     found = True; base = df.rsplit(".diff",1)[0]
     print_header(f"{base} FAILED ({n})"); print_description(f"{base}.txt")
     status = f"{base}.status.json"
@@ -244,17 +278,19 @@ for n, df in enumerate(diff_files, 1):
         for reason in meta["reasons"]: print(f"  {RED}{reason}{R}")
     else:
         with open(df) as f: print(f.read())
-    sbs(f"{base}.expected" if os.path.isfile(f"{base}.expected") else f"{base}.out", f"{base}.myout")
+    sbs(f"{base}.expected" if os.path.isfile(f"{base}.expected") else f"{base}.out", f"{base}.myout", f"{base}.in")
     stderr_path = f"{base}.stderr"
     if os.path.isfile(stderr_path):
         with open(stderr_path) as f: error_text = f.read().strip()
-        if error_text: print(f"\n  {YEL}Stderr:{R}\n{error_text}")
+        if error_text:
+            print(f"\n  {YEL}Stderr:{R}")
+            for line in error_text.splitlines()[:10]: print(f"  {RED}{line}{R}")
 compare_log = os.environ.get("COMPARE_FAIL_LOG", "compare_failed.log")
 if os.path.isfile(compare_log):
     with open(compare_log) as f: compare_files = [line.strip().removesuffix(".in") + ".cmpdiff" for line in f if line.strip()]
 else:
     compare_files = sorted(glob.glob("test*.cmpdiff"))
-for df in compare_files:
+for df in ([] if only_manual else compare_files):
     if not os.path.isfile(df): continue
     found = True
     print_header(df.removesuffix(".cmpdiff") + " — comparação")
@@ -262,8 +298,8 @@ for df in compare_files:
 
 if not found: print("Não há diffs para mostrar. Todos os testes passaram ou ainda não foram executados.")
 else:
-    if sys.stdin.isatty(): sys.stderr.write(f"\n  {CYN}Executar 'make analyse' ? (y/N){R} ")
-    try: ans = input().strip().lower() if sys.stdin.isatty() else "n"
+    if interactive: sys.stderr.write(f"\n  {CYN}Executar 'make analyse' ? (y/N){R} ")
+    try: ans = input().strip().lower() if interactive else "n"
     except EOFError: ans = "n"
 
     if ans == "y":
@@ -304,43 +340,62 @@ endef
 export PRETTY_DIFF_PY
 
 show-diff:
-	@python3 -c "$$PRETTY_DIFF_PY"
+	@$(PYTHON) -c "$$PRETTY_DIFF_PY"
 
 help:
 	@printf '%s\n' \
-	  'SO — funcionalidades de IAED adaptadas ao exercício 1 de CloudIST' \
+	  '' \
+	  '  Makefile — Suite de testes SO' \
+	  '  ============================' \
+	  '' \
+	  'Comandos principais:' \
 	  'make / make manual-tests      Testes manuais' \
 	  'make all                      Manual + stress + escala + fuzz + colisões' \
 	  'make quick                    Todas as suites com limites reduzidos' \
 	  'make python                   Apenas stress + escala + fuzz + colisões' \
+	  'make asan                    ASAN/UBSan: manual + fuzz + colisões' \
+	  '' \
+	  'Scripts Python individuais:' \
 	  'make stress                   Sequências aleatórias com modelo de referência' \
 	  'make scale                    Muitos tipos, reservas e ficheiros .conf' \
 	  'make fuzz-parse               Robustez com sintaxe inválida (exploratório)' \
 	  'make scale-collisions         Identificadores semelhantes de 39 caracteres' \
+	  '' \
+	  'Testes por comando:' \
 	  'make d|r|a|l|e               Seleção por comando; aceita comando_*.txt' \
+	  '' \
+	  'Comparação e estatísticas:' \
 	  'make compare EXE2=path       Compara executáveis, stderr e códigos de saída' \
 	  'make count                   Estatísticas e estado das suites Python' \
+	  '' \
+	  'Exportação:' \
 	  'make export / export-zip     Exporta falhas manuais e geradas, com diagnósticos' \
+	  'make export zip              Exporta e cria ZIP (equivalente a export-zip)' \
 	  'make all count export-zip    Corre tudo e exporta mesmo se houver falhas' \
+	  '' \
+	  'Utilidades & Depuração (Debug):' \
 	  'make rerun                   Repete falhas manuais e geradas' \
 	  'make show-diff               Diferenças a cores + assistente de depuração' \
 	  'make analyse TEST=007        Compila com -g -O0 e abre LLDB/GDB' \
 	  'make profile TEST=007        Compila com -pg e gera relatório gprof' \
-	  'make asan                    ASAN/UBSan: manual + fuzz + colisões' \
 	  'make valgrind                Compila com símbolos e verifica leaks' \
 	  'make coverage                Cobertura gcov e linhas não executadas' \
 	  'make lizard                  Complexidade dos fontes C' \
 	  'make selftest                Testa o executor, os geradores e o Makefile' \
 	  'make clean                   Limpa resultados, falhas geradas e .build/' \
+	  'make help                    Mostra esta ajuda' \
 	  '' \
+	  'Variáveis úteis:' \
 	  'EXE=path / EXE2=path          Executável ou pasta de cloudIST (memorizados)' \
 	  'PROJECT_DIR=path              Fontes; ASAN_SRC e SRC_CACHE_FILE também aceites' \
 	  'TESTS="test004.in test007.in"  Seleção de casos, incluindo *-failures/*.in' \
 	  'FAIL=1 / TIMEOUT=5            Para na primeira falha / limite por teste' \
-	  'STRESS_RUNS / STRESS_STEPS / STRESS_SEED / STRESS_TIMEOUT' \
+	  'STRESS_RUNS / STRESS_STEPS / STRESS_SEED / STRESS_TIMEOUT / STRESS_PROGRESS_EVERY' \
 	  'SCALE_TYPES=96 / SCALE_FILES=200 (máximos do código base: 128 / 256)' \
-	  'FUZZ_CASES / FUZZ_LINES / FUZZ_SEED' \
+	  'SCALE_PROGRESS_EVERY / FUZZ_CASES / FUZZ_LINES / FUZZ_SEED / FUZZ_PROGRESS_EVERY' \
 	  'COLLISIONS_COUNT=120 / COLLISIONS_START=1000000' \
+	  'COLLISIONS_PROGRESS_EVERY / ORIG_GOALS (cabeçalho da tabela)' \
 	  'ASAN_MANUAL_TESTS / ASAN_FUZZ_CASES / ASAN_FUZZ_LINES / ASAN_COLLISIONS_COUNT' \
 	  'VALGRIND_TESTS / COVERAGE_TESTS / CMD_LIST_PREFIX / AUTO_ZIP / NO_PROMPT' \
+	  'ONLY_MANUAL=1                Mostra apenas diferenças manuais em show-diff' \
 	  'ASAN_EXE / VALGRIND_EXE / ANALYSE_EXE / PROFILE_EXE / COVERAGE_EXE'

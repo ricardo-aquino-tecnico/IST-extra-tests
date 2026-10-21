@@ -28,6 +28,9 @@ make EXE="/caminho/com espaços/cloudIST"
 `make quick` corre as cinco suites com limites reduzidos. `FAIL=1` para na
 primeira falha de uma seleção manual; os geradores param na primeira falha da
 respetiva suite e preservam o caso que a reproduz.
+Mantém os limites rápidos de IAED para stress (8 execuções de 120 passos),
+fuzz (40 casos de 120 linhas) e identificadores (20). A escala usa 8 tipos e
+16 reservas, dentro dos limites do projeto de SO.
 `TIMEOUT=5` define o limite por processo. `make count` mostra as quantidades por
 comando, a presença dos scripts e o último estado das suites, guardando tudo em
 `test_stats.txt`. `make python` corre apenas os testes gerados; `make selftest`
@@ -61,6 +64,12 @@ ao domínio de SO:
 | `asan`, `valgrind` | Compilação instrumentada e testes de memória |
 | `analyse`, `profile` | Compilação de depuração e profiling do caso escolhido |
 | `lizard`, `coverage` | Complexidade, cobertura e linhas não executadas |
+
+A apresentação segue IAED: linhas `test … PASSED/FAILED` a verde/vermelho,
+comparações `IDENTICAL/DIFFERS` e resultados de Valgrind `CLEAN/LEAK/ERROR`.
+Os resumos de `all`, `quick`, `python` e `asan` têm a mesma tabela com teste,
+estado, quantidade, duração em milissegundos e argumentos usados. O cabeçalho
+identifica os alvos pedidos. Os relatórios guardados não incluem códigos de cor.
 
 Os parâmetros de stress e fuzz mantêm os nomes de IAED, incluindo seeds,
 quantidades, progresso e timeout. Em escala usam-se `SCALE_TYPES` e `SCALE_FILES`,
@@ -160,7 +169,12 @@ Em caso de falha ficam ainda guardados `.myout` (observações comparadas), `.di
 (motivos e diferenças), `.stdout` e `.stderr` (saídas completas), e `.expected`
 (expectativa preparada para a comparação). Os caminhos e identificadores
 variáveis voltam a ser representados por marcadores nas observações comparadas.
+O ficheiro `.reason` mantém os motivos no formato usado pelos geradores de IAED.
 `make show-diff` mostra os motivos mesmo quando o output está correto.
+Quando o output difere, mostra também os comandos anteriores à primeira diferença.
+`make show-diff ONLY_MANUAL=1` limita a apresentação aos testes manuais.
+Num terminal interativo, podes escolher ver as falhas geradas e lançar o debugger
+ou profiler, voltar à seleção de teste ou sair. `NO_PROMPT=1` desativa as perguntas.
 `tests_failed.log` guarda os testes falhados da última seleção executada.
 As suites geradas guardam os seus casos e logs em `stress-failures/`,
 `scale-failures/`, `fuzz-failures/` e `collisions-failures/`. `suite.status.json`
@@ -191,6 +205,9 @@ make TESTS="stress-failures/seed_42_case_000000.in"
 make analyse TEST=stress-failures/seed_42_case_000000.in
 ```
 
+Mantém também `export/python_failures.txt`, com as seeds e os inputs gerados,
+e `export/compare/`, com os casos e diagnósticos de comparação, como em IAED.
+
 `make export-zip` cria o ZIP automaticamente; `make export zip` é equivalente.
 `AUTO_ZIP=1` ativa a compressão automática em `export`. Num terminal interativo,
 `export` permite escolher criar o ZIP e apagar a pasta original; `NO_PROMPT=1`
@@ -216,6 +233,9 @@ compilados antigos. Os executáveis instrumentados ficam em `.build/` e podem
 ser usados diretamente nos scripts. Os caminhos são configuráveis com
 `ASAN_EXE`, `VALGRIND_EXE`, `ANALYSE_EXE`, `PROFILE_EXE` e `COVERAGE_EXE`.
 `clean` remove `.build/`; saídas personalizadas fora dessa pasta são preservadas.
+Estes alvos podem compilar diretamente a partir dos fontes, sem existir um
+executável prévio. Se os fontes não forem encontrados, o terminal permite
+indicar outra pasta e memoriza a escolha, como em IAED.
 
 ASAN/UBSan correm os testes manuais, fuzz e identificadores semelhantes, com
 resumo por suite. Aceitam `ASAN_MANUAL_TESTS`, `ASAN_FUZZ_CASES`,
@@ -229,7 +249,9 @@ com o compilador e guarda `coverage_report.txt` e `coverage/*.gcov`.
 `make valgrind` compila com símbolos, sem ASAN, e trata erros de memória como
 falhas. `VALGRIND_TESTS` e `COVERAGE_TESTS` permitem selecionar os casos dessas
 ferramentas. A cobertura recolhe apenas as unidades efetivamente compiladas e
-mostra até 40 linhas não executadas, preservando os relatórios completos.
+mostra todas as linhas não executadas. Num terminal interativo, permite guardar
+o relatório completo em `coverage_report.gcov`; os ficheiros `coverage/*.gcov`
+são sempre preservados.
 `make lizard` analisa os `.c` de `PROJECT_DIR`. As ferramentas externas
 têm de estar instaladas; a sua ausência produz uma mensagem explícita.
 
