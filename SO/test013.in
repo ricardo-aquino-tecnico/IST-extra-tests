@@ -1,0 +1,6 @@
+# FILE: 10.conf
+L
+D SMALL @INPUT@ @EXE@ 1 1 1
+L
+R @RESERVA@ SMALL 1 1
+L

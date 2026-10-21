@@ -1,0 +1,8 @@
+Objetivo:
+Pastas de VMs com índices de dois dígitos.
+
+O que testa:
+A cria doze cópias independentes, incluindo pastas _10, _11 e _12.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

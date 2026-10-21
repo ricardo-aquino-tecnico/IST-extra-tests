@@ -1,0 +1,9 @@
+# FILE: 10.conf
+# Antes de definir
+
+D SMALL @INPUT@ @EXE@ 1 1 1
+
+# Antes de reservar
+R @RESERVA@ SMALL 1 1
+
+L

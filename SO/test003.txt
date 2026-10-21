@@ -1,0 +1,8 @@
+Objetivo:
+Comentários e linhas vazias.
+
+O que testa:
+Linhas iniciadas por #, mesmo contendo nomes de comandos, são ignoradas.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

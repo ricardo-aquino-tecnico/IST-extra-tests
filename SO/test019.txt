@@ -1,0 +1,8 @@
+Objetivo:
+Vários ficheiros de configuração.
+
+O que testa:
+Vinte ficheiros de definições são todos processados e partilham o centro de dados.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

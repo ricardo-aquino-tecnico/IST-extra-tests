@@ -1,0 +1,8 @@
+Objetivo:
+Caminhos relativos em D.
+
+O que testa:
+A diretoria inputs e o executável app correspondem aos caminhos esperados a partir da diretoria de trabalho; a listagem pode apresentar caminhos relativos ou absolutos equivalentes.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

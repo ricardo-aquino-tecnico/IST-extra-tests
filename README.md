@@ -1,6 +1,9 @@
 # IST-extra-tests
 Testes extra para as disciplinas de programação do IST
 
+- [IAED](IAED/Instructions-README.md)
+- [Sistemas Operativos — exercício 1](SO/README.md)
+
 ---
 
 Estes testes foram criados para verificar se o projeto passa nestes casos específicos. O resultado destes testes (quer passem, quer falhem) não garante que o projeto esteja 100% correto. A validação final é sempre feita pelos testes privados.

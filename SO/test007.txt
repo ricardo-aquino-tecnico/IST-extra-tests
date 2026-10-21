@@ -1,0 +1,8 @@
+Objetivo:
+Ordem lexicográfica, incluindo nomes numéricos.
+
+O que testa:
+1.conf vem antes de 10.conf, que vem antes de 2.conf; ordenar numericamente falha.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

@@ -1,0 +1,8 @@
+Objetivo:
+Ordem alfabética e tipos partilhados entre ficheiros.
+
+O que testa:
+Os ficheiros são criados em ordem inversa; os tipos devem aparecer SMALL e depois OTHER.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

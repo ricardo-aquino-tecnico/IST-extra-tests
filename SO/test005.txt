@@ -1,0 +1,8 @@
+Objetivo:
+Definir e listar um tipo no mesmo ficheiro.
+
+O que testa:
+D regista o tipo e a listagem conserva executável, diretoria e recursos.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

@@ -1,0 +1,8 @@
+# FILE: 1.conf
+D FIRST @INPUT@ @EXE@ 1 1 1
+# FILE: 10.conf
+D SECOND @INPUT@ @EXE@ 1 1 1
+# FILE: 2.conf
+D THIRD @INPUT@ @EXE@ 1 1 1
+# FILE: z.conf
+L

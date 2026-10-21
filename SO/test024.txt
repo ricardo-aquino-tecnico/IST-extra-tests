@@ -1,0 +1,8 @@
+Objetivo:
+Cópia recursiva completa para uma VM.
+
+O que testa:
+Confere bytes de texto e binário (> 8192 bytes), ficheiro vazio, oculto, nomes com espaços e acentos, cinco níveis e subpastas vazias.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

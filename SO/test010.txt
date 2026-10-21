@@ -1,0 +1,8 @@
+Objetivo:
+Vários comandos no mesmo ficheiro.
+
+O que testa:
+Comentários e linhas vazias entre D, R e L não interrompem o processamento.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

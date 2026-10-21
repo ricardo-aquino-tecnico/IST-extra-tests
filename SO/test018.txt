@@ -1,0 +1,8 @@
+Objetivo:
+Último E sem newline.
+
+O que testa:
+E 0 termina no EOF sem produzir listagens ou erros.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

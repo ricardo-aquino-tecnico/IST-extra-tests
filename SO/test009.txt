@@ -1,0 +1,8 @@
+Objetivo:
+Preservar o estado D → R → L entre ficheiros.
+
+O que testa:
+O tipo definido num ficheiro permite reservar noutro; a listagem posterior vê a VM.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

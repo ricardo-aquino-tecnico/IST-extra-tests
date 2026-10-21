@@ -1,0 +1,8 @@
+Objetivo:
+Copiar inputs de tipos diferentes na mesma reserva.
+
+O que testa:
+A VM _1 recebe a árvore completa e a VM _2 recebe a diretoria vazia, em servidores diferentes.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

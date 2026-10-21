@@ -1,0 +1,8 @@
+Objetivo:
+Copiar recursivamente a partir de caminhos relativos.
+
+O que testa:
+D usa inputs e app relativos; a cópia tem de preservar a mesma árvore completa.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

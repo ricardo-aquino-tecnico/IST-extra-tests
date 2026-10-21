@@ -1,0 +1,7 @@
+# FILE: 10.conf
+# NO_NEWLINE: 20.conf
+D SMALL @INPUT@ @EXE@ 1 1 1
+# FILE: 20.conf
+R @RESERVA@ SMALL 1 1
+# FILE: 30.conf
+L

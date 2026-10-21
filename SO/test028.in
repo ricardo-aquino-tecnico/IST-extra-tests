@@ -1,0 +1,5 @@
+# FILE: 10.conf
+D SMALL inputs app 1 1 1
+R @RESERVA@ SMALL 1 1
+A @RESERVA@
+# COPY: @INPUT@ -> @RESERVA@/@RESERVA@_1

@@ -1,0 +1,8 @@
+Objetivo:
+Copiar uma diretoria de entrada vazia.
+
+O que testa:
+A deve criar a pasta da VM mesmo sem ficheiros de entrada.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

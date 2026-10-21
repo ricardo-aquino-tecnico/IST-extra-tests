@@ -1,0 +1,4 @@
+# FILE: 10.conf
+D TINY @INPUT@ @EXE@ 1 1 0.25
+R @RESERVA@ TINY 12 1
+L

@@ -1,0 +1,8 @@
+Objetivo:
+Selecionar apenas a extensão .conf.
+
+O que testa:
+Ficheiros de texto, backups, extensão em maiúsculas e nome conf não são processados.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

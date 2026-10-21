@@ -1,0 +1,6 @@
+# FILE: 10_define.conf
+D SMALL @INPUT@ @EXE@ 1 1 1
+# FILE: 20_reserve.conf
+R @RESERVA@ SMALL 1 1
+# FILE: 30_list.conf
+L

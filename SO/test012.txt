@@ -1,0 +1,8 @@
+Objetivo:
+Numeração de VMs para lá de nove.
+
+O que testa:
+São listadas doze VMs, incluindo _10, _11 e _12, com os recursos corretos.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

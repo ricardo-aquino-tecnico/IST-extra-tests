@@ -1,0 +1,8 @@
+Objetivo:
+Nomes de ficheiros com espaços e acentos.
+
+O que testa:
+Os nomes .conf não dependem de comandos de shell nem são cortados nos espaços.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

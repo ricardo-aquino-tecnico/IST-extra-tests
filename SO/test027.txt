@@ -1,0 +1,8 @@
+Objetivo:
+Pastas de duas reservas de ficheiros distintos.
+
+O que testa:
+Existe apenas um R em cada ficheiro. Cada reserva deve ter a sua pasta e uma VM numerada _1.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

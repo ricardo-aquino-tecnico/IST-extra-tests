@@ -1,0 +1,6 @@
+# FILE: a.conf
+D SMALL @INPUT@ @EXE@ 1 1 1
+# FILE: b.conf
+D OTHER @EMPTY@ @EXE@ 2 3 0.5
+# FILE: c.conf
+L

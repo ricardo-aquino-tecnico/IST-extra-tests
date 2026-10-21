@@ -1,0 +1,8 @@
+Objetivo:
+E espera antes do comando seguinte.
+
+O que testa:
+E 100 preserva o estado; a execução deve demorar pelo menos 90 ms, com 10 ms de tolerância.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

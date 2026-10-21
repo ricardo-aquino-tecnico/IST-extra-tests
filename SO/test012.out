@@ -1,0 +1,50 @@
+=================================== DATA CENTER STATUS ===================================
+[ PHYSICAL SERVERS ] (2 total)
+------------------------------------------------------------------------------------------
+Server #1
+├─ Resources Total : 8.00 vCPUs | 32 GB RAM | 64 GB Disk
+├─ Resources Used : 3.00 vCPUs | 12 GB RAM | 12 GB Disk
+├─ Resources Available : 5.00 vCPUs | 20 GB RAM | 52 GB Disk
+└─ Hosted VMs (12):
+├── VM ID : @RESERVA@_1 | Type: TINY | State: RESERVED
+├── VM ID : @RESERVA@_2 | Type: TINY | State: RESERVED
+├── VM ID : @RESERVA@_3 | Type: TINY | State: RESERVED
+├── VM ID : @RESERVA@_4 | Type: TINY | State: RESERVED
+├── VM ID : @RESERVA@_5 | Type: TINY | State: RESERVED
+├── VM ID : @RESERVA@_6 | Type: TINY | State: RESERVED
+├── VM ID : @RESERVA@_7 | Type: TINY | State: RESERVED
+├── VM ID : @RESERVA@_8 | Type: TINY | State: RESERVED
+├── VM ID : @RESERVA@_9 | Type: TINY | State: RESERVED
+├── VM ID : @RESERVA@_10 | Type: TINY | State: RESERVED
+├── VM ID : @RESERVA@_11 | Type: TINY | State: RESERVED
+└── VM ID : @RESERVA@_12 | Type: TINY | State: RESERVED
+Server #2
+├─ Resources Total : 8.00 vCPUs | 32 GB RAM | 64 GB Disk
+├─ Resources Used : 0.00 vCPUs | 0 GB RAM | 0 GB Disk
+├─ Resources Available : 8.00 vCPUs | 32 GB RAM | 64 GB Disk
+└─ Hosted VMs (0):
+(None)
+[ DEFINED VM TYPES ] (1 registered)
+------------------------------------------------------------------------------------------
+* Type ID: TINY | Requirements: 0.25 vCPU, 1 GB RAM, 1 GB Disk
+├─ Executable : @EXE@
+└─ Input Dir : @INPUT@
+[ RESERVATIONS ] (1 total)
+------------------------------------------------------------------------------------------
+* Reservation ID: @RESERVA@ | State: PENDING | Total VMs: 12
+├─ Requested Pairs:
+│ • TINY : 12 unit(s)
+└─ Allocated VMs:
+├── ID: @RESERVA@_1 | Host Server: #1
+├── ID: @RESERVA@_2 | Host Server: #1
+├── ID: @RESERVA@_3 | Host Server: #1
+├── ID: @RESERVA@_4 | Host Server: #1
+├── ID: @RESERVA@_5 | Host Server: #1
+├── ID: @RESERVA@_6 | Host Server: #1
+├── ID: @RESERVA@_7 | Host Server: #1
+├── ID: @RESERVA@_8 | Host Server: #1
+├── ID: @RESERVA@_9 | Host Server: #1
+├── ID: @RESERVA@_10 | Host Server: #1
+├── ID: @RESERVA@_11 | Host Server: #1
+└── ID: @RESERVA@_12 | Host Server: #1
+================================================================--------------------------

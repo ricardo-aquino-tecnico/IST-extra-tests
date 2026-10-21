@@ -1,0 +1,8 @@
+Objetivo:
+Último R sem newline.
+
+O que testa:
+O R no ficheiro 20.conf termina no EOF e a reserva é visível no ficheiro seguinte.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

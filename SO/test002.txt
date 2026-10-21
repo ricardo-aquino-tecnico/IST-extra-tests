@@ -1,0 +1,8 @@
+Objetivo:
+Ficheiro .conf vazio.
+
+O que testa:
+Abrir e fechar um ficheiro vazio sem produzir listagens.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

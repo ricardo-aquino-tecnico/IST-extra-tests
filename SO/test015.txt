@@ -1,0 +1,8 @@
+Objetivo:
+Último L sem newline.
+
+O que testa:
+O último comando é processado mesmo quando o ficheiro termina sem mudança de linha.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

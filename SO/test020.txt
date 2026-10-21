@@ -1,0 +1,8 @@
+Objetivo:
+Configurações apenas na diretoria indicada.
+
+O que testa:
+O exercício pede os .conf contidos na diretoria indicada; não percorre subdiretorias de configuração.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

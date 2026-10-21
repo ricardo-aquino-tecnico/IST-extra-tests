@@ -1,0 +1,8 @@
+Objetivo:
+Listagem inicial do centro de dados.
+
+O que testa:
+Dois servidores com todos os recursos livres e sem tipos nem reservas.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

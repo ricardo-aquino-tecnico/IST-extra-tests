@@ -1,0 +1,8 @@
+Objetivo:
+Copiar os mesmos inputs para três VMs.
+
+O que testa:
+Cada uma das três VMs recebe toda a árvore; nenhuma pode usar links para os inputs.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

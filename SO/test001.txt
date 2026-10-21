@@ -1,0 +1,8 @@
+Objetivo:
+Diretoria de configuração sem ficheiros.
+
+O que testa:
+O programa deve terminar sem comandos nem listagens.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

@@ -1,0 +1,8 @@
+Objetivo:
+Último D sem newline.
+
+O que testa:
+O último D termina no EOF do primeiro ficheiro; L no segundo verifica o resultado.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

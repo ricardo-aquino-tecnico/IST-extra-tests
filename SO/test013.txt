@@ -1,0 +1,8 @@
+Objetivo:
+Listagens sucessivas conservam o estado.
+
+O que testa:
+L não altera servidores, tipos nem reservas e cada snapshot surge na ordem dos comandos.
+
+Âmbito:
+1.ª parte, exercício 1. Inputs válidos; no máximo um R por ficheiro .conf.

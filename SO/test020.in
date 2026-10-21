@@ -1,0 +1,4 @@
+# FILE: 10.conf
+L
+# FILE: nested/ignored.conf
+D NESTED @INPUT@ @EXE@ 1 1 1
