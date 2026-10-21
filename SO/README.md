@@ -4,6 +4,9 @@ Suite da **1.ª parte**, com **179 testes manuais**: 79 do exercício 1 (29 ante
 e 50 novos), 50 do exercício 2 e 50 do exercício 3. Cada caso tem `.in`, `.out`,
 `.txt` e, nos novos casos, `.arg`. Mantém os geradores e funcionalidades de IAED.
 
+A [auditoria de compatibilidade com IAED](COMPATIBILITY.md) detalha cada alvo e
+cada opção, as adaptações ao enunciado de SO e o que foi efetivamente verificado.
+
 ```sh
 make exercise1 EXE=/caminho/cloudIST-ex1
 make exercise2 EXE=/caminho/cloudIST-ex2
@@ -259,9 +262,12 @@ exercício 2, como `setrlimit` em macOS, continuam a ser reportadas.
 
 ## Comparar e exportar
 
-`make compare EXE2=...` compara as observações funcionais, stderr, código de
-saída, timeout e motivos de falha. Caminhos temporários, IDs exclusivos e
-duração não criam diferenças artificiais. A comparação falha se os resultados
+`make compare EXE2=...` compara stdout completo, observações funcionais, stderr,
+código de saída, timeout e motivos de falha. `COMPARE_STDOUT=0` permite comparar
+apenas as observações funcionais, stderr e estado da execução, quando as mensagens
+de sucesso dos programas forem diferentes. Caminhos temporários, IDs exclusivos
+dos testes e a duração medida pelo executor não criam diferenças artificiais.
+A comparação falha se os resultados
 forem diferentes **ou se algum dos programas falhar as expectativas**, mesmo
 que ambos falhem da mesma forma. São guardados diagnósticos separados com
 prefixos `.cmp1` e `.cmp2`, diferenças em `.cmpdiff` e `compare_failed.log`.
@@ -295,7 +301,7 @@ os cinco argumentos de SO, os `.conf` e os inputs preparados. O processo do
 debugger é interativo; as pastas do teste são limpas quando termina.
 
 ASAN, Valgrind, debugger, profiler e cobertura compilam os vários fontes
-`.c`/`.h` e Makefiles do projeto numa pasta temporária, sem
+e preservam dependências do Makefile, dados e scripts numa pasta temporária, sem
 alterar o executável ou os objetos originais. É necessário que esses fontes
 permitam compilar `cloudIST` de raiz. `PROJECT_DIR=...` permite indicar a pasta
 dos fontes quando for diferente da pasta de `EXE`. Aceita-se também `ASAN_SRC`

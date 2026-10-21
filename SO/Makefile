@@ -23,6 +23,7 @@ EXERCISE3_FAIL_LOG ?= exercise3/tests_failed.log
 MAX_THREADS ?=
 ORIG_GOALS ?= $(if $(MAKECMDGOALS),$(MAKECMDGOALS),$(.DEFAULT_GOAL))
 COMPARE_TESTS ?= $(TESTS)
+COMPARE_STDOUT ?= 1
 CMD_LIST_PREFIX ?= comando_
 TIMEOUT ?= 5
 TEST ?=
@@ -61,6 +62,7 @@ export ORIG_GOALS STRESS_RUNS STRESS_STEPS STRESS_SEED STRESS_PROGRESS_EVERY STR
 export SCALE_TYPES SCALE_FILES SCALE_PROGRESS_EVERY FUZZ_CASES FUZZ_LINES FUZZ_SEED FUZZ_PROGRESS_EVERY
 export COLLISIONS_COUNT COLLISIONS_START COLLISIONS_PROGRESS_EVERY TIMEOUT
 export MAX_THREADS
+export EXERCISE2_FAIL_LOG EXERCISE3_FAIL_LOG
 
 EXPORTING := $(filter export export-zip zip,$(MAKECMDGOALS))
 export EXPORTING
@@ -80,12 +82,12 @@ exercise2 exercise3: resolve-exe
 	fi; \
 	if [ -n "$(EXPORTING)" ]; then exit 0; else exit $$status; fi
 
-all: resolve-exe
-	@status=0; $(TOOLS) suites --exe "$$(cat "$(EXE_CACHE_FILE)")" --tests $(TESTS) || status=$$?; \
+all:
+	@status=0; $(TOOLS) suites --exe "$(EXE)" --name "$(EXE_NAME)" --cache "$(EXE_CACHE_FILE)" --tests $(TESTS) || status=$$?; \
 	if [ -n "$(EXPORTING)" ]; then exit 0; else exit $$status; fi
 
-python: resolve-exe
-	@status=0; $(TOOLS) suites --exe "$$(cat "$(EXE_CACHE_FILE)")" --parts stress scale fuzz-parse scale-collisions --tests $(TESTS) || status=$$?; \
+python:
+	@status=0; $(TOOLS) suites --exe "$(EXE)" --name "$(EXE_NAME)" --cache "$(EXE_CACHE_FILE)" --parts stress scale fuzz-parse scale-collisions --tests $(TESTS) || status=$$?; \
 	if [ -n "$(EXPORTING)" ]; then exit 0; else exit $$status; fi
 
 manual: resolve-exe
@@ -122,7 +124,7 @@ rerun: resolve-exe
 	if [ -n "$(EXPORTING)" ]; then exit 0; else exit $$status; fi
 
 compare: resolve-exe resolve-exe2
-	@status=0; $(RUN) --exe2 "$$(cat "$(EXE2_CACHE_FILE)")" --fail-log "$(COMPARE_FAIL_LOG)" $(COMPARE_TESTS) || status=$$?; \
+	@status=0; $(RUN) --exe2 "$$(cat "$(EXE2_CACHE_FILE)")" $(if $(filter 0,$(COMPARE_STDOUT)),--no-compare-stdout) --fail-log "$(COMPARE_FAIL_LOG)" $(COMPARE_TESTS) || status=$$?; \
 	if [ -n "$(EXPORTING)" ]; then exit 0; else exit $$status; fi
 
 stress: resolve-exe
@@ -144,17 +146,11 @@ scale-collisions: resolve-exe
 count:
 	@$(TOOLS) count --stats "$(STATS_FILE)" --command-prefix "$(CMD_LIST_PREFIX)" --tests $(TESTS)
 
-export:
-	@$(TOOLS) export --fail-log "$(FAIL_LOG)" --compare-log "$(COMPARE_FAIL_LOG)" --stats "$(STATS_FILE)" $(if $(filter zip,$(MAKECMDGOALS)),--zip)
-
-export-zip:
-	@$(TOOLS) export --fail-log "$(FAIL_LOG)" --compare-log "$(COMPARE_FAIL_LOG)" --stats "$(STATS_FILE)" --zip
-
-zip:
-	@$(if $(filter export,$(MAKECMDGOALS)),:,$(TOOLS) export --fail-log "$(FAIL_LOG)" --compare-log "$(COMPARE_FAIL_LOG)" --stats "$(STATS_FILE)" --zip)
+export-zip zip export:
+	@$(if $(filter $@,$(firstword $(filter export export-zip,$(MAKECMDGOALS)) zip)),$(TOOLS) export --fail-log "$(FAIL_LOG)" --compare-log "$(COMPARE_FAIL_LOG)" --stats "$(STATS_FILE)" $(if $(filter export-zip zip,$(MAKECMDGOALS)),--zip),:)
 
 selftest:
-	@$(PYTHON) -m unittest -v test_runner test_generated test_advanced
+	@$(PYTHON) -m unittest -v test_runner test_generated test_advanced test_makefile
 
 asan valgrind analyse profile lizard coverage: resolve-src
 	@status=0; $(TOOLS) $@ --exe "$(EXE)" --cache "$(EXE_CACHE_FILE)" --project "$(PROJECT_DIR)" --src-cache "$(SRC_CACHE_FILE)" --output "$(TOOL_OUTPUT)" --test "$(TEST)" --timeout "$(TIMEOUT)" --fail-log "$(FAIL_LOG)" $(if $(filter 1,$(FAIL)),--fail) --tests $(TOOL_TESTS) || status=$$?; \
@@ -163,12 +159,14 @@ asan valgrind analyse profile lizard coverage: resolve-src
 clean:
 	rm -f *.diff *.myout *.stdout *.stderr *.expected *.status.json *.cmpdiff *.reason *.gmon profile_*.txt coverage_report.txt coverage_report.gcov test_summary.txt *.gcno *.gcda *.gcov "$(FAIL_LOG)" "$(COMPARE_FAIL_LOG)" "$(STATS_FILE)"
 	rm -rf coverage stress-failures scale-failures fuzz-failures collisions-failures .build
+	rm -f "$(EXERCISE2_FAIL_LOG)" "$(EXERCISE3_FAIL_LOG)"
 	@for directory in exercise2 exercise3; do if [ -d "$$directory" ]; then \
 		find "$$directory" -type f \( -name '*.diff' -o -name '*.myout' -o -name '*.stdout' -o -name '*.stderr' -o -name '*.expected' -o -name '*.status.json' -o -name '*.cmpdiff' -o -name '*.reason' -o -name '*.gmon' -o -name '*.log' \) -delete; \
 	fi; done
 
 define PRETTY_DIFF_PY
 import sys, os, glob, shutil, json, subprocess
+from tools import failure_logs, logged_names
 from difflib import SequenceMatcher
 R,RED,GRN,YEL,CYN,BLD = "\033[0m","\033[31m","\033[32m","\033[33m","\033[36m","\033[1m"
 BYLW,BRED,DIM = "\033[1;33m","\033[1;31m","\033[2m"
@@ -270,14 +268,10 @@ if os.path.isfile(fail_log):
     diff_files = [base + ".diff" for base in bases if os.path.isfile(base + ".diff")]
 else:
     diff_files = [f for f in sorted(glob.glob("test*.diff")) if f.count(".") == 1]
-for directory in ("exercise2", "exercise3"):
-    logfile = os.path.join(directory,"tests_failed.log")
-    if os.path.isfile(logfile):
-        with open(logfile) as f: names = [line.strip() for line in f if line.strip()]
-        for name in names:
-            base = os.path.join(directory,name) if not os.path.dirname(name) else name
-            path = base.removesuffix(".in") + ".diff"
-            if os.path.isfile(path) and path not in diff_files: diff_files.append(path)
+for logfile in failure_logs(fail_log, generated=False):
+    for name in logged_names(logfile):
+        path = name.removesuffix(".in") + ".diff"
+        if os.path.isfile(path) and path not in diff_files: diff_files.append(path)
 python_diffs = []
 for directory in (() if only_manual else ("stress-failures", "scale-failures", "fuzz-failures", "collisions-failures")):
     logfile = os.path.join(directory, "tests_failed.log")
@@ -428,5 +422,10 @@ help:
 	  'VALGRIND_TESTS / COVERAGE_TESTS / CMD_LIST_PREFIX / AUTO_ZIP / NO_PROMPT' \
 	  'ONLY_MANUAL=1                Mostra apenas diferenças manuais em show-diff' \
 	  'MAX_THREADS=N               Acrescenta o argumento de threads aos casos dos exercícios 1/2' \
+	  'EXERCISE2_FAIL_LOG / EXERCISE3_FAIL_LOG  Logs usados por rerun, show-diff e export' \
+	  'FAIL_LOG / COMPARE_FAIL_LOG / STATS_FILE  Caminhos dos logs e estatísticas' \
+	  'EXE_NAME / EXE_CACHE_FILE / EXE2_CACHE_FILE / SRC_CACHE_FILE  Resolução e caches' \
+	  'COMPARE_TESTS / TEST / PYTHON / CC  Seleção da comparação, depuração e ferramentas' \
+	  'COMPARE_STDOUT=1             Compara stdout completo; 0 compara só observações funcionais' \
 	  'EXERCISE2_TESTS / EXERCISE3_TESTS  Seleção dos casos dos novos alvos' \
 	  'ASAN_EXE / VALGRIND_EXE / ANALYSE_EXE / PROFILE_EXE / COVERAGE_EXE'

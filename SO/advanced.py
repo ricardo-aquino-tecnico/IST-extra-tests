@@ -169,6 +169,21 @@ def run_advanced(case, exe, timeout, *, command_prefix=(), debugger=None, profil
         if not all(re.search(rf"(?:^|\s)-{flag}(?:[,\s]|$)",usage,re.M) for flag in ("q","f")):
             result["skipped"] = "cpulimit instalado não suporta -q/-f do enunciado; usar Linux/Sigma"
             return result
+        # A ajuda pode funcionar mesmo com um binário Linux instalado num Mac.
+        try:
+            probe = subprocess.Popen([shutil.which("cpulimit"), "-q", "-f", "-l", "100", "--",
+                                      sys.executable, "-c", "import time; time.sleep(.15)"],
+                                     stdout=subprocess.PIPE, stderr=subprocess.PIPE, start_new_session=True)
+            try:
+                _, errors = probe.communicate(timeout=3)
+                if probe.returncode:
+                    result["skipped"] = "cpulimit instalado falha ao executar: " + errors.decode(errors="replace").strip()[:200]
+            finally:
+                stop_process(probe)
+        except (OSError, subprocess.TimeoutExpired):
+            result["skipped"] = "cpulimit instalado não consegue executar uma aplicação de controlo"
+        if result.get("skipped"):
+            return result
     owned = []
     claims = []
     process = None
@@ -308,7 +323,12 @@ def run_advanced(case, exe, timeout, *, command_prefix=(), debugger=None, profil
         result["actual"] = result["actual"].replace(value,token)
         result["reasons"] = [reason.replace(value,token) for reason in result["reasons"]]
     compare_stderr = result["stderr"]
-    for token,value in replacements.items(): compare_stderr = compare_stderr.replace(value,token)
-    for event in result.get("events",[]): compare_stderr = re.sub(rf"\b{event['pid']}\b", "@PID@", compare_stderr)
+    result["comparison_stdout"] = result["stdout"]
+    for token,value in sorted(replacements.items(),key=lambda pair:len(pair[1]),reverse=True):
+        compare_stderr = compare_stderr.replace(value,token)
+        result["comparison_stdout"] = result["comparison_stdout"].replace(value,token)
+    for event in result.get("events",[]):
+        compare_stderr = re.sub(rf"\b{event['pid']}\b", "@PID@", compare_stderr)
+        result["comparison_stdout"] = re.sub(rf"\b{event['pid']}\b", "@PID@", result["comparison_stdout"])
     result["comparison"] = result["actual"] + f"EXIT: {result['returncode']}\nTIMEOUT: {result['timed_out']}\nSTDERR:\n" + compare_stderr + "\n".join(result["reasons"])
     return result

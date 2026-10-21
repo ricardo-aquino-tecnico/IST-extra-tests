@@ -22,6 +22,20 @@ SUITE_DIRS = dict(zip(("stress", "scale", "fuzz-parse", "scale-collisions"), FAI
 CASE_DIRS = (*FAIL_DIRS, "exercise2", "exercise3")
 
 
+def failure_logs(manual_log, generated=True):
+    logs = [manual_log, *(os.environ.get(f"EXERCISE{i}_FAIL_LOG", f"exercise{i}/tests_failed.log") for i in (2, 3))]
+    if generated:
+        logs += [str(Path(directory) / "tests_failed.log") for directory in FAIL_DIRS]
+    return list(dict.fromkeys(Path(log) for log in logs))
+
+
+def logged_names(logfile):
+    path = ROOT / logfile
+    names = path.read_text().splitlines() if path.is_file() else []
+    return [str(((ROOT / name) if (ROOT / name).is_file() else path.parent / name).resolve().relative_to(ROOT))
+            for name in names if name.strip()]
+
+
 def resolve_exe(value, cache, name, search=True):
     candidates = [value] if value else ([cache.read_text().strip()] if cache.is_file() else []) + (["../" + name, "../../" + name] if search else [])
     while True:
@@ -32,9 +46,10 @@ def resolve_exe(value, cache, name, search=True):
             if path.is_dir():
                 path /= name
             if path.is_file() and os.access(path, os.X_OK):
+                cache.parent.mkdir(parents=True, exist_ok=True)
                 cache.write_text(str(path.resolve()) + "\n")
                 return
-        if value or not sys.stdin.isatty():
+        if value or not sys.stdin.isatty() or os.environ.get("NO_PROMPT") == "1":
             raise ValueError(f"Executável {name} não encontrado. Define EXE=/caminho/{name} (ou EXE2 para compare).")
         candidates = [input(f"Indica o executável {name} ou a pasta do projeto: ").strip()]
 
@@ -61,6 +76,7 @@ def count_tests(names, stats, command_prefix="comando_"):
         directory = ROOT / f"exercise{exercise}"
         lines.append(f"Exercício {exercise}: {len(list(directory.glob('test*.in')))} casos disponíveis")
     text = "\n".join(lines) + "\n"
+    stats.parent.mkdir(parents=True, exist_ok=True)
     stats.write_text(text)
     print(text, end="")
 
@@ -68,12 +84,9 @@ def count_tests(names, stats, command_prefix="comando_"):
 def export_failures(args):
     destination = ROOT / "export"
     names = set()
-    logs = [args.fail_log, args.compare_log, *(str(Path(directory) / "tests_failed.log") for directory in CASE_DIRS)]
+    logs = [*failure_logs(args.fail_log), Path(args.compare_log)]
     for logfile in logs:
-        path = ROOT / logfile
-        if path.is_file():
-            names.update(str(path.parent.relative_to(ROOT) / name) if Path(name).parent == Path(".") else name
-                         for name in path.read_text().splitlines() if name)
+        names.update(logged_names(logfile))
     if not names and not (ROOT / args.stats).is_file():
         print("Não há testes falhados para exportar.")
         return
@@ -98,7 +111,7 @@ def export_failures(args):
     if compare_log.is_file() and compare_log.read_text().strip():
         compare = destination / "compare"
         compare.mkdir()
-        for case in select_cases(compare_log.read_text().splitlines()):
+        for case in select_cases(logged_names(args.compare_log)):
             for path in case.parent.glob(case.stem + ".*"):
                 if path.is_file():
                     target = compare / path.relative_to(ROOT)
@@ -109,7 +122,8 @@ def export_failures(args):
     for name in (*helpers, *logs, args.stats, "test_summary.txt", *(str(Path(d) / "suite.status.json") for d in CASE_DIRS)):
         path = ROOT / name
         if path.is_file():
-            target = destination / name
+            relative = path.resolve().relative_to(ROOT) if path.resolve().is_relative_to(ROOT) else Path(path.name)
+            target = destination / relative
             target.parent.mkdir(parents=True, exist_ok=True)
             shutil.copyfile(path, target)
     print(f"Exportados {len(names)} testes para {destination}")
@@ -199,20 +213,18 @@ def run_suites(parts, exe, tests, env=None, overrides=None):
 def rerun(args):
     failed = False
     found = False
-    for logfile in dict.fromkeys((Path(args.fail_log), *(Path(d) / "tests_failed.log" for d in CASE_DIRS))):
-        path = ROOT / logfile
-        names = path.read_text().splitlines() if path.is_file() else []
+    for logfile in failure_logs(args.fail_log):
+        names = logged_names(logfile)
         if not names:
             continue
         found = True
-        names = [str(logfile.parent / name) if Path(name).parent == Path(".") else name for name in names]
         command = [sys.executable, str(ROOT / "run_tests.py"), "--exe", args.exe, "--timeout", str(args.timeout), "--fail-log", str(logfile)]
         if args.fail:
             command.append("--fail")
         result = subprocess.run([*command, *names], cwd=ROOT)
         summary = ROOT / "test_run.status.json"
-        if logfile.parent != Path(".") and summary.is_file():
-            status = ROOT / logfile.parent / "suite.status.json"
+        if names and (ROOT / names[0]).parent != ROOT and summary.is_file():
+            status = (ROOT / names[0]).parent / "suite.status.json"
             metadata = json.loads(status.read_text()) if status.is_file() else {}
             metadata.update(json.loads(summary.read_text()))
             metadata["rerun"] = True
@@ -235,9 +247,10 @@ def resolve_project(value, exe, cache):
         if project.is_file():
             project = project.parent
         if (project / "Makefile").is_file() and next(project.rglob("*.c"), None):
+            cache.parent.mkdir(parents=True, exist_ok=True)
             cache.write_text(str(project) + "\n")
             return project
-        if value or not sys.stdin.isatty():
+        if value or not sys.stdin.isatty() or os.environ.get("NO_PROMPT") == "1":
             raise ValueError(f"Fontes/Makefile não encontrados em {project}. Define PROJECT_DIR=/caminho/do/projeto")
         candidate = input("Indica a pasta do projeto ou o caminho de um ficheiro .c: ").strip()
 
@@ -287,14 +300,10 @@ def run_tool(args):
         raise ValueError(f"{tool} não encontrado.")
     with tempfile.TemporaryDirectory(prefix=f"so-{args.mode}-") as temp:
         build = Path(temp)
-        for source in project.rglob("*"):
-            relative = source.relative_to(project)
-            if any(part.startswith(".") for part in relative.parts):
-                continue
-            if source.is_file() and (source.suffix in (".c", ".h") or source.name == "Makefile"):
-                target = build / relative
-                target.parent.mkdir(parents=True, exist_ok=True)
-                shutil.copyfile(source, target)
+        # Preservar includes do Makefile, dados e scripts executáveis; reconstruir os objetos.
+        shutil.copytree(project, build, dirs_exist_ok=True,
+                        ignore=shutil.ignore_patterns(".*", "__pycache__", "*.o", "*.a", "*.so", "*.dylib",
+                                                     "*.gcno", "*.gcda", "*.gcov", "cloudIST"))
         flags = "-std=c17 -D_POSIX_C_SOURCE=200809L -Wall -Wextra -g "
         flags += {"asan": "-O1 -fsanitize=address,undefined -fno-omit-frame-pointer",
                   "coverage": "-O0 --coverage", "profile": "-O2 -pg", "analyse": "-O0", "valgrind": "-O0"}[args.mode]
@@ -343,7 +352,9 @@ def run_tool(args):
             report = subprocess.run(["gcov", "-b", "-c", "-p", *[str(p.relative_to(build)) for p in notes]], cwd=build, capture_output=True, text=True)
             (ROOT / "coverage_report.txt").write_text(report.stdout + report.stderr)
             coverage = ROOT / "coverage"
-            coverage.mkdir(exist_ok=True)
+            if coverage.exists():
+                shutil.rmtree(coverage)
+            coverage.mkdir()
             for path in build.rglob("*.gcov"):
                 shutil.copyfile(path, coverage / path.name)
             print(report.stdout + report.stderr)
@@ -396,7 +407,9 @@ def main():
         elif args.mode == "export":
             export_failures(args)
         elif args.mode == "suites":
-            return run_suites(args.parts, args.exe, args.tests)
+            cache = ROOT / args.cache
+            resolve_exe(args.exe, cache, args.name)
+            return run_suites(args.parts, cache.read_text().strip(), args.tests)
         elif args.mode == "rerun":
             return rerun(args)
         else:

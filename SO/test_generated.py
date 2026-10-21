@@ -64,6 +64,34 @@ except (ValueError,KeyError,IndexError):
             self.assertIn("Argumentos (quick)", result.stdout)
             self.assertIn("runs 8 steps 120 seed 42", result.stdout)
             self.assertRegex(result.stdout, r"Status \(\d+ms\)")
+            options = ["STRESS_RUNS=2", "STRESS_STEPS=7", "STRESS_SEED=17", "STRESS_TIMEOUT=3",
+                       "STRESS_PROGRESS_EVERY=1", "SCALE_TYPES=3", "SCALE_FILES=5", "SCALE_PROGRESS_EVERY=1",
+                       "FUZZ_CASES=2", "FUZZ_LINES=7", "FUZZ_SEED=23", "FUZZ_PROGRESS_EVERY=1",
+                       "COLLISIONS_COUNT=3", "COLLISIONS_START=987", "COLLISIONS_PROGRESS_EVERY=1", "TIMEOUT=4"]
+            result = subprocess.run(["make", "python", f"EXE={exe}", "ORIG_GOALS=audit", *options],
+                                    cwd=root, capture_output=True, text=True, timeout=30)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn("Argumentos (audit)", result.stdout)
+            for directory, expected in {
+                "stress-failures": dict(runs=2, steps=7, seed=17, timeout=3, progress_every=1),
+                "scale-failures": dict(types=3, files=5, timeout=4, progress_every=1),
+                "fuzz-failures": dict(cases=2, max_lines=7, seed=23, timeout=4, progress_every=1),
+                "collisions-failures": dict(count=3, start=987, timeout=4, progress_every=1),
+            }.items():
+                metadata = json.loads((root / directory / "suite.status.json").read_text())
+                self.assertEqual(metadata["failed"], 0)
+                for name, value in expected.items():
+                    self.assertEqual(metadata["parameters"][name], value, (directory, name))
+            self.assertEqual(result.stdout.count("1/1 passaram"), 2)
+            self.assertEqual(result.stdout.count("2/2 passaram"), 2)
+            for target, invalid in (("stress", "STRESS_RUNS=-1"), ("stress", "STRESS_STEPS=0"),
+                                    ("scale", "SCALE_TYPES=129"), ("scale", "SCALE_FILES=257"),
+                                    ("fuzz-parse", "FUZZ_CASES=-1"), ("fuzz-parse", "FUZZ_LINES=0"),
+                                    ("scale-collisions", "COLLISIONS_COUNT=129"),
+                                    ("scale-collisions", "COLLISIONS_START=-1"), ("stress", "STRESS_TIMEOUT=nan")):
+                result = subprocess.run(["make", target, f"EXE={exe}", invalid], cwd=root,
+                                        capture_output=True, text=True, timeout=10)
+                self.assertEqual(result.returncode, 2, (target, invalid, result.stdout, result.stderr))
             original = exe.read_text()
             exe.write_text(f"#!{sys.executable}\nraise SystemExit(7)\n")
             result = subprocess.run(["make", "stress", f"EXE={exe}", "STRESS_RUNS=1", "STRESS_STEPS=4", "STRESS_SEED=42"],

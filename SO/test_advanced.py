@@ -156,6 +156,17 @@ files=sorted(Path(sys.argv[5]).glob('*.conf'))
         self.assertIsNone(result['returncode'])
         self.assertFalse(result['reasons'])
 
+    def test_broken_cpulimit_is_skipped_even_when_help_advertises_flags(self):
+        with tempfile.TemporaryDirectory() as temp:
+            tool = Path(temp) / "cpulimit"
+            tool.write_text('#!/bin/sh\nif [ "$1" = --help ]; then printf " -q, --quiet\\n -f, --foreground\\n"; exit 0; fi\necho "opendir: unavailable" >&2\nexit 2\n')
+            tool.chmod(0o700)
+            with patch.dict(os.environ, {"PATH": temp + os.pathsep + os.environ["PATH"]}):
+                result = run_case(ROOT / 'exercise2/test050.in', Path('/usr/bin/false'), 1)
+            self.assertIn('opendir: unavailable', result['skipped'])
+            self.assertIsNone(result['returncode'])
+            self.assertFalse(result['reasons'])
+
     def test_timeout_stops_descendants_before_removing_fixture(self):
         with tempfile.TemporaryDirectory() as temp:
             root=Path(temp)

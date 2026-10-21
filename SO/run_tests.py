@@ -259,6 +259,7 @@ def run_case(case, exe, timeout, *, command_prefix=(), debugger=None, profile=Fa
 
     reasons = [stable(reason) for reason in reasons]
     return {"expected": stable(expected), "actual": stable(actual), "stdout": stdout, "stderr": stderr,
+            "comparison_stdout": stable(stdout),
             "returncode": returncode, "timed_out": timed_out, "elapsed": elapsed, "reasons": reasons,
             "comparison": stable(actual) + f"\nEXIT: {returncode}\nTIMEOUT: {timed_out}\nSTDERR:\n" + stable(stderr)
                           + "\nREASONS:\n" + "\n".join(reasons)}
@@ -318,6 +319,7 @@ def main():
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--exe", required=True)
     parser.add_argument("--exe2")
+    parser.add_argument("--compare-stdout", action=argparse.BooleanOptionalAction, default=True)
     parser.add_argument("--timeout", type=float, default=5)
     parser.add_argument("--fail", action="store_true")
     parser.add_argument("--rerun", action="store_true")
@@ -382,7 +384,14 @@ def main():
             other = run_case(case, exe2, args.timeout)
             save_result(case, result, ".cmp1")
             save_result(case, other, ".cmp2")
-            diff = "".join(difflib.unified_diff(result["comparison"].splitlines(True), other["comparison"].splitlines(True),
+            if other.get("skipped") and not reasons:
+                skipped += 1
+                count += 1
+                print(colour(f"test {case.relative_to(ROOT)} SKIPPED: {other['skipped']}", "1;33"), flush=True)
+                continue
+            comparisons = [item["comparison"] + ("\nSTDOUT:\n" + item.get("comparison_stdout", item["stdout"]) if args.compare_stdout else "")
+                           for item in (result, other)]
+            diff = "".join(difflib.unified_diff(comparisons[0].splitlines(True), comparisons[1].splitlines(True),
                                                 fromfile="EXE", tofile="EXE2"))
             if diff or reasons or other["reasons"]:
                 reasons = ["Executáveis diferentes" if diff else "Ambos os executáveis falharam"] + reasons + other["reasons"]
@@ -405,12 +414,14 @@ def main():
             print("  " + "; ".join(reasons), flush=True)
         if reasons and args.fail:
             break
+    log.parent.mkdir(parents=True, exist_ok=True)
     log.write_text("".join(name + "\n" for name in failed))
     summary = json.dumps({"planned": len(cases), "passed": count-len(failed)-skipped, "skipped": skipped,
                           "failed": len(failed), "elapsed": time.monotonic()-start}) + "\n"
     (ROOT / "test_run.status.json").write_text(summary)
-    if log.parent in (ROOT / "exercise2", ROOT / "exercise3"):
-        (log.parent / "suite.status.json").write_text(summary)
+    for directory in (ROOT / "exercise2", ROOT / "exercise3"):
+        if all(case.parent == directory for case in cases):
+            (directory / "suite.status.json").write_text(summary)
     passed = count - len(failed) - skipped
     if skipped:
         print(f"\n{skipped} testes ignorados por requisitos da plataforma; não contam como passaram.")

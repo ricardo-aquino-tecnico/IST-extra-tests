@@ -30,6 +30,12 @@ class RunnerTests(unittest.TestCase):
             resolve_exe("", cache, "cloudIST")
             with self.assertRaises(ValueError):
                 resolve_exe(str(root / "missing"), cache, "cloudIST")
+            with patch.dict(os.environ, {"NO_PROMPT": "1"}), patch("sys.stdin.isatty", return_value=True), \
+                 patch("builtins.input", side_effect=AssertionError("NO_PROMPT não permite perguntas")):
+                with self.assertRaises(ValueError):
+                    resolve_exe("", root / "absent cache", "absent-cloudIST", search=False)
+                with self.assertRaises(ValueError):
+                    resolve_project("", root / "missing/cloudIST", root / "absent source cache")
 
     def test_make_uses_so_runner_and_checks_process(self):
         with tempfile.TemporaryDirectory(prefix="so-make-") as temp:
@@ -75,7 +81,8 @@ class RunnerTests(unittest.TestCase):
                     f"print(Path({str(ROOT / 'test004.out')!r}).read_text(), end='')\n")
             reference.write_text(code)
             reference.chmod(0o700)
-            for extra, expected in [("", 0), ("raise SystemExit(7)\n", 2), ("sys.stderr.write('problem')\n", 2)]:
+            for extra, expected in [("", 0), ("raise SystemExit(7)\n", 2), ("sys.stderr.write('problem')\n", 2),
+                                    ("print('extra stdout outside L')\n", 2)]:
                 other.write_text(code + extra)
                 other.chmod(0o700)
                 result = subprocess.run(["make", "compare", "TESTS=test004.in", f"EXE={reference}", f"EXE2={other}"],
@@ -83,6 +90,9 @@ class RunnerTests(unittest.TestCase):
                 self.assertEqual(result.returncode, expected, result.stdout + result.stderr)
                 self.assertIn("test test004.in " + ("DIFFERS" if expected else "IDENTICAL"), result.stdout)
                 self.assertEqual((root / "test004.cmpdiff").exists(), bool(expected))
+            result = subprocess.run(["make", "compare", "TESTS=test004.in", "COMPARE_STDOUT=0", f"EXE={reference}", f"EXE2={other}"],
+                                    cwd=root, capture_output=True, text=True, timeout=10)
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             reference.write_text(code + "raise SystemExit(7)\n")
             other.write_text(code + "raise SystemExit(7)\n")
             result = subprocess.run(["make", "compare", "TESTS=test004.in", f"EXE={reference}", f"EXE2={other}"],
@@ -94,6 +104,21 @@ class RunnerTests(unittest.TestCase):
             with zipfile.ZipFile(next(root.glob("export_*.zip"))) as archive:
                 self.assertIn("export/compare/test004.cmpdiff", archive.namelist())
                 self.assertIn("export/compare/compare_failed.log", archive.namelist())
+            from run_tests import main
+            sample = run_case(root / "test004.in", reference, 3)
+            skipped = dict(sample, returncode=None, reasons=[], comparison="", stdout="", actual="",
+                           skipped="requisito indisponível na segunda execução")
+            skipped.pop("comparison_stdout")
+            with patch("run_tests.ROOT", root.resolve()), patch("run_tests.run_case", side_effect=[sample, skipped]), \
+                 patch("sys.argv", ["run_tests.py", "--exe", str(reference), "--exe2", str(other), "test004.in"]):
+                self.assertEqual(main(), 1)
+            reference.write_text(code)
+            sample = run_case(root / "test004.in", reference, 3)
+            with patch("run_tests.ROOT", root.resolve()), patch("run_tests.run_case", side_effect=[sample, skipped]), \
+                 patch("sys.argv", ["run_tests.py", "--exe", str(reference), "--exe2", str(other), "test004.in"]):
+                self.assertEqual(main(), 0)
+            summary = json.loads((root / "test_run.status.json").read_text())
+            self.assertEqual((summary["passed"], summary["skipped"]), (0, 1))
 
     def test_status_table_matches_iaed_layout_and_argument_wrapping(self):
         from tools import status_table
@@ -160,7 +185,8 @@ class RunnerTests(unittest.TestCase):
     def test_show_diff_restores_command_context_and_manual_filter(self):
         with tempfile.TemporaryDirectory() as temp:
             root = Path(temp)
-            shutil.copyfile(ROOT / "Makefile", root / "Makefile")
+            for name in ("Makefile", "tools.py", "run_tests.py", "generated.py", "model.py"):
+                shutil.copyfile(ROOT / name, root / name)
             generated = root / "stress-failures"
             generated.mkdir()
             for base in (root / "test004", generated / "seed_42_case_000000"):
@@ -269,14 +295,16 @@ class RunnerTests(unittest.TestCase):
             seen = []
 
             def debugger(command, **options):
-                self.assertEqual(command[0], "lldb")
+                self.assertEqual(command[:3], ["lldb", "-o", "breakpoint set --name main"] if command[0] == "lldb"
+                                 else ["gdb", "-ex", "break main"])
                 self.assertEqual(command[-5:-1], ["2", "8", "16", "4"])
                 self.assertEqual((Path(command[-1]) / "10.conf").read_text(), "L\n")
                 seen.append(Path(options["cwd"]))
 
             with patch("run_tests.subprocess.run", side_effect=debugger):
-                self.assertIsNone(run_case(case, Path("/usr/bin/true"), 3, debugger="lldb"))
-            self.assertFalse(seen[0].exists())
+                for name in ("lldb", "gdb"):
+                    self.assertIsNone(run_case(case, Path("/usr/bin/true"), 3, debugger=name))
+            self.assertTrue(all(not path.exists() for path in seen))
 
     def test_catalogue(self):
         cases = sorted(ROOT.glob("test*.in"))
