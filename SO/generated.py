@@ -11,7 +11,7 @@ import tempfile
 import time
 
 from model import Model
-from run_tests import ROOT, run_case, save_result
+from run_tests import ROOT, colour, run_case, save_result
 
 
 FAIL_DIRS = ("stress-failures", "scale-failures", "fuzz-failures", "collisions-failures")
@@ -171,7 +171,7 @@ def main(mode):
                 for path in base.parent.glob(name + ".*"):
                     shutil.copyfile(path, destination / path.name)
                 failed.append(name + ".in")
-                print("FAIL " + name + ": " + "; ".join(result["reasons"]), flush=True)
+                print(colour("FAIL " + name + ": " + "; ".join(result["reasons"]), "1;31"), flush=True)
                 break
         passed += 1
         if not args.quiet and args.progress_every > 0 and passed % args.progress_every == 0:
@@ -180,5 +180,5 @@ def main(mode):
     metadata = {"suite": mode, "seed": args.seed, "planned": total, "passed": passed, "failed": len(failed),
                 "elapsed": time.monotonic() - start, "parameters": vars(args)}
     (destination / "suite.status.json").write_text(json.dumps(metadata, ensure_ascii=False, indent=2) + "\n")
-    print(f"{mode}: {passed} passaram; {len(failed)} falharam; {total} previstos", flush=True)
+    print(colour(f"{mode}: {passed} passaram; {len(failed)} falharam; {total} previstos", "1;31" if failed else "1;32"), flush=True)
     return bool(failed)

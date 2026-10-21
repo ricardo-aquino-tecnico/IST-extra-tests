@@ -13,7 +13,7 @@ import sys
 import tempfile
 import time
 
-from run_tests import ROOT, select_cases
+from run_tests import ROOT, colour, select_cases
 from generated import FAIL_DIRS
 
 
@@ -120,7 +120,9 @@ def run_suites(parts, exe, tests, env=None, overrides=None):
     failed = sum(bool(result["returncode"]) for result in results)
     lines.append(f"{len(results)-failed}/{len(results)} suites passaram; {failed} falharam.")
     summary = "\n".join(lines) + "\n"
-    print(summary, end="", flush=True)
+    display = summary.replace("Resumo das suites:", colour("Resumo das suites:", "1"))
+    display = display.replace("PASS", colour("PASS", "1;32")).replace("FAIL", colour("FAIL", "1;31"))
+    print(display, end="", flush=True)
     (ROOT / "test_summary.txt").write_text(summary)
     (ROOT / "test_summary.status.json").write_text(json.dumps(results, ensure_ascii=False, indent=2) + "\n")
     if failed and sys.stdin.isatty() and os.environ.get("NO_PROMPT") != "1" and not os.environ.get("EXPORTING"):

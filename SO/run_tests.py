@@ -22,6 +22,10 @@ STATUS = "=================================== DATA CENTER STATUS ===============
 END = "================================================================--------------------------"
 
 
+def colour(text, code):
+    return f"\033[{code}m{text}\033[0m"
+
+
 def split_files(text):
     """Os marcadores são comentários válidos nos próprios ficheiros .conf."""
     files = {}
@@ -349,13 +353,14 @@ def main():
         count += 1
         if reasons:
             failed.append(str(case.relative_to(ROOT)))
-        print(f"{'FAIL' if reasons else 'PASS'} {case.stem}" + (": " + "; ".join(reasons) if reasons else ""), flush=True)
+        line = f"{'FAIL' if reasons else 'PASS'} {case.stem}" + (": " + "; ".join(reasons) if reasons else "")
+        print(colour(line, "1;31" if reasons else "1;32"), flush=True)
         if reasons and args.fail:
             break
     log.write_text("".join(name + "\n" for name in failed))
     (ROOT / "test_run.status.json").write_text(json.dumps({"planned": len(cases), "passed": count-len(failed),
                                                           "failed": len(failed), "elapsed": time.monotonic()-start}) + "\n")
-    print(f"\n{count - len(failed)}/{count} passaram; {len(failed)} falharam.")
+    print("\n" + colour(f"{count - len(failed)}/{count} passaram; {len(failed)} falharam.", "1;31" if failed else "1;32"))
     return bool(failed)
 
 

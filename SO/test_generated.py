@@ -54,6 +54,8 @@ except (ValueError,KeyError,IndexError):
             result = subprocess.run(["make", "quick", f"EXE={exe}", "TESTS=test004.in", "STRESS_SEED=42", "FUZZ_SEED=42"],
                                     cwd=root, capture_output=True, text=True, timeout=30)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn("\033[1;32mPASS\033[0m", result.stdout)
+            self.assertNotIn("\033[", (root / "test_summary.txt").read_text())
             summary = json.loads((root / "test_summary.status.json").read_text())
             self.assertEqual(len(summary), 5)
             self.assertTrue(all(part["returncode"] == 0 for part in summary))
@@ -127,6 +129,9 @@ except (ValueError,KeyError,IndexError):
                     "SCALE_TYPES=2", "SCALE_FILES=2", "FUZZ_CASES=1", "FUZZ_LINES=4", "FUZZ_SEED=42", "COLLISIONS_COUNT=2"]
             result = subprocess.run(["make", "all", "count", "export-zip", *args], cwd=root, capture_output=True, text=True, timeout=30)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            self.assertIn("\033[1;31mFAIL\033[0m", result.stdout)
+            self.assertIn("\033[1;32mPASS\033[0m", result.stdout)
+            self.assertNotIn("\033[", (root / "test_summary.txt").read_text())
             summary = json.loads((root / "test_summary.status.json").read_text())
             self.assertEqual(len(summary), 5)
             self.assertEqual(sum(bool(part["returncode"]) for part in summary), 4)

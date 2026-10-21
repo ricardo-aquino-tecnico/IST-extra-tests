@@ -46,6 +46,9 @@ class RunnerTests(unittest.TestCase):
                                         cwd=root, capture_output=True, text=True, timeout=10)
                 with self.subTest(exitcode=exitcode, stderr=stderr):
                     self.assertEqual(result.returncode, expected_status, result.stdout + result.stderr)
+                    label = "\033[1;31mFAIL" if expected_status else "\033[1;32mPASS"
+                    self.assertIn(label + " test004", result.stdout)
+                    self.assertIn("\033[0m", result.stdout)
                     self.assertTrue((root / "test004.status.json").is_file())
                     metadata = json.loads((root / "test004.status.json").read_text())
                     self.assertEqual(metadata["returncode"], exitcode)
